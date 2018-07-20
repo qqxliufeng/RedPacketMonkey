@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#904df5</color>
+
+    <color name="bt_color1">#bd8cff</color>
+
+    <color name="deepTextColor">#121212</color>
+    <color name="normalTextColor">#767676</color>
+
+    <color name="rippleColor">#999999</color>
+    <color name="lineColor">#eaeaea</color>
+
+</resources>
