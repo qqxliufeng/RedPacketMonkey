@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp">
+
+        <TextView
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_wx"
+            android:text="微信" />
+
+        <TextView
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_circle"
+            android:text="朋友圈" />
+
+        <TextView
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_qq"
+            android:text="QQ" />
+
+        <TextView
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_qqzone"
+            android:text="QQ空间" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/activity_bg"
+        android:text="取消"
+        android:gravity="center"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_14" />
+
+
+</LinearLayout>

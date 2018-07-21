@@ -9,7 +9,10 @@ import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineInfoFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.money.AliPayFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.SettingFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 
 class MineFragment : BaseFragment() {
@@ -55,6 +58,15 @@ class MineFragment : BaseFragment() {
         }
         mTvMineSetting.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(false).setTitle("设置").setClazz(SettingFragment::class.java).start()
+        }
+        mClMineInfoContainer.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("个人信息").setClazz(MineInfoFragment::class.java).start()
+        }
+        mTvMineAli.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("支付宝").setClazz(AliPayFragment::class.java).start()
+        }
+        mTvMineShare.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(false).setTitle("分享").setClazz(ShareFragment::class.java).start()
         }
     }
 }

@@ -11,5 +11,6 @@
 
     <color name="rippleColor">#999999</color>
     <color name="lineColor">#eaeaea</color>
+    <color name="activity_bg">#f4f8fb</color>
 
 </resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <ImageView
+        android:id="@+id/mIvRedPacketItemFace"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/test_face"
+        android:layout_marginTop="5dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:text="路人甲"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/normalTextColor"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketItemFace" />
+
+    <RelativeLayout
+        android:id="@+id/mRLRedPacketItemContainer"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="@dimen/dp_40"
+        android:background="@drawable/img_red_packet_bg_1"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketItemFace"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketItemName">
+
+        <TextView
+            android:id="@+id/mTvRedPacketItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="15dp"
+            android:text="50-7"
+            android:textColor="@color/colorPrimary" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTvRedPacketItemTitle"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="8dp"
+            android:text="领取红包"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="红包"
+            android:layout_marginLeft="20dp"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginBottom="3dp"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/normalTextColor" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

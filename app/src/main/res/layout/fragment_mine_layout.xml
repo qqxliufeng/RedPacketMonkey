@@ -45,6 +45,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mClMineInfoContainer"
                     android:layout_width="match_parent"
                     android:layout_height="190dp"
                     android:layout_gravity="bottom"
@@ -175,6 +176,7 @@
                     <View style="@style/style_view_line1" />
 
                     <TextView
+                        android:id="@+id/mTvMineShare"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_fx"
                         android:text="我要分享" />
@@ -189,6 +191,7 @@
                     <View style="@style/style_view_line1" />
 
                     <TextView
+                        android:id="@+id/mTvMineAli"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_zfb"
                         android:text="支付宝" />
