@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="375dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/img_open_red_packet_bg"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/mIvNoRedPacketClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/icon_close2" />
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:src="@drawable/test_face" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:text="红尘大美女"
+            android:textColor="#e8bd8d"
+            android:textSize="@dimen/sp_14" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="手慢了，红包派完了"
+            android:textColor="#e8bd8d"
+            android:textSize="20sp" />
+
+
+        <TextView
+            android:id="@+id/mTvNoRedPacketSeeAllInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="看看大家的手气 > "
+            android:textColor="#e8bd8d" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

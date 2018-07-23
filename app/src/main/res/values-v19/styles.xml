@@ -10,4 +10,8 @@
         <item name="actionMenuTextAppearance">@style/menu_text_appearance</item>
     </style>
 
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 </resources>

@@ -128,14 +128,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="@dimen/dp_10"
-        android:text="游戏倍数：1.5"
-        android:textColor="@color/normalTextColor" />
-
     <Button
         style="@style/style_bt_1"
         android:layout_marginLeft="30dp"

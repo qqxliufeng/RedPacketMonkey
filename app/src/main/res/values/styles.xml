@@ -9,6 +9,11 @@
         <item name="actionMenuTextAppearance">@style/menu_text_appearance</item>
     </style>
 
+
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="menu_text_appearance">
         <item name="android:textSize">@dimen/sp_16</item>
         <item name="colorPrimary">#9d4bed</item>

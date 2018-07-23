@@ -161,7 +161,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/dp_10"
                 android:background="@null"
-                android:hint="山东省济南市山东省济南市山东省济南市山东省济南市山东省济南市山东省济南市"
+                android:hint="山东省济南市"
                 android:maxLength="16"
                 android:textColor="@color/normalTextColor"
                 android:textSize="@dimen/sp_14" />

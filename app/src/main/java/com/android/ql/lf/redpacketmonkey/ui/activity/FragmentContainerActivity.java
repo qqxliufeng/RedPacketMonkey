@@ -134,7 +134,9 @@ public class FragmentContainerActivity extends BaseActivity {
         mToolbar = this.findViewById(R.id.id_tl_activity_fragment_container);
         ll_container = this.findViewById(R.id.id_ll_tl_container);
         ll_container.setPadding(0, getStatusHeight(), 0, 0);
-        statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary);
+        statusBarColor = Color.TRANSPARENT;
+        setStatusBarLightColor(false);
+        setToolBarBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary));
         parseExtraInfo();
     }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_ll_bg"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:drawableTop="@drawable/img_no_money"
+        android:drawablePadding="20dp"
+        android:gravity="center"
+        android:text="余额不足"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_16" />
+
+    <Button
+        android:id="@+id/mBtNoMoney"
+        style="@style/style_bt_1"
+        android:layout_marginBottom="30dp"
+        android:text="我知道了" />
+
+
+</LinearLayout>

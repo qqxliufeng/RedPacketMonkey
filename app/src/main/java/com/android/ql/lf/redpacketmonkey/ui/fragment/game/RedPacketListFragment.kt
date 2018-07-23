@@ -23,6 +23,14 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         OpenRedPacketDialogFragment()
     }
 
+    private val noRedPacketDialogFragment by lazy {
+        NoRedPacketDialogFragment()
+    }
+
+    private val noMoneyDialogFragment by lazy {
+        NoMoneyDialogFragment()
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         setHasOptionsMenu(true)
@@ -34,12 +42,10 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         }
     }
 
-
     override fun onRefresh() {
         super.onRefresh()
         testAdd("")
     }
-
 
     override fun getLayoutId() = R.layout.fragment_red_packet_list_layout
 
@@ -49,11 +55,14 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         mIvRedPacketAdd.setOnClickListener {
             if (mLlRedPacketPayTypeContainer.visibility == View.GONE) {
                 mLlRedPacketPayTypeContainer.visibility = View.VISIBLE
-                mRecyclerView.scrollToPosition(mArrayList.size-1)
-            }
-            else {
+                mRecyclerView.scrollToPosition(mArrayList.size - 1)
+            } else {
                 mLlRedPacketPayTypeContainer.visibility = View.GONE
             }
+        }
+        mLlRedPacketListSendByRed.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setClazz(SendRedPacketFragment::class.java).setTitle("发红包").setNeedNetWorking(true).start()
+            mLlRedPacketPayTypeContainer.visibility = View.GONE
         }
     }
 
@@ -68,15 +77,22 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        FragmentContainerActivity.from(mContext).setClazz(GroupMemberListFragment::class.java).setTitle("成员列表").setNeedNetWorking(true).start()
+        FragmentContainerActivity.from(mContext).setClazz(GroupSettingFragment::class.java).setTitle("群设置").setNeedNetWorking(true).start()
         return super.onOptionsItemSelected(item)
     }
 
-
     override fun onMyItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         super.onMyItemChildClick(adapter, view, position)
-        if (view!!.id == R.id.mRLRedPacketItemContainer){
-            openRedPacketDialogFragment.show(childFragmentManager,"open_red_packet_dialog")
+        if (view!!.id == R.id.mRLRedPacketItemContainer) {
+            if (position == 0) {
+                openRedPacketDialogFragment.show(childFragmentManager, "open_red_packet_dialog")
+            }else if (position == 1){
+                noRedPacketDialogFragment.myShow(childFragmentManager,"no_red_packet_dialog"){
+                    FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("红包详情").setClazz(RedPacketInfoFragment::class.java).start()
+                }
+            }else{
+                noMoneyDialogFragment.show(childFragmentManager,"no_money_dialog")
+            }
         }
     }
 
