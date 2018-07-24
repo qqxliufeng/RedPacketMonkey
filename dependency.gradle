@@ -8,6 +8,7 @@ def retrofit2ConverterScalars = "2.3.0"
 def okHttp3LoggingInterceptor = "3.9.0"
 
 def rxAndroid = "1.2.1"
+def rxJava = "1.2.9"
 
 def appcompatV7 = "27.1.7"
 def design = "27.1.1"
@@ -57,6 +58,7 @@ ext {
 
             "libCardview"                     : "com.android.support:cardview-v7:${design}",
 
+            "libRxJava"                       : "io.reactivex:rxjava:${rxJava}",
             "libRxAndroid"                    : "io.reactivex:rxandroid:${rxAndroid}",
 
             "libRetrofit"                     : "com.squareup.retrofit2:retrofit:${retrofit2Version}",

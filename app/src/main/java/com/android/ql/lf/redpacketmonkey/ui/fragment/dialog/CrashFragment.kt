@@ -10,17 +10,13 @@ import com.android.ql.lf.redpacketmonkey.R
 
 class CrashFragment : DialogFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        isCancelable = false
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(false)
         val contentView = inflater.inflate(R.layout.dialog_crash_layout, container, false)
         contentView.findViewById<ImageView>(R.id.mIvCrashDialogClose).setOnClickListener {
             dismiss()
         }
         return contentView
     }
-
 }

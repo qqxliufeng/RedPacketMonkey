@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <CheckedTextView
-        android:checked="true"
         android:id="@+id/mCtvRechargeDialogItem"
         style="@style/style_ctv_1" />
 

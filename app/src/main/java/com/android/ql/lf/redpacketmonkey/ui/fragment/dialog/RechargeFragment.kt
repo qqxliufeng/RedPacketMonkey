@@ -12,32 +12,30 @@ import com.android.ql.lf.redpacketmonkey.R
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
-class RechargeFragment :DialogFragment(){
+class RechargeFragment : DialogFragment() {
 
     private val mArrayList by lazy {
-        val tempList = arrayListOf<String>()
-        tempList.add("100")
-        tempList.add("300")
-        tempList.add("500")
-        tempList.add("1000")
-        tempList.add("2000")
-        tempList.add("3000")
+        val tempList = arrayListOf<RechargeDataBean>()
+        tempList.add(RechargeDataBean("100", true))
+        tempList.add(RechargeDataBean("300", false))
+        tempList.add(RechargeDataBean("500", false))
+        tempList.add(RechargeDataBean("1000", false))
+        tempList.add(RechargeDataBean("2000", false))
+        tempList.add(RechargeDataBean("3000", false))
         tempList
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        isCancelable = false
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val contentView = inflater.inflate(R.layout.dialog_recharge_layout,container,false)
+        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(false)
+        val contentView = inflater.inflate(R.layout.dialog_recharge_layout, container, false)
         val mRvRechargeDialog = contentView.findViewById<RecyclerView>(R.id.mRvRechargeDialog)
-        mRvRechargeDialog.layoutManager = GridLayoutManager(context,3)
-        mRvRechargeDialog.adapter = object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_recharge_item_layout,mArrayList) {
-            override fun convert(helper: BaseViewHolder?, item: String?) {
-                helper!!.setText(R.id.mCtvRechargeDialogItem,item)
+        mRvRechargeDialog.layoutManager = GridLayoutManager(context, 3)
+        mRvRechargeDialog.adapter = object : BaseQuickAdapter<RechargeDataBean, BaseViewHolder>(R.layout.adapter_recharge_item_layout, mArrayList) {
+            override fun convert(helper: BaseViewHolder?, item: RechargeDataBean?) {
+                helper!!.setText(R.id.mCtvRechargeDialogItem, item?.name)
+                helper.setChecked(R.id.mCtvRechargeDialogItem, item!!.isSelect)
             }
         }
         contentView.findViewById<ImageView>(R.id.mIvRechargeDialogClose).setOnClickListener {
@@ -46,5 +44,5 @@ class RechargeFragment :DialogFragment(){
         return contentView
     }
 
-
+    class RechargeDataBean(var name: String = "", var isSelect: Boolean = false)
 }

@@ -49,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="输入充值金额"
+            android:inputType="numberDecimal"
             android:paddingLeft="@dimen/dp_10"
             android:textColor="@color/deepTextColor"
             android:textSize="@dimen/sp_14" />
@@ -57,6 +58,7 @@
 
 
    <android.support.v7.widget.RecyclerView
+       android:layout_marginTop="20dp"
        android:id="@+id/mRvRechargeDialog"
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />

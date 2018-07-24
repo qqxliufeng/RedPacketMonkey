@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'org.greenrobot.greendao'
+
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -20,6 +23,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    greendao {
+        //数据库的schema版本，也可以理解为数据库版本号
+        schemaVersion 1
+        //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
+        daoPackage 'com.android.ql.lf.redpacketmonkey.greendao'
+        //设置DaoMaster、DaoSession、Dao目录
+        targetGenDir 'src/main/java'
+    }
+
 }
 
 dependencies {
@@ -27,6 +40,7 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.0'
     implementation rootProject.ext.dependencies["libSupportDesign"]
+    implementation rootProject.ext.dependencies["libRxJava"]
     implementation rootProject.ext.dependencies["libRxAndroid"]
     implementation rootProject.ext.dependencies["libRetrofit"]
     implementation rootProject.ext.dependencies["libRetrofitConverterGson"]
@@ -48,5 +62,5 @@ dependencies {
     implementation rootProject.ext.dependencies["libMultiDex"]
     implementation rootProject.ext.dependencies["libFlexBox"]
     implementation 'com.google.zxing:core:3.3.2'
-
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
 }

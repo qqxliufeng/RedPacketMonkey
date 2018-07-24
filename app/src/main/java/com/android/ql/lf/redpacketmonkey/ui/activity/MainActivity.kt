@@ -53,6 +53,4 @@ class MainActivity : BaseActivity() {
         override fun getCount() = 2
 
     }
-
-
 }
