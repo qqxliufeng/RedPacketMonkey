@@ -2,6 +2,7 @@ package com.android.ql.lf.redpacketmonkey.component;
 
 
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity;
+import com.android.ql.lf.redpacketmonkey.ui.activity.SplashActivity;
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment;
 
 import dagger.Component;
@@ -19,6 +20,6 @@ public interface ApiServerComponent {
 
     void inject(BaseNetWorkingFragment baseNetWorkingFragment);
 
-//    void inject(SplashActivity splashActivity);
+    void inject(SplashActivity splashActivity);
 
 }

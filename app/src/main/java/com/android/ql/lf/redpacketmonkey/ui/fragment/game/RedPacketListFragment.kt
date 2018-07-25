@@ -31,6 +31,10 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         NoMoneyDialogFragment()
     }
 
+    private val myAccountDialogFragment by lazy {
+        MyAccountDialogFragment()
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         setHasOptionsMenu(true)
@@ -45,6 +49,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
     override fun onRefresh() {
         super.onRefresh()
         testAdd("")
+        mRecyclerView.scrollToPosition(mArrayList.size - 1)
     }
 
     override fun getLayoutId() = R.layout.fragment_red_packet_list_layout
@@ -62,6 +67,10 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         }
         mLlRedPacketListSendByRed.setOnClickListener {
             FragmentContainerActivity.from(mContext).setClazz(SendRedPacketFragment::class.java).setTitle("发红包").setNeedNetWorking(true).start()
+            mLlRedPacketPayTypeContainer.visibility = View.GONE
+        }
+        mLlRedPacketListSendByAccount.setOnClickListener {
+            myAccountDialogFragment.myShow(childFragmentManager, "my_account_dialog", "0.0")
             mLlRedPacketPayTypeContainer.visibility = View.GONE
         }
     }
@@ -86,12 +95,12 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         if (view!!.id == R.id.mRLRedPacketItemContainer) {
             if (position == 0) {
                 openRedPacketDialogFragment.show(childFragmentManager, "open_red_packet_dialog")
-            }else if (position == 1){
-                noRedPacketDialogFragment.myShow(childFragmentManager,"no_red_packet_dialog"){
+            } else if (position == 1) {
+                noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog") {
                     FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("红包详情").setClazz(RedPacketInfoFragment::class.java).start()
                 }
-            }else{
-                noMoneyDialogFragment.show(childFragmentManager,"no_money_dialog")
+            } else {
+                noMoneyDialogFragment.show(childFragmentManager, "no_money_dialog")
             }
         }
     }

@@ -24,6 +24,8 @@ public class Constants {
 
     public static final String IS_ORDER_INFO_ID = "is_order_info_id";
 
+    public static final String RED_PACKET_ACTION = "com.android.ql.lf.redpacketmonkey.redpacket";
+
     public static String md5Token() {
         return APP_TOKEN;
 //        try {

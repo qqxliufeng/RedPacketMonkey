@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_ll_bg"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="余额"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_16" />
+
+
+    <TextView
+        android:id="@+id/mTvMyAccountMoney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="账户余额：￥1000.00"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_14" />
+
+
+    <Button
+        android:id="@+id/mBtMyAccountSubmit"
+        style="@style/style_bt_1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="确定" />
+
+
+</LinearLayout>
