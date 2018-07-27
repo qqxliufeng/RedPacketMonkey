@@ -1,16 +1,12 @@
 package com.android.ql.lf.redpacketmonkey.data.greendao;
 
-import org.greenrobot.greendao.annotation.Convert;
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Date;
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
 
-@Entity
+//@Entity
 public class RedPacketBean {
-    @Id(autoincrement = true)
+//    @Id(autoincrement = true)
     private Long id;
 
     /**
@@ -44,11 +40,11 @@ public class RedPacketBean {
     /**
      * 领取人的id集合
      */
-    @Convert(columnType = String.class, converter = ReceiverConverter.class)
+//    @Convert(columnType = String.class, converter = ReceiverConverter.class)
     private List<ReceiverInfoBean> receiverList;
 
 
-    @Generated(hash = 435798990)
+//    @Generated(hash = 435798990)
     public RedPacketBean(Long id, String time, Date sendDate, Date endDate,
             double account, int maxReceiveNum, int hasReceiveNum,
             List<ReceiverInfoBean> receiverList) {
@@ -62,7 +58,7 @@ public class RedPacketBean {
         this.receiverList = receiverList;
     }
 
-    @Generated(hash = 887423399)
+//    @Generated(hash = 887423399)
     public RedPacketBean() {
     }
 

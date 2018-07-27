@@ -1,5 +1,6 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.share
 
+import android.content.Context
 import android.graphics.Color
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
@@ -9,6 +10,12 @@ import com.android.ql.lf.redpacketmonkey.utils.QRCodeUtil
 import kotlinx.android.synthetic.main.fragment_share_code_layout.*
 
 class ShareCodeFragment : BaseFragment() {
+
+    companion object {
+        fun start(context: Context) {
+            FragmentContainerActivity.from(context).setTitle("分享码").setClazz(ShareCodeFragment::class.java).setHiddenToolBar(true).setNeedNetWorking(false).start()
+        }
+    }
 
     override fun getLayoutId() = R.layout.fragment_share_code_layout
 

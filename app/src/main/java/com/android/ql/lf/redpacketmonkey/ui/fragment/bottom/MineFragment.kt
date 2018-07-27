@@ -9,10 +9,14 @@ import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.message.MineMessageFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment
-import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineInfoFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineRecommendFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.AliPayFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.money.BankListFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.MinePacketFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.SettingFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareCodeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 
@@ -38,8 +42,8 @@ class MineFragment : BaseFragment() {
             toolBarHeight = mTlMainMine.measuredHeight
         }
         var alpha = 0
-        var scale = 0.0f
-        mNSvMineContainer.setOnScrollChangeListener { v: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+        var scale: Float
+        mNSvMineContainer.setOnScrollChangeListener { _: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY <= toolBarHeight) {
                 scale = (scrollY.toFloat() / toolBarHeight)
                 alpha = (scale * 255).toInt()
@@ -69,6 +73,21 @@ class MineFragment : BaseFragment() {
         }
         mTvMineShare.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(false).setTitle("分享").setClazz(ShareFragment::class.java).start()
+        }
+        mRlMinePacket.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setHiddenToolBar(true).setClazz(MinePacketFragment::class.java).start()
+        }
+        mTvMineRecommend.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setHiddenToolBar(true).setClazz(MineRecommendFragment::class.java).start()
+        }
+        mTvMessage.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("我的公告").setClazz(MineMessageFragment::class.java).start()
+        }
+        mTvBankList.setOnClickListener {
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("银行卡").setClazz(BankListFragment::class.java).start()
+        }
+        mTvMineShareCode.setOnClickListener {
+            ShareCodeFragment.start(mContext)
         }
     }
 }

@@ -4,8 +4,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'org.greenrobot.greendao'
-
 
 android {
     compileSdkVersion 27
@@ -15,7 +13,6 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
 
@@ -44,20 +41,20 @@ android {
     }
 
 
-    greendao {
-        //数据库的schema版本，也可以理解为数据库版本号
-        schemaVersion 1
-        //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
-        daoPackage 'com.android.ql.lf.redpacketmonkey.greendao'
-        //设置DaoMaster、DaoSession、Dao目录
-        targetGenDir 'src/main/java'
-    }
+//    greendao {
+//        //数据库的schema版本，也可以理解为数据库版本号
+//        schemaVersion 1
+//        //设置DaoMaster、DaoSession、Dao包名，也就是要放置这些类的包的全路径。
+//        daoPackage 'com.android.ql.lf.redpacketmonkey.greendao'
+//        //设置DaoMaster、DaoSession、Dao目录
+//        targetGenDir 'src/main/java'
+//    }
 
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.0'
     implementation rootProject.ext.dependencies["libSupportDesign"]
     implementation rootProject.ext.dependencies["libRxJava"]
@@ -82,5 +79,7 @@ dependencies {
     implementation rootProject.ext.dependencies["libMultiDex"]
     implementation rootProject.ext.dependencies["libFlexBox"]
     implementation 'com.google.zxing:core:3.3.2'
-    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
+    //    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'com.android.support:palette-v7:27.1.1'
 }

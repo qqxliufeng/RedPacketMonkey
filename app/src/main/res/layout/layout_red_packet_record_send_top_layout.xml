@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/activity_bg"
+    android:minHeight="210dp"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_red_packet_record_top" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="发出红包总数50个"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_14" />
+
+</LinearLayout>

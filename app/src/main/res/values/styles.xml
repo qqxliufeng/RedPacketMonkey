@@ -84,4 +84,14 @@
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
+    <style name="style_tv2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:textColor">@color/deepTextColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableRight">@drawable/icon_enter_2</item>
+        <item name="android:padding">@dimen/dp_10</item>
+    </style>
+
 </resources>

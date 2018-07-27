@@ -131,8 +131,10 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/mRlMinePacket"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
+                        android:background="?android:selectableItemBackground"
                         android:padding="@dimen/dp_10">
 
                         <TextView
@@ -162,6 +164,7 @@
                     <View style="@style/style_view_line1" />
 
                     <TextView
+                        android:id="@+id/mTvMineRecommend"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_tj"
                         android:text="我的推荐" />
@@ -169,6 +172,7 @@
                     <View style="@style/style_view_line1" />
 
                     <TextView
+                        android:id="@+id/mTvMessage"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_gg"
                         android:text="我的公告" />
@@ -184,6 +188,7 @@
                     <View style="@style/style_view_line1" />
 
                     <TextView
+                        android:id="@+id/mTvBankList"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_yhk"
                         android:text="银行卡" />
@@ -199,6 +204,7 @@
                     <View style="@style/style_view_line1" />
 
                     <TextView
+                        android:id="@+id/mTvMineShareCode"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_ewm"
                         android:text="分享码" />
