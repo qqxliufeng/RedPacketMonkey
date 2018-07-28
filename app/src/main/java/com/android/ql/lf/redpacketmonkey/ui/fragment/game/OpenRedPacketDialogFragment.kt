@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.android.ql.lf.redpacketmonkey.R
+import org.jetbrains.anko.support.v4.toast
 
 class OpenRedPacketDialogFragment : DialogFragment() {
 
@@ -28,6 +29,10 @@ class OpenRedPacketDialogFragment : DialogFragment() {
             iv_open.visibility = View.VISIBLE
             animationDrawable = iv_open.drawable as AnimationDrawable
             animationDrawable?.start()
+            contentView.postDelayed({
+                toast("余额不足~~")
+                dismiss()
+            }, 1000)
         }
         contentView.findViewById<ImageView>(R.id.mIvOpenRedPacketClose).setOnClickListener {
             dismiss()

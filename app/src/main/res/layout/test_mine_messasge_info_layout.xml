@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情消息详情"
+            android:textColor="@color/normalTextColor"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_login_bg" />
+
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

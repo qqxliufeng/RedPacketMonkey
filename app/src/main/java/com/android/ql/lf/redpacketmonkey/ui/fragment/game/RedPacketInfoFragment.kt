@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.RedPacketRecordFragment
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import org.jetbrains.anko.support.v4.toast
@@ -58,7 +59,7 @@ class RedPacketInfoFragment : BaseRecyclerViewFragment<String>() {
         textView.setTextColor(Color.WHITE)
         textView.setPadding(0,0,TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10.0f,resources.displayMetrics).toInt(),0)
         textView.setOnClickListener {
-            toast("aaa")
+            FragmentContainerActivity.from(mContext).setTitle("红包记录").setNeedNetWorking(false).setClazz(RedPacketRecordFragment::class.java).start()
         }
     }
 

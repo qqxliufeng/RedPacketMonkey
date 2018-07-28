@@ -171,13 +171,6 @@
 
                     <View style="@style/style_view_line1" />
 
-                    <TextView
-                        android:id="@+id/mTvMessage"
-                        style="@style/style_tv1"
-                        android:drawableLeft="@drawable/icon_mine_gg"
-                        android:text="我的公告" />
-
-                    <View style="@style/style_view_line1" />
 
                     <TextView
                         android:id="@+id/mTvMineShare"

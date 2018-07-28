@@ -257,4 +257,9 @@
 
     </LinearLayout>
 
+
+    <Button
+        style="@style/style_bt_1"
+        android:text="提交认证" />
+
 </LinearLayout>

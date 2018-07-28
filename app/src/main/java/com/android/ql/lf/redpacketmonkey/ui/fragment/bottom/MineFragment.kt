@@ -9,7 +9,6 @@ import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeFragment
-import com.android.ql.lf.redpacketmonkey.ui.fragment.message.MineMessageFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineRecommendFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.AliPayFragment
@@ -56,7 +55,9 @@ class MineFragment : BaseFragment() {
             }
         }
         mTvMineRecharge.setOnClickListener {
-            rechargeFragment.show(childFragmentManager, "recharge_dialog")
+            rechargeFragment.myShow(childFragmentManager, "recharge_dialog"){
+
+            }
         }
         mTvMineCrash.setOnClickListener {
             crashFragment.show(childFragmentManager, "crash_dialog")
@@ -79,9 +80,6 @@ class MineFragment : BaseFragment() {
         }
         mTvMineRecommend.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setHiddenToolBar(true).setClazz(MineRecommendFragment::class.java).start()
-        }
-        mTvMessage.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("我的公告").setClazz(MineMessageFragment::class.java).start()
         }
         mTvBankList.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("银行卡").setClazz(BankListFragment::class.java).start()

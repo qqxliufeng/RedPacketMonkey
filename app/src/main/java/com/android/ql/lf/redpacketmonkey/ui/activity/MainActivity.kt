@@ -9,6 +9,7 @@ import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.receiver.RedPacketBroadCastReceiver
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.GameFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MessageFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
 import com.android.ql.lf.redpacketmonkey.utils.Constants
 import com.android.ql.lf.redpacketmonkey.utils.PollingUtils
@@ -25,15 +26,22 @@ class MainActivity : BaseActivity() {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
         mBvMainNavigation.setOnNavigationItemSelectedListener {
-            if (it.itemId == R.id.mMenuGame) {
-                mVpMainContainer.currentItem = 0
-                return@setOnNavigationItemSelectedListener true
-            } else {
-                mVpMainContainer.currentItem = 1
-                return@setOnNavigationItemSelectedListener true
+            when {
+                it.itemId == R.id.mMenuGame -> {
+                    mVpMainContainer.currentItem = 1
+                    return@setOnNavigationItemSelectedListener true
+                }
+                it.itemId == R.id.mMenuMessage -> {
+                    mVpMainContainer.currentItem = 0
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> {
+                    mVpMainContainer.currentItem = 2
+                    return@setOnNavigationItemSelectedListener true
+                }
             }
         }
-        mVpMainContainer.offscreenPageLimit = 2
+        mVpMainContainer.offscreenPageLimit = 3
         mVpMainContainer.adapter = MainAdapter(supportFragmentManager)
 
         PollingUtils.startPollingService(MyApplication.application, 5, RedPacketBroadCastReceiver::class.java, Constants.RED_PACKET_ACTION)
@@ -46,17 +54,17 @@ class MainActivity : BaseActivity() {
 
         override fun getItem(position: Int) = when (position) {
             0 -> {
-                GameFragment()
+                MessageFragment()
             }
             1 -> {
-                MineFragment()
+                GameFragment()
             }
             else -> {
-                null
+                MineFragment()
             }
         }
 
-        override fun getCount() = 2
+        override fun getCount() = 3
 
     }
 }

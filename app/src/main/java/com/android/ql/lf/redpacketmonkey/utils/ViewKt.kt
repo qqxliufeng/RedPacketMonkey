@@ -20,6 +20,7 @@ import java.util.regex.Pattern
 
 val PHONE_REG = "^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}\$"
 val IDCARD_REG = "^(\\d{6})(\\d{4})(\\d{2})(\\d{2})(\\d{3})([0-9]|X)\$"
+val MONEY_REG = "^([1-9][0-9]*)\$"
 
 /**
  * 显示SnackBar
@@ -35,6 +36,10 @@ fun View.showSnackBar(message: String) {
  */
 fun EditText.isEmpty(): Boolean {
     return TextUtils.isEmpty(this.text.toString().trim())
+}
+
+fun EditText.isMoney():Boolean{
+    return Pattern.compile(MONEY_REG).matcher(this.text).matches()
 }
 
 fun EditText.isPhone(): Boolean {

@@ -46,11 +46,14 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/mEtRechargeDialogContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="输入充值金额"
             android:inputType="numberDecimal"
+            android:digits="0123456789"
             android:paddingLeft="@dimen/dp_10"
+            android:maxLength="4"
             android:textColor="@color/deepTextColor"
             android:textSize="@dimen/sp_14" />
 
@@ -65,6 +68,7 @@
 
 
     <Button
+        android:id="@+id/mBtRechargeDialogSubmit"
         android:layout_marginRight="@dimen/dp_10"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginTop="50dp"
