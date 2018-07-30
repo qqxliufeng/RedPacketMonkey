@@ -1,21 +1,14 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.money
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.support.v7.graphics.Palette
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import org.jetbrains.anko.backgroundColor
 
 class BankListFragment : BaseRecyclerViewFragment<String>() {
 

@@ -79,7 +79,5 @@ dependencies {
     implementation rootProject.ext.dependencies["libMultiDex"]
     implementation rootProject.ext.dependencies["libFlexBox"]
     implementation 'com.google.zxing:core:3.3.2'
-    implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
     //    implementation 'org.greenrobot:greendao:3.2.2' // add library
-    implementation 'com.android.support:palette-v7:27.1.1'
 }

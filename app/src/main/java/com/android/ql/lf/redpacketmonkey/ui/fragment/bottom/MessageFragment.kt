@@ -1,41 +1,54 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.bottom
 
+import android.graphics.Bitmap
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.android.ql.lf.redpacketmonkey.R
-import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
-import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
-import com.android.ql.lf.redpacketmonkey.ui.fragment.message.MineMessageInfoFragment
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import kotlinx.android.synthetic.main.fragment_message_layout.*
 
-class MessageFragment : BaseRecyclerViewFragment<String>() {
-
-    override fun createAdapter() = object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.fragment_message_item_layout, mArrayList) {
-        override fun convert(helper: BaseViewHolder?, item: String?) {
-            helper!!.getView<LinearLayout>(R.id.mLlMessageItemRight).setOnClickListener {
-                notifyItemRemoved(helper.adapterPosition)
-                mArrayList.remove(item)
-            }
-            helper.getView<ConstraintLayout>(R.id.mLlMessageItemContent).setOnClickListener {
-                FragmentContainerActivity.from(mContext).setTitle("消息详情").setClazz(MineMessageInfoFragment::class.java).start()
-            }
-        }
-    }
-
-    override fun initView(view: View?) {
-        (mTlMainMessage.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
-        super.initView(view)
-    }
+class MessageFragment : BaseNetWorkingFragment() {
 
     override fun getLayoutId() = R.layout.fragment_message_layout
 
-    override fun onRefresh() {
-        super.onRefresh()
-        testAdd("")
+    override fun initView(view: View?) {
+        (mTlMainMessage.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
+        val setting = mWbMessageContent.settings
+        setting.javaScriptEnabled = true
+        setting.databaseEnabled = true
+        mWbMessageContent.webViewClient = object : WebViewClient() {
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                mSrlMessage.post {
+                    mSrlMessage.isRefreshing = true
+                }
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                mSrlMessage.post {
+                    mSrlMessage.isRefreshing = false
+                }
+            }
+
+        }
+        mWbMessageContent.webChromeClient = object :WebChromeClient(){
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                if (newProgress == 100){
+                    mSrlMessage.post {
+                        mSrlMessage.isRefreshing = false
+                    }
+                }
+            }
+        }
+        mWbMessageContent.loadUrl("http://www.baidu.com")
+        mSrlMessage.setOnRefreshListener {
+            mWbMessageContent.reload()
+        }
     }
 
 }
