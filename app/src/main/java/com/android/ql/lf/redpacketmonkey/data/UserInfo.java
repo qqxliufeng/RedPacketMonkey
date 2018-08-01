@@ -16,23 +16,6 @@ import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils;
 public class UserInfo {
 
 
-    public enum UserInfoAuthStatus {
-
-        WEI_SHENG_HE(1, "未审核"),
-        SHENG_HE_ZHONG(2, "审核中"),
-        SHENG_HE_TONG_GUO(3, "审核通过"),
-        SHENG_HE_SHI_BAI(4, "审核失败");
-
-        public int statusCode;
-        public String statusDes;
-
-        UserInfoAuthStatus(int statusCode, String statusDes) {
-            this.statusCode = statusCode;
-            this.statusDes = statusDes;
-        }
-    }
-
-
     public static final String USER_ID_FLAG = "user_id";
 
     public static final String LOGOUT_FLAG = "user_logout_flag";
@@ -66,16 +49,120 @@ public class UserInfo {
     private String user_code;
     private String user_nickname;
     private String user_pic;
-    private String user_y_sum;
-    private String user_w_sum;
-    private String user_is_rank;
-    private String user_is_vehicle;
-    private String kephone;
 
     private String sharePic;
     private String shareTitle;
     private String shareIntro;
     private String shareUrl;
+
+    private String user_rank;
+    private String user_as;
+    private String user_sex;
+    private String user_dizhi;
+    private String money_id;
+    private String money_sum_cou;
+    private String money_sum_emit;
+    private String money_sum_collect;
+    private String money_sum_ti;
+    private String money_is_show;
+    private String money_times;
+    private String money_uid;
+
+    public String getUser_sex() {
+        return user_sex;
+    }
+
+    public void setUser_sex(String user_sex) {
+        this.user_sex = user_sex;
+    }
+
+    public String getUser_dizhi() {
+        return user_dizhi;
+    }
+
+    public void setUser_dizhi(String user_dizhi) {
+        this.user_dizhi = user_dizhi;
+    }
+
+    public String getUser_rank() {
+        return user_rank;
+    }
+
+    public void setUser_rank(String user_rank) {
+        this.user_rank = user_rank;
+    }
+
+    public String getUser_as() {
+        return user_as;
+    }
+
+    public void setUser_as(String user_as) {
+        this.user_as = user_as;
+    }
+
+    public String getMoney_id() {
+        return money_id;
+    }
+
+    public void setMoney_id(String money_id) {
+        this.money_id = money_id;
+    }
+
+    public String getMoney_sum_cou() {
+        return money_sum_cou;
+    }
+
+    public void setMoney_sum_cou(String money_sum_cou) {
+        this.money_sum_cou = money_sum_cou;
+    }
+
+    public String getMoney_sum_emit() {
+        return money_sum_emit;
+    }
+
+    public void setMoney_sum_emit(String money_sum_emit) {
+        this.money_sum_emit = money_sum_emit;
+    }
+
+    public String getMoney_sum_collect() {
+        return money_sum_collect;
+    }
+
+    public void setMoney_sum_collect(String money_sum_collect) {
+        this.money_sum_collect = money_sum_collect;
+    }
+
+    public String getMoney_sum_ti() {
+        return money_sum_ti;
+    }
+
+    public void setMoney_sum_ti(String money_sum_ti) {
+        this.money_sum_ti = money_sum_ti;
+    }
+
+    public String getMoney_is_show() {
+        return money_is_show;
+    }
+
+    public void setMoney_is_show(String money_is_show) {
+        this.money_is_show = money_is_show;
+    }
+
+    public String getMoney_times() {
+        return money_times;
+    }
+
+    public void setMoney_times(String money_times) {
+        this.money_times = money_times;
+    }
+
+    public String getMoney_uid() {
+        return money_uid;
+    }
+
+    public void setMoney_uid(String money_uid) {
+        this.money_uid = money_uid;
+    }
 
     public String getSharePic() {
         if (TextUtils.isEmpty(sharePic)) {
@@ -167,46 +254,6 @@ public class UserInfo {
 
     public void setUser_pic(String user_pic) {
         this.user_pic = user_pic;
-    }
-
-    public String getUser_y_sum() {
-        return user_y_sum;
-    }
-
-    public void setUser_y_sum(String user_y_sum) {
-        this.user_y_sum = user_y_sum;
-    }
-
-    public String getUser_w_sum() {
-        return user_w_sum;
-    }
-
-    public void setUser_w_sum(String user_w_sum) {
-        this.user_w_sum = user_w_sum;
-    }
-
-    public String getUser_is_rank() {
-        return user_is_rank;
-    }
-
-    public void setUser_is_rank(String user_is_rank) {
-        this.user_is_rank = user_is_rank;
-    }
-
-    public String getUser_is_vehicle() {
-        return user_is_vehicle;
-    }
-
-    public void setUser_is_vehicle(String user_is_vehicle) {
-        this.user_is_vehicle = user_is_vehicle;
-    }
-
-    public String getKephone() {
-        return kephone;
-    }
-
-    public void setKephone(String kephone) {
-        this.kephone = kephone;
     }
 
     public boolean isLogin() {

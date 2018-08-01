@@ -68,11 +68,15 @@
         app:layout_constraintTop_toBottomOf="@id/mEtForgetPasswordPhone">
 
         <EditText
+            android:id="@+id/mEtForgetPasswordCode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="4"
+            android:textColor="#fff"
             android:textColorHint="@color/colorPrimary"
             android:textSize="@dimen/sp_14" />
 
@@ -82,6 +86,7 @@
             android:background="#d79af5" />
 
         <TextView
+            android:id="@+id/mTvForgetPasswordCode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_10"
@@ -102,7 +107,7 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/shape_et_bg1"
         android:gravity="center_vertical"
-        android:hint="请输入新密码"
+        android:hint="请输入新密码（6~16位）"
         android:inputType="textPassword"
         android:maxLength="16"
         android:textColor="@color/colorPrimary"
@@ -121,7 +126,7 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/shape_et_bg1"
         android:gravity="center_vertical"
-        android:hint="请确认新密码"
+        android:hint="请确认新密码（6~16位）"
         android:inputType="textPassword"
         android:maxLength="16"
         android:textColor="@color/colorPrimary"
@@ -132,7 +137,7 @@
         app:layout_constraintTop_toBottomOf="@id/mEtForgetPasswordPassword" />
 
     <Button
-        android:id="@+id/mBtLogin"
+        android:id="@+id/mBtForgetPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"

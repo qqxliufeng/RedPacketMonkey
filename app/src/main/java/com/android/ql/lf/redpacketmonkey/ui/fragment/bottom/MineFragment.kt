@@ -1,15 +1,19 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.bottom
 
+import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
+import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineInfoFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineRecommendFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.AliPayFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.BankListFragment
@@ -17,6 +21,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.MinePacketFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.SettingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareCodeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
+import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 
 class MineFragment : BaseFragment() {
@@ -36,6 +41,13 @@ class MineFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_mine_layout
 
     override fun initView(view: View?) {
+        if (UserInfo.getInstance().isLogin) {
+            mTvMineNickName.text = UserInfo.getInstance().user_nickname
+            mTvMinePhone.text = "TEL：${UserInfo.getInstance().user_phone.hiddenPhone()}"
+        }
+        UserInfoLiveData.observe(this, Observer<UserInfo> {
+            mTvMineNickName.text = it?.user_nickname
+        })
         (mTlMainMine.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         mTlMainMine.post {
             toolBarHeight = mTlMainMine.measuredHeight
@@ -55,9 +67,11 @@ class MineFragment : BaseFragment() {
             }
         }
         mTvMineRecharge.setOnClickListener {
-            rechargeFragment.myShow(childFragmentManager, "recharge_dialog"){
-
-            }
+            UserInfo.getInstance().user_nickname = "1111111"
+            UserInfoLiveData.postUserInfo()
+//            rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
+//
+//            }
         }
         mTvMineCrash.setOnClickListener {
             crashFragment.show(childFragmentManager, "crash_dialog")
@@ -66,8 +80,7 @@ class MineFragment : BaseFragment() {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(false).setTitle("设置").setClazz(SettingFragment::class.java).start()
         }
         mClMineInfoContainer.setOnClickListener {
-            LoginFragment.startLogin(mContext)
-//            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("个人信息").setClazz(MineInfoFragment::class.java).start()
+            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("个人信息").setClazz(MineInfoFragment::class.java).start()
         }
         mTvMineAli.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("支付宝").setClazz(AliPayFragment::class.java).start()
@@ -87,5 +100,6 @@ class MineFragment : BaseFragment() {
         mTvMineShareCode.setOnClickListener {
             ShareCodeFragment.start(mContext)
         }
+
     }
 }

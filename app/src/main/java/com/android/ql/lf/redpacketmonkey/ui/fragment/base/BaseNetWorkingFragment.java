@@ -2,6 +2,8 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
@@ -102,11 +104,20 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
 
     @Override
     public void onRequestFail(int requestID, @NotNull Throwable e) {
+        if (e instanceof NullPointerException && !TextUtils.isEmpty(e.getMessage())) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mContext, showFailMessage(requestID), Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    public String showFailMessage(int requestID) {
+        return "";
     }
 
     @Override
     public <T> void onRequestSuccess(int requestID, T result) {
+        handleSuccess(requestID,result);
     }
 
     @Override
@@ -135,12 +146,7 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
             BaseNetResult check = checkResultCode(result);
             if (check != null) {
                 if (check.code.equals(SUCCESS_CODE)) {
-                    Object o = ((JSONObject) check.obj).opt(RESULT_OBJECT);
-                    if (o instanceof JSONObject) {
-                        onHandleSuccess(requestID, (JSONObject) o);
-                    } else {
-                        onHandleSuccess(requestID, o);
-                    }
+                    onHandleSuccess(requestID, ((JSONObject) check.obj).opt(RESULT_OBJECT));
                 } else {
                     onRequestFail(requestID, new NullPointerException(((JSONObject) check.obj).optString(MSG_FLAG)));
                 }
@@ -153,10 +159,10 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
         }
     }
 
-    public void onHandleSuccess(int requestID, JSONObject jsonObject) {
-    }
+    public void onHandleSuccess(int requestID, Object obj) {}
 
-    public void onHandleSuccess(int requestID, Object obj) {
+    public boolean checkedObjType(Object obj){
+        return obj instanceof JSONObject;
     }
 
 

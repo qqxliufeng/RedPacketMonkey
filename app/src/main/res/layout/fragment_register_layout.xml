@@ -57,7 +57,7 @@
 
 
     <EditText
-        android:id="@+id/mEtRegisterPassword"
+        android:id="@+id/mEtRegisterNickName"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="40dp"
@@ -66,7 +66,6 @@
         android:background="@drawable/shape_et_bg1"
         android:gravity="center_vertical"
         android:hint="请输入昵称"
-        android:inputType="textPassword"
         android:maxLength="16"
         android:textColor="@color/colorPrimary"
         android:textColorHint="@color/colorPrimary"
@@ -76,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@id/mEtRegisterPhone" />
 
     <EditText
-        android:id="@+id/mEtRegisterConfirmPassword"
+        android:id="@+id/mEtRegisterPassword"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:layout_marginLeft="40dp"
@@ -84,7 +83,7 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/shape_et_bg1"
         android:gravity="center_vertical"
-        android:hint="请确认新密码"
+        android:hint="请确认新密码（6 ~ 16位）"
         android:inputType="textPassword"
         android:maxLength="16"
         android:textColor="@color/colorPrimary"
@@ -92,7 +91,7 @@
         android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="@id/mEtRegisterPhone"
         app:layout_constraintRight_toRightOf="@id/mEtRegisterPhone"
-        app:layout_constraintTop_toBottomOf="@id/mEtRegisterPassword" />
+        app:layout_constraintTop_toBottomOf="@id/mEtRegisterNickName" />
 
     <LinearLayout
         android:id="@+id/mLlRegisterVerCode"
@@ -103,14 +102,18 @@
         android:layout_marginRight="40dp"
         android:background="@drawable/shape_et_bg1"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/mEtRegisterConfirmPassword">
+        app:layout_constraintTop_toBottomOf="@id/mEtRegisterPassword">
 
         <EditText
+            android:id="@+id/mEtRegisterCode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:hint="请输入验证码"
+            android:maxLength="4"
+            android:inputType="number"
+            android:textColor="#fff"
             android:textColorHint="@color/colorPrimary"
             android:textSize="@dimen/sp_14" />
 
@@ -120,6 +123,7 @@
             android:background="#d79af5" />
 
         <TextView
+            android:id="@+id/mTvRegisterCode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_10"
@@ -132,7 +136,7 @@
 
 
     <Button
-        android:id="@+id/mBtLogin"
+        android:id="@+id/mBtRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"

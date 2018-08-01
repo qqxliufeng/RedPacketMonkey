@@ -12,8 +12,11 @@ import com.android.ql.lf.redpacketmonkey.R;
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
 import com.android.ql.lf.redpacketmonkey.component.ApiServerModule;
 import com.android.ql.lf.redpacketmonkey.component.DaggerApiServerComponent;
+import com.android.ql.lf.redpacketmonkey.data.UserInfo;
 import com.android.ql.lf.redpacketmonkey.present.GetDataFromNetPresent;
 import com.android.ql.lf.redpacketmonkey.present.UserPresent;
+import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment;
+import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -32,7 +35,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  * @author lf on 18.2.8
  */
 
-public class SplashActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks,EasyPermissions.RationaleCallbacks {
+public class SplashActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, EasyPermissions.RationaleCallbacks {
 
     /**
      * 权限标识
@@ -77,7 +80,7 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
      * 请求权限
      */
     private void requestPermission() {
-        EasyPermissions.requestPermissions(this, getResources().getString(R.string.app_name)+" 需要您的相机、存储", WRITE_AND_CAMERA, REQUEST_PERMISSIONS);
+        EasyPermissions.requestPermissions(this, getResources().getString(R.string.app_name) + " 需要您的相机、存储", WRITE_AND_CAMERA, REQUEST_PERMISSIONS);
     }
 
     /**
@@ -166,17 +169,17 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
                 userPresent.onLoginNoBus(json.optJSONObject("data"));
                 startMain();
             } else {
-                startMain();
+                startLogin();
             }
         } catch (JSONException e) {
-            startMain();
+            startLogin();
         }
     }
 
     @Override
     public void onRequestFail(int requestID, @NotNull Throwable e) {
         super.onRequestFail(requestID, e);
-        startMain();
+        startLogin();
     }
 
     private void startMain() {
@@ -188,11 +191,17 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
      * 所有有权限都已经请求到了，直接进入到主页面
      */
     private void isLogin() {
-        startMain();
-//        if (UserInfo.isCacheUserId(this)) {
-//            mPresent.getDataByPost(0x0,RequestParamsHelper.Companion.getPersonalParam(UserInfo.getUserIdFromCache(this)));
-//        } else {
-//            startMain();
-//        }
+        if (UserInfo.isCacheUserId(this)) {
+            mPresent.getDataByPost(0x0,RequestParamsHelper.Companion.getPersonalParam(UserInfo.getUserIdFromCache(this)));
+        } else {
+            startLogin();
+        }
     }
+
+
+    private void startLogin(){
+        LoginFragment.Companion.startLogin(this);
+        finish();
+    }
+
 }

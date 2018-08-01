@@ -4,6 +4,7 @@ package com.android.ql.lf.redpacketmonkey.interfaces;
 import com.android.ql.lf.carapp.action.IViewUserAction;
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
 import com.android.ql.lf.redpacketmonkey.data.UserInfo;
+import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData;
 import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,17 +25,26 @@ public class ViewUserAction implements IViewUserAction {
             UserInfo.getInstance().setUser_nickname(result.optString("user_nickname"));
             UserInfo.getInstance().setUser_phone(result.optString("user_phone"));
             UserInfo.getInstance().setUser_pic(result.optString("user_pic"));
-            UserInfo.getInstance().setUser_code(result.optString("user_code"));
-            UserInfo.getInstance().setUser_is_rank(result.optString("user_is_rank"));
-            UserInfo.getInstance().setUser_is_vehicle(result.optString("user_is_vehicle"));
-            UserInfo.getInstance().setUser_w_sum(result.optString("user_w_sum"));
-            UserInfo.getInstance().setUser_y_sum(result.optString("user_y_sum"));
-            UserInfo.getInstance().setKephone(result.optString("kephone"));
+
             UserInfo.getInstance().setSharePic(result.optString("sharePic"));
             UserInfo.getInstance().setShareTitle(result.optString("shareTitle"));
             UserInfo.getInstance().setShareIntro(result.optString("shareIntro"));
+            UserInfo.getInstance().setShareUrl(result.optString("shareUrl"));
 
+            UserInfo.getInstance().setUser_code(result.optString("user_code"));
+            UserInfo.getInstance().setUser_rank(result.optString("user_rank"));
+            UserInfo.getInstance().setUser_as(result.optString("user_as"));
+            UserInfo.getInstance().setUser_as(result.optString("user_sex"));
+            UserInfo.getInstance().setUser_as(result.optString("user_dizhi"));
+
+            UserInfo.getInstance().setMoney_id(result.optString("money_id"));
+            UserInfo.getInstance().setMoney_sum_cou(result.optString("money_sum_cou"));
+            UserInfo.getInstance().setMoney_sum_emit(result.optString("money_sum_emit"));
+            UserInfo.getInstance().setMoney_sum_collect(result.optString("money_sum_collect"));
+            UserInfo.getInstance().setMoney_sum_ti(result.optString("money_sum_ti"));
+            UserInfo.getInstance().setMoney_uid(result.optString("money_uid"));
             PreferenceUtils.setPrefString(MyApplication.application, UserInfo.USER_ID_FLAG, UserInfo.getInstance().getUser_id());
+            UserInfoLiveData.INSTANCE.postUserInfo();
             return true;
         } catch (Exception e) {
             return false;
