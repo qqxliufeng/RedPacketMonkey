@@ -34,8 +34,8 @@ public class ViewUserAction implements IViewUserAction {
             UserInfo.getInstance().setUser_code(result.optString("user_code"));
             UserInfo.getInstance().setUser_rank(result.optString("user_rank"));
             UserInfo.getInstance().setUser_as(result.optString("user_as"));
-            UserInfo.getInstance().setUser_as(result.optString("user_sex"));
-            UserInfo.getInstance().setUser_as(result.optString("user_dizhi"));
+            UserInfo.getInstance().setUser_sex(result.optString("user_sex"));
+            UserInfo.getInstance().setUser_dizhi(result.optString("user_dizhi"));
 
             UserInfo.getInstance().setMoney_id(result.optString("money_id"));
             UserInfo.getInstance().setMoney_sum_cou(result.optString("money_sum_cou"));

@@ -14,8 +14,8 @@ public class Constants {
     public static final String IMAGE_PATH = APP_PATH + "/img/";
     public static final String FILE_PROVIDE_PATH = "com.android.ql.lf.zwlogistics.fileProvider";
 
-    public static final String TENCENT_ID = "1106952325";
-    public static final String WX_APP_ID = "wxf470a963560eab15";
+    public static final String TENCENT_ID = "1107475358";
+    public static final String WX_APP_ID = "wx130a9e0936be0a24";
 
 
     private static final String APP_TOKEN = "d5a131f90e76db03df4eff4154e56dbe";

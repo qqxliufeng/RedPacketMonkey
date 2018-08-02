@@ -16,12 +16,12 @@ import android.view.inputmethod.InputMethodManager
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import org.jetbrains.anko.windowManager
 
-fun Context.checkGpsIsOpen():Boolean{
+fun Context.checkGpsIsOpen(): Boolean {
     return (getSystemService(Context.LOCATION_SERVICE) as LocationManager).isProviderEnabled(LocationManager.GPS_PROVIDER)
 }
 
-fun Activity.openGpsPage(requestCode:Int = -1){
-    startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),requestCode)
+fun Activity.openGpsPage(requestCode: Int = -1) {
+    startActivityForResult(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), requestCode)
 }
 
 fun Context.hiddenKeyBoard(token: IBinder) {
@@ -46,7 +46,7 @@ fun Fragment.startPhone(phone: String) {
     builder.create().show()
 }
 
-fun Context.getScreenSize(): BaseFragment.ScreenSize{
+fun Context.getScreenSize(): BaseFragment.ScreenSize {
     val outMetrics = DisplayMetrics()
     windowManager.defaultDisplay.getMetrics(outMetrics)
     val screenSize = BaseFragment.ScreenSize()
@@ -55,6 +55,20 @@ fun Context.getScreenSize(): BaseFragment.ScreenSize{
     return screenSize
 }
 
+
+fun Context.startWebAliPay(url: String): Boolean {
+    if (url.contains("platformapi/startapp")) {
+        return try {
+            val intent: Intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
+            intent.addCategory("android.intent.category.BROWSABLE")
+            startActivity(intent)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+    return false
+}
 
 
 fun Fragment.alert(title: String? = "title",

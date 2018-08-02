@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import com.android.ql.lf.redpacketmonkey.utils.QRCodeUtil
@@ -22,7 +23,7 @@ class ShareCodeFragment : BaseFragment() {
     override fun initView(view: View?) {
         (mContext as FragmentContainerActivity).statusBarColor = Color.TRANSPARENT
         mIvShareCodeImage.postDelayed({
-            val bitmap = QRCodeUtil.createQRCodeBitmap("123456", 500, 500)
+            val bitmap = QRCodeUtil.createQRCodeBitmap(UserInfo.getInstance().shareUrl, 500, 500)
             mIvShareCodeImage.setImageBitmap(bitmap)
         }, 200)
     }

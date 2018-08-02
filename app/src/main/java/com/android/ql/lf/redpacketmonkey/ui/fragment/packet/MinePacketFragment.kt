@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import kotlinx.android.synthetic.main.fragment_mine_packet_layout.*
@@ -19,6 +20,8 @@ class MinePacketFragment : BaseNetWorkingFragment() {
         (mContext as FragmentContainerActivity).setToolBarBackgroundColor(Color.TRANSPARENT)
         (mContext as FragmentContainerActivity).setStatusBarLightColor(false)
         (mTlMinePacket.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
+
+        mTvMinePacketMoneyCount.text = "${UserInfo.getInstance().money_sum_cou.toFloat()}"
 
         mTvMinePacketRedPacketRecord.setOnClickListener {
             FragmentContainerActivity.from(mContext).setTitle("红包记录").setNeedNetWorking(false).setClazz(RedPacketRecordFragment::class.java).start()

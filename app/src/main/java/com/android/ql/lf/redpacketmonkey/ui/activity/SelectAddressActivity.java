@@ -111,7 +111,7 @@ public class SelectAddressActivity extends BaseActivity implements TabLayout.OnT
         mTvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(1,null);
+                setResult(Activity.RESULT_OK,null);
                 finish();
             }
         });
@@ -155,7 +155,7 @@ public class SelectAddressActivity extends BaseActivity implements TabLayout.OnT
     private void setResultData(SelectAddressItemBean resultItemBean) {
         Intent intent = new Intent();
         intent.putExtra(REQUEST_DATA_FALG, resultItemBean);
-        setResult(REQUEST_CODE, intent);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 
@@ -305,12 +305,10 @@ public class SelectAddressActivity extends BaseActivity implements TabLayout.OnT
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
-
     public void closeActivity(View view){
-        setResult(1,null);
+        setResult(Activity.RESULT_OK,null);
         finish();
     }
 

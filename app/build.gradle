@@ -79,5 +79,8 @@ dependencies {
     implementation rootProject.ext.dependencies["libMultiDex"]
     implementation rootProject.ext.dependencies["libFlexBox"]
     implementation 'com.google.zxing:core:3.3.2'
+    implementation 'com.soundcloud.android:android-crop:1.0.1@aar'
     //    implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation files('libs/open_sdk_r5990_lite.jar')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 }

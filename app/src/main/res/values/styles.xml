@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -36,8 +36,8 @@
     </style>
 
     <style name="my_matisse_style" parent="Matisse.Zhihu">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#9d4bed</item>
+        <item name="colorPrimaryDark">#9d4bed</item>
     </style>
 
     <style name="splashTheme" parent="AppTheme">
@@ -107,6 +107,19 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:drawableRight">@drawable/icon_enter_2</item>
         <item name="android:padding">@dimen/dp_10</item>
+    </style>
+
+
+    <style name="CropImageTheme" parent="AppTheme" tools:ingore="NewApi">
+        <item name="cropImageStyle">@style/Widget.CropImageView</item>
+        <item name="colorPrimary">#9d4bed</item>
+        <item name="colorPrimaryDark">#9d4bed</item>
+    </style>
+
+    <style name="Widget.CropImageView" parent="android:Widget">
+        <item name="showThirds">false</item>
+        <item name="showCircle">true</item>
+        <item name="showHandles">always</item>
     </style>
 
 </resources>

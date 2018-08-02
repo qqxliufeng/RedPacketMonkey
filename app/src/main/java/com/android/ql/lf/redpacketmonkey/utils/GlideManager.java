@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.android.ql.lf.redpacketmonkey.R;
@@ -21,16 +22,16 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 public class GlideManager {
 
     public static void loadImage(Context context, String path, ImageView imageView) {
-        Glide.with(context).load(Constants.BASE_IP + path)
+        Glide.with(context).load(getImageUrl(path))
                 .error(R.drawable.img_glide_load_default)
                 .placeholder(R.drawable.img_glide_load_default)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
 
-    public static void loadRoundImage(Context context, String path, ImageView imageView,int rounded) {
+    public static void loadRoundImage(Context context, String path, ImageView imageView, int rounded) {
         Glide.with(context)
-                .load(Constants.BASE_IP + path)
+                .load(getImageUrl(path))
                 .error(R.drawable.img_glide_load_default)
                 .placeholder(R.drawable.img_glide_load_default)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -41,7 +42,7 @@ public class GlideManager {
 
     public static void loadRoundImage(Context context, ImageBean imageBean, ImageView imageView, int rounded) {
         Glide.with(context)
-                .load(imageBean.getUriPath())
+                .load(getImageUrl(imageBean.getUriPath()))
                 .error(R.drawable.img_glide_load_default)
                 .placeholder(R.drawable.img_glide_load_default)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -50,43 +51,38 @@ public class GlideManager {
     }
 
 
-
     public static void loadFaceCircleImage(Context context, String path, ImageView imageView) {
-        String tempPath;
-        if (path != null) {
-            if (path.startsWith("http://") || path.startsWith("http://")) {
-                tempPath = path;
-            } else {
-                tempPath = Constants.BASE_IP + path;
-            }
-            Glide.with(context)
-                    .load(tempPath)
-                    .error(R.drawable.img_glide_load_default)
-                    .placeholder(R.drawable.img_glide_load_default)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .bitmapTransform(new CropCircleTransformation(context), new CenterCrop(context))
-                    .into(imageView);
-        }
+        Glide.with(context)
+                .load(getImageUrl(path))
+                .error(R.mipmap.ic_launcher_round)
+                .placeholder(R.mipmap.ic_launcher_round)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .bitmapTransform(new CropCircleTransformation(context), new CenterCrop(context))
+                .into(imageView);
     }
 
     public static void loadCircleImage(Context context, String path, ImageView imageView) {
-        String tempPath;
-        if (path != null) {
-            if (path.startsWith("http://") || path.startsWith("https://")) {
-                tempPath = path;
-            } else {
-                tempPath = Constants.BASE_IP + path;
-            }
-        }else {
-            tempPath = "";
-        }
         Glide.with(context)
-                .load(tempPath)
+                .load(getImageUrl(path))
                 .error(R.drawable.img_glide_circle_load_default)
                 .placeholder(R.drawable.img_glide_circle_load_default)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .bitmapTransform(new CropCircleTransformation(context), new CenterCrop(context))
                 .into(imageView);
+    }
+
+    private static String getImageUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return "";
+        }
+        if (TextUtils.isDigitsOnly(url)) {
+            return Constants.BASE_IP + "api/echopic?id=" + url;
+        }
+        if (url.startsWith("http://") || url.startsWith("http://")) {
+            return url;
+        } else {
+            return Constants.BASE_IP + url;
+        }
     }
 
 

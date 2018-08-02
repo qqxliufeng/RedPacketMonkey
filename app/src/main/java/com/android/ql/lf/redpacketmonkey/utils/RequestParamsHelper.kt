@@ -31,6 +31,12 @@ class RequestParamsHelper {
             return params
         }
 
+        private fun getWithIdParams(mod: String, act: String): ApiParams {
+            val params = getBaseParams(mod, act)
+            params.addParam("uid", UserInfo.getInstance().user_id)
+            return params
+        }
+
         private fun getWithPageParams(page: Int, pageSize: Int = 10): ApiParams {
             val param = if (UserInfo.getInstance().isLogin) {
                 getWithIdParams()
@@ -60,9 +66,9 @@ class RequestParamsHelper {
         val ACT_LOGIN = "login"
         val ACT_FORGETPW = "loginUp"
 
-        fun getRegisterParams(nickname:String,phone: String = "", pass: String = ""): ApiParams {
+        fun getRegisterParams(nickname: String, phone: String = "", pass: String = ""): ApiParams {
             val params = getBaseParams().addParam(ApiParams.MOD_NAME, LOGIN_MODEL).addParam(ApiParams.ACT_NAME, ACT_REGISTER)
-            params.addParam("phone", phone).addParam("pass", pass).addParam("nickname",nickname)
+            params.addParam("phone", phone).addParam("pass", pass).addParam("nickname", nickname)
             return params
         }
 
@@ -82,20 +88,37 @@ class RequestParamsHelper {
         }
 
 
-
         /**              login model  end           **/
 
         /**              user model start           **/
 
         val USER_MODEL = "user"
 
+
+        val ACT_UPDATE_FACE = "pic"
+
         val ACT_PERSONAL = "info"
         fun getPersonalParam(uid: String) = getBaseParams().addParam(ApiParams.MOD_NAME, USER_MODEL).addParam(ApiParams.ACT_NAME, ACT_PERSONAL).addParam("uid", uid)
 
-        fun getNickNameParam(nickname:String = "") = getWithIdParams()
+        fun getNickNameParam(nickname: String = "") = getWithIdParams()
                 .addParam(ApiParams.MOD_NAME, USER_MODEL)
                 .addParam(ApiParams.ACT_NAME, "nickname")
-                .addParam("nickname",nickname)
+                .addParam("nickname", nickname)
+
+        fun getSexParam(sex: String) = getWithIdParams().addParam(ApiParams.MOD_NAME, USER_MODEL)
+                .addParam(ApiParams.ACT_NAME, "sex")
+                .addParam("sex", sex)
+
+        fun getAddressParam(address: String) = getWithIdParams().addParam(ApiParams.MOD_NAME, USER_MODEL)
+                .addParam(ApiParams.ACT_NAME, "dizhi")
+                .addParam("dizhi", address)
+
+        fun getResetPasswordParam(ypass: String, xpass: String, rpass: String) = getWithIdParams(USER_MODEL, "password")
+                .addParam("ypass", ypass)
+                .addParam("xpass", xpass)
+                .addParam("rpass", rpass)
+
+        fun getRankParam(act: String) = getWithIdParams(USER_MODEL, act)
 
         /**              user model start           **/
 

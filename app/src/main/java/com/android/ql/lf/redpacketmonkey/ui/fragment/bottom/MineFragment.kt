@@ -21,6 +21,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.MinePacketFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.SettingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareCodeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
+import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 
@@ -42,11 +43,14 @@ class MineFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         if (UserInfo.getInstance().isLogin) {
+            GlideManager.loadFaceCircleImage(mContext,UserInfo.getInstance().user_pic,mIvMineFace)
             mTvMineNickName.text = UserInfo.getInstance().user_nickname
             mTvMinePhone.text = "TEL：${UserInfo.getInstance().user_phone.hiddenPhone()}"
+            mTvMineMoneyCount.text = "￥ ${UserInfo.getInstance().money_sum_cou.toFloat()}"
         }
         UserInfoLiveData.observe(this, Observer<UserInfo> {
             mTvMineNickName.text = it?.user_nickname
+            GlideManager.loadFaceCircleImage(mContext,UserInfo.getInstance().user_pic,mIvMineFace)
         })
         (mTlMainMine.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         mTlMainMine.post {
@@ -67,11 +71,9 @@ class MineFragment : BaseFragment() {
             }
         }
         mTvMineRecharge.setOnClickListener {
-            UserInfo.getInstance().user_nickname = "1111111"
-            UserInfoLiveData.postUserInfo()
-//            rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
-//
-//            }
+            rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
+
+            }
         }
         mTvMineCrash.setOnClickListener {
             crashFragment.show(childFragmentManager, "crash_dialog")
