@@ -4,8 +4,10 @@ import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
+import com.android.ql.lf.redpacketmonkey.utils.CacheDataManager
 import com.android.ql.lf.redpacketmonkey.utils.VersionHelp
 import kotlinx.android.synthetic.main.fragment_setting_layout.*
+import org.jetbrains.anko.support.v4.toast
 
 class SettingFragment : BaseFragment() {
 
@@ -20,7 +22,13 @@ class SettingFragment : BaseFragment() {
             FragmentContainerActivity.from(mContext).setTitle("添加支付密码").setNeedNetWorking(true).setClazz(PayPasswordFragment::class.java).start()
         }
         mTvSettingNotifySwitch.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setTitle("开关设置").setNeedNetWorking(false).setClazz(SoundSettingFragment::class.java).start()
+            FragmentContainerActivity.from(mContext).setTitle("开关设置").setNeedNetWorking(true).setClazz(SoundSettingFragment::class.java).start()
+        }
+        mTvSettingClearCache.text = CacheDataManager.getTotalCacheSize(mContext)
+        mLlSettingClearCache.setOnClickListener {
+            CacheDataManager.clearAllCache(mContext)
+            mTvSettingClearCache.text = CacheDataManager.getTotalCacheSize(mContext)
+            toast("缓存清理成功")
         }
     }
 }

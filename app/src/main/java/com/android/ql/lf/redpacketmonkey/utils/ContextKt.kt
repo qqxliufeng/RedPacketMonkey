@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
@@ -59,8 +60,9 @@ fun Context.getScreenSize(): BaseFragment.ScreenSize {
 fun Context.startWebAliPay(url: String): Boolean {
     if (url.contains("platformapi/startapp")) {
         return try {
+            Log.e("TAG",url)
             val intent: Intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
-            intent.addCategory("android.intent.category.BROWSABLE")
+            intent.component = null
             startActivity(intent)
             true
         } catch (e: Exception) {

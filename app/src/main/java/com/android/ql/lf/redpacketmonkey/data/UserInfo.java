@@ -68,6 +68,25 @@ public class UserInfo {
     private String money_times;
     private String money_uid;
 
+    private int user_is_news;
+    private int user_is_red;
+
+    public int getUser_is_news() {
+        return user_is_news;
+    }
+
+    public void setUser_is_news(int user_is_news) {
+        this.user_is_news = user_is_news;
+    }
+
+    public int getUser_is_red() {
+        return user_is_red;
+    }
+
+    public void setUser_is_red(int user_is_red) {
+        this.user_is_red = user_is_red;
+    }
+
     public String getUser_sex() {
         return user_sex;
     }

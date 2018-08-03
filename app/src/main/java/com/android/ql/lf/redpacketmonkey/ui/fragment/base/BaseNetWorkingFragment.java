@@ -112,12 +112,12 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
     }
 
     public String showFailMessage(int requestID) {
-        return "";
+        return "未知错误";
     }
 
     @Override
     public <T> void onRequestSuccess(int requestID, T result) {
-        handleSuccess(requestID,result);
+        handleSuccess(requestID, result);
     }
 
     @Override
@@ -159,9 +159,10 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
         }
     }
 
-    public void onHandleSuccess(int requestID, Object obj) {}
+    public void onHandleSuccess(int requestID, Object obj) {
+    }
 
-    public boolean checkedObjType(Object obj){
+    public boolean checkedObjType(Object obj) {
         return obj instanceof JSONObject;
     }
 

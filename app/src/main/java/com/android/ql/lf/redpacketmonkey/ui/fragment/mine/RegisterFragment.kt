@@ -127,4 +127,9 @@ class RegisterFragment : BaseNetWorkingFragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        countDownTimer.cancel()
+        super.onDestroyView()
+    }
 }

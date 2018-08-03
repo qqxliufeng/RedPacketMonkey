@@ -3,33 +3,36 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.bottom
 import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.support.v4.widget.NestedScrollView
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
-import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
-import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeFragment
-import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeDialogFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineInfoFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineRecommendFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.AliPayFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.BankListFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.money.RechargeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.MinePacketFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.SettingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareCodeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
 import com.android.ql.lf.redpacketmonkey.utils.GlideManager
+import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
+import org.jetbrains.anko.support.v4.toast
 
-class MineFragment : BaseFragment() {
+class MineFragment : BaseNetWorkingFragment() {
 
 
     private val rechargeFragment by lazy {
-        RechargeFragment()
+        RechargeDialogFragment()
     }
 
 
@@ -43,14 +46,14 @@ class MineFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         if (UserInfo.getInstance().isLogin) {
-            GlideManager.loadFaceCircleImage(mContext,UserInfo.getInstance().user_pic,mIvMineFace)
+            GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
             mTvMineNickName.text = UserInfo.getInstance().user_nickname
             mTvMinePhone.text = "TEL：${UserInfo.getInstance().user_phone.hiddenPhone()}"
             mTvMineMoneyCount.text = "￥ ${UserInfo.getInstance().money_sum_cou.toFloat()}"
         }
         UserInfoLiveData.observe(this, Observer<UserInfo> {
             mTvMineNickName.text = it?.user_nickname
-            GlideManager.loadFaceCircleImage(mContext,UserInfo.getInstance().user_pic,mIvMineFace)
+            GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
         })
         (mTlMainMine.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         mTlMainMine.post {
@@ -72,7 +75,11 @@ class MineFragment : BaseFragment() {
         }
         mTvMineRecharge.setOnClickListener {
             rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
-
+                if (!TextUtils.isEmpty(it)) {
+                    RechargeFragment.startRecharge(mContext,it)
+                } else {
+                    toast("请输入充值金额")
+                }
             }
         }
         mTvMineCrash.setOnClickListener {
@@ -102,6 +109,46 @@ class MineFragment : BaseFragment() {
         mTvMineShareCode.setOnClickListener {
             ShareCodeFragment.start(mContext)
         }
-
     }
+
+    override fun onRequestStart(requestID: Int) {
+        super.onRequestStart(requestID)
+        when (requestID) {
+            0x0 -> {
+                getFastProgressDialog("正在充值……")
+            }
+            0x1 -> {
+
+            }
+        }
+    }
+
+
+    override fun showFailMessage(requestID: Int): String {
+        return when (requestID) {
+            0x0 -> {
+                "充值失败"
+            }
+            0x1 -> {
+                "充值失败"
+            }
+            else -> {
+                "未知错误"
+            }
+        }
+    }
+
+    override fun onHandleSuccess(requestID: Int, obj: Any?) {
+        when(requestID){
+            0x0->{
+                if (obj!=null){
+                    toast("充值成功！")
+                }
+            }
+            0x1->{
+
+            }
+        }
+    }
+
 }

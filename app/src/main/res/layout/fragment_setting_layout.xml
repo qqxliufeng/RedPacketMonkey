@@ -16,10 +16,10 @@
             android:id="@+id/mTvSettingResetPassword"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:padding="@dimen/dp_10"
             android:text="修改登录密码"
-            android:background="?android:selectableItemBackground"
             android:textColor="@color/deepTextColor" />
 
         <View
@@ -33,10 +33,10 @@
             android:id="@+id/mTvSettingPayPassword"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:padding="@dimen/dp_10"
             android:text="添加支付密码"
-            android:background="?android:selectableItemBackground"
             android:textColor="@color/deepTextColor" />
     </LinearLayout>
 
@@ -52,10 +52,10 @@
             android:id="@+id/mTvSettingNotifySwitch"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:padding="@dimen/dp_10"
             android:text="通知开关"
-            android:background="?android:selectableItemBackground"
             android:textColor="@color/deepTextColor" />
 
         <View
@@ -65,22 +65,37 @@
             android:layout_marginRight="@dimen/dp_10"
             android:background="@color/lineColor" />
 
-        <TextView
-            android:id="@+id/mTvSettingClearCache"
+        <RelativeLayout
+            android:id="@+id/mLlSettingClearCache"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:gravity="center_vertical"
-            android:padding="@dimen/dp_10"
-            android:text="清理缓存"
-            android:background="?android:selectableItemBackground"
-            android:textColor="@color/deepTextColor" />
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_10"
+                android:text="清理缓存"
+                android:textColor="@color/deepTextColor" />
+
+            <TextView
+                android:id="@+id/mTvSettingClearCache"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/deepTextColor"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_10"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
 
     <Button
         android:id="@+id/mBtSettingLogout"
-        android:text="退出"
-        style="@style/style_bt_1" />
+        style="@style/style_bt_1"
+        android:text="退出" />
 
     <TextView
         android:id="@+id/mTvSettingVersion"

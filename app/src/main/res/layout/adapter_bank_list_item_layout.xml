@@ -21,6 +21,7 @@
         android:paddingBottom="@dimen/dp_10">
 
         <TextView
+            android:id="@+id/mTvBankListItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="中国建设银行"
@@ -28,6 +29,7 @@
             android:textSize="@dimen/sp_16" />
 
         <TextView
+            android:id="@+id/mTvBankListItemType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
@@ -35,6 +37,7 @@
             android:textColor="#92baee" />
 
         <TextView
+            android:id="@+id/mTvBankListItemCardNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

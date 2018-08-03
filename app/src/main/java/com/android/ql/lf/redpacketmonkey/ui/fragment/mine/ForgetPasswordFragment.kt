@@ -137,4 +137,9 @@ class ForgetPasswordFragment : BaseNetWorkingFragment() {
             }
         }
     }
+
+    override fun onDestroyView() {
+        countDownTimer.cancel()
+        super.onDestroyView()
+    }
 }

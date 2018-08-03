@@ -19,7 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import org.jetbrains.anko.support.v4.toast
 
-class RechargeFragment : DialogFragment() {
+class RechargeDialogFragment : DialogFragment() {
 
 
     private var listener: ((String) -> Unit)? = null

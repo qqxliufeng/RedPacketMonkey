@@ -42,6 +42,7 @@
             android:textColor="@color/deepTextColor" />
 
         <EditText
+            android:id="@+id/mEtAddBankListCardName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -80,6 +81,7 @@
             android:textColor="@color/deepTextColor" />
 
         <EditText
+            android:id="@+id/mEtAddBankListCardNumber"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -87,6 +89,7 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@null"
             android:hint="请输入您本人的银行卡号"
+            android:maxLength="20"
             android:minWidth="100dp"
             android:paddingLeft="@dimen/dp_10"
             android:singleLine="true"
@@ -156,6 +159,7 @@
             android:textColor="@color/deepTextColor" />
 
         <EditText
+            android:id="@+id/mEtAddBankListCardIdCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -163,6 +167,7 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@null"
             android:hint="请输入身份证号"
+            android:maxLength="18"
             android:minWidth="100dp"
             android:paddingLeft="@dimen/dp_10"
             android:textSize="@dimen/sp_14" />
@@ -192,6 +197,7 @@
             android:textColor="@color/deepTextColor" />
 
         <EditText
+            android:id="@+id/mEtAddBankListCardPhone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -199,6 +205,8 @@
             android:layout_marginLeft="@dimen/dp_10"
             android:background="@null"
             android:hint="请输入银行预留的手机号"
+            android:inputType="phone"
+            android:maxLength="11"
             android:minWidth="100dp"
             android:paddingLeft="@dimen/dp_10"
             android:textSize="@dimen/sp_14" />
@@ -228,6 +236,7 @@
             android:textColor="@color/deepTextColor" />
 
         <EditText
+            android:id="@+id/mEtAddBankListCardCode"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -236,6 +245,8 @@
             android:layout_weight="1"
             android:background="@null"
             android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="4"
             android:minWidth="100dp"
             android:paddingLeft="@dimen/dp_10"
             android:textSize="@dimen/sp_14" />
@@ -246,6 +257,7 @@
             android:background="@color/lineColor" />
 
         <TextView
+            android:id="@+id/mTvAddBankListCardGetCode"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -259,6 +271,7 @@
 
 
     <Button
+        android:id="@+id/mBtAddBankListCardSubmit"
         style="@style/style_bt_1"
         android:text="提交认证" />
 

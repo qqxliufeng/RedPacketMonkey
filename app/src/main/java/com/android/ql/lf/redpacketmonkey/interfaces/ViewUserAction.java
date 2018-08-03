@@ -43,6 +43,10 @@ public class ViewUserAction implements IViewUserAction {
             UserInfo.getInstance().setMoney_sum_collect(result.optString("money_sum_collect"));
             UserInfo.getInstance().setMoney_sum_ti(result.optString("money_sum_ti"));
             UserInfo.getInstance().setMoney_uid(result.optString("money_uid"));
+
+            UserInfo.getInstance().setUser_is_news(result.optInt("user_is_news"));
+            UserInfo.getInstance().setUser_is_red(result.optInt("user_is_red"));
+
             PreferenceUtils.setPrefString(MyApplication.application, UserInfo.USER_ID_FLAG, UserInfo.getInstance().getUser_id());
             UserInfoLiveData.INSTANCE.postUserInfo();
             return true;

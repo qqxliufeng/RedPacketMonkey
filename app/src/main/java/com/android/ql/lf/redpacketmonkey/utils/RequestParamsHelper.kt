@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.utils
 
 import com.android.ql.lf.redpacketmonkey.component.ApiParams
+import com.android.ql.lf.redpacketmonkey.data.PostBankCardBean
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 
 
@@ -118,9 +119,33 @@ class RequestParamsHelper {
                 .addParam("xpass", xpass)
                 .addParam("rpass", rpass)
 
+
+        fun getAddBankCarParam(postBankCardBean: PostBankCardBean) = getWithIdParams(USER_MODEL, "cardAdd")
+                .addParam("card_nickname", postBankCardBean.name)
+                .addParam("card_number", postBankCardBean.cardNumber)
+                .addParam("card_type", "身份证")
+                .addParam("card_numbers", postBankCardBean.idCardNumber)
+                .addParam("card_phone", postBankCardBean.phone)
+
         fun getRankParam(act: String) = getWithIdParams(USER_MODEL, act)
 
-        /**              user model start           **/
+        fun getBankCarListParam() = getWithIdParams(USER_MODEL, "cardList")
+
+        fun getPayPasswordParam(pass: String) = getWithIdParams(USER_MODEL, "pass").addParam("pass", pass)
+
+        fun getSoundSwitchParam(type: Int, state: Int) = getWithIdParams(USER_MODEL, "isstate").addParam("type", type).addParam("state", state)
+
+        /**              user model end           **/
+
+
+        /**              money model start           **/
+
+        val MONEY_MODEL = "money"
+
+        fun getReChargeParam(money: String) = getWithIdParams(MONEY_MODEL, "recharge").addParam("money", money)
+
+        /**              money model end           **/
+
 
         /**             area model start    **/
 
@@ -146,5 +171,16 @@ class RequestParamsHelper {
         }
 
         /**             area model end    **/
+
+        /**             log model end    **/
+
+        val LOG_MODEL = "log"
+
+        fun getRecordParam(type: Int, page: Int) = getWithPageParams(page).addParam(ApiParams.MOD_NAME, LOG_MODEL).addParam(ApiParams.ACT_NAME, "recharge").addParam("type", type)
+
+        fun getCountLog(type: Int) = getWithIdParams(LOG_MODEL, "coulog").addParam("type", type)
+
+        /**             log model start    **/
+
     }
 }
