@@ -76,7 +76,7 @@ class MineFragment : BaseNetWorkingFragment() {
         mTvMineRecharge.setOnClickListener {
             rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
                 if (!TextUtils.isEmpty(it)) {
-                    RechargeFragment.startRecharge(mContext,it)
+                    RechargeFragment.startRecharge(mContext,"1")
                 } else {
                     toast("请输入充值金额")
                 }

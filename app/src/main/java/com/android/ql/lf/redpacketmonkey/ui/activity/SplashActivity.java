@@ -26,6 +26,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.RequestCallback;
+import cn.jpush.im.android.api.model.DeviceInfo;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -167,7 +170,16 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
             JSONObject json = new JSONObject(result.toString());
             if ("200".equals(json.optString("code"))) {
                 userPresent.onLoginNoBus(json.optJSONObject("data"));
-                startMain();
+                JMessageClient.login(UserInfo.getInstance().getUser_as(), UserInfo.getInstance().getUser_as(), new RequestCallback<List<DeviceInfo>>() {
+                    @Override
+                    public void gotResult(int i, String s, List<DeviceInfo> deviceInfos) {
+                        if (i == 0) { //表示登录成功
+                            startMain();
+                        } else { //表示登录异常，提示异常信息
+                            startLogin();
+                        }
+                    }
+                });
             } else {
                 startLogin();
             }
@@ -192,14 +204,14 @@ public class SplashActivity extends BaseActivity implements EasyPermissions.Perm
      */
     private void isLogin() {
         if (UserInfo.isCacheUserId(this)) {
-            mPresent.getDataByPost(0x0,RequestParamsHelper.Companion.getPersonalParam(UserInfo.getUserIdFromCache(this)));
+            mPresent.getDataByPost(0x0, RequestParamsHelper.Companion.getPersonalParam(UserInfo.getUserIdFromCache(this)));
         } else {
             startLogin();
         }
     }
 
 
-    private void startLogin(){
+    private void startLogin() {
         LoginFragment.Companion.startLogin(this);
         finish();
     }

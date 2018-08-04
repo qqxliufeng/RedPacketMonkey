@@ -84,13 +84,13 @@ class RechargeFragment : BaseNetWorkingFragment() {
             }
         }
         mWbRecharge.loadUrl("${Constants.BASE_IP}api/money/recharge?money=${arguments!!.getString("money")}&uid=${UserInfo.getInstance().money_id}")
-//        mWbRecharge.loadUrl("${Constants.BASE_IP}/api/money/appJs")
     }
 
 
     @SuppressLint("JavascriptInterface")
     @JavascriptInterface
     fun syntony() {
+        toast("支付成功")
         finish()
     }
 }

@@ -6,7 +6,11 @@ import android.graphics.Color
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import cn.jpush.im.android.api.JMessageClient
+import cn.jpush.im.android.api.callback.RequestCallback
+import cn.jpush.im.android.api.model.DeviceInfo
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.present.UserPresent
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.activity.MainActivity
@@ -81,8 +85,16 @@ class LoginFragment : BaseNetWorkingFragment() {
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         if (checkedObjType(obj)) {
             userPresent.onLogin(obj as JSONObject)
-            startActivity(Intent(mContext, MainActivity::class.java))
-            finish()
+            JMessageClient.login(UserInfo.getInstance().user_as, UserInfo.getInstance().user_as, object : RequestCallback<List<DeviceInfo>>() {
+                override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
+                    if (p0 == 0) { //表示登录成功
+                        startActivity(Intent(mContext, MainActivity::class.java))
+                        finish()
+                    } else { //表示登录异常，提示异常信息
+                        toast("$p1")
+                    }
+                }
+            })
         }
     }
 

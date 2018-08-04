@@ -7,21 +7,35 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.application.MyApplication
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.receiver.RedPacketBroadCastReceiver
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.GameFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MessageFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment
 import com.android.ql.lf.redpacketmonkey.utils.Constants
 import com.android.ql.lf.redpacketmonkey.utils.PollingUtils
+import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
 
+    private val userLogoutSubscription by lazy {
+        RxBus.getDefault().toObservable(UserInfo::class.java).subscribe {
+            if (!it.isLogin) {
+                UserInfo.clearUserCache(this)
+                LoginFragment.startLogin(this)
+                finish()
+            }
+        }
+    }
+
     override fun getLayoutId() = R.layout.activity_main
 
     override fun initView() {
         setStatusBarColor()
+        userLogoutSubscription
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
@@ -49,6 +63,13 @@ class MainActivity : BaseActivity() {
 
     override fun getStatusBarColor() = Color.TRANSPARENT
 
+
+    override fun onDestroy() {
+        if (!userLogoutSubscription.isUnsubscribed) {
+            userLogoutSubscription.unsubscribe()
+        }
+        super.onDestroy()
+    }
 
     class MainAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 

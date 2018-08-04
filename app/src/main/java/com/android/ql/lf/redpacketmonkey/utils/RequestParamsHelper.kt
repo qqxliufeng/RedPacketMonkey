@@ -182,5 +182,16 @@ class RequestParamsHelper {
 
         /**             log model start    **/
 
+
+
+
+        /**             group model start    **/
+
+        val GROUP_MODEL = "group"
+
+        fun getGroupListParam(page: Int) = getWithPageParams(page).addParam(ApiParams.MOD_NAME,GROUP_MODEL).addParam(ApiParams.ACT_NAME,"group")
+
+        /**             group model end    **/
+
     }
 }

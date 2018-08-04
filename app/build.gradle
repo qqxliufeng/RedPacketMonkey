@@ -13,6 +13,18 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "20abd64dce4faf8b1009829a", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+        ]
     }
 
 
@@ -22,6 +34,8 @@ android {
             keyPassword 'redpacketmonkey'
             storeFile file('redpacketmonkey.jks')
             storePassword 'redpacketmonkey'
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
     }
 
@@ -83,4 +97,7 @@ dependencies {
     //    implementation 'org.greenrobot:greendao:3.2.2' // add library
     implementation files('libs/open_sdk_r5990_lite.jar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
+    implementation 'cn.jiguang.sdk:jmessage:2.6.1'  // 此处以JMessage 2.6.1 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.2.1'  // 此处以JCore 1.2.1 版本为例。
 }

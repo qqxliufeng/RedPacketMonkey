@@ -45,7 +45,7 @@ class RechargeDialogFragment : DialogFragment() {
         val mRvRechargeDialog = contentView.findViewById<RecyclerView>(R.id.mRvRechargeDialog)
         val et_content = contentView.findViewById<EditText>(R.id.mEtRechargeDialogContent)
         mArrayList.forEach {
-            if (it.isSelect){
+            if (it.isSelect) {
                 et_content.setText(it.name)
                 et_content.setSelection(it.name.lastIndex + 1)
                 return@forEach
@@ -79,6 +79,10 @@ class RechargeDialogFragment : DialogFragment() {
                 toast("请输入金额")
                 return@setOnClickListener
             }
+//            if (selectedItem!!.toFloat() < 50.00f || selectedItem!!.toFloat() > 5000.00f) {
+//                toast("请输入50 ~ 5000之间的金额")
+//                return@setOnClickListener
+//            }
             this.listener?.invoke(selectedItem!!.trim())
             dismiss()
         }

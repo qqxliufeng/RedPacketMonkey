@@ -7,20 +7,26 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.GroupBean
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.game.RedPacketListFragment
+import com.android.ql.lf.redpacketmonkey.utils.GlideManager
+import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_main_game_layout.*
 
-class GameFragment :BaseRecyclerViewFragment<String>(){
+class GameFragment :BaseRecyclerViewFragment<GroupBean>(){
 
 
     override fun getLayoutId() = R.layout.fragment_main_game_layout
 
-    override fun createAdapter(): BaseQuickAdapter<String, BaseViewHolder> = object : BaseQuickAdapter<String,BaseViewHolder>(R.layout.adapter_game_house_item_layout,mArrayList) {
-        override fun convert(helper: BaseViewHolder?, item: String?) {
+    override fun createAdapter(): BaseQuickAdapter<GroupBean, BaseViewHolder> = object : BaseQuickAdapter<GroupBean,BaseViewHolder>(R.layout.adapter_game_house_item_layout,mArrayList) {
+        override fun convert(helper: BaseViewHolder?, item: GroupBean?) {
+            helper?.setText(R.id.mTvGameItemTitle,item?.group_name)
+            helper?.setText(R.id.mTvGameItemDes,item?.group_desc)
+            GlideManager.loadImage(mContext,item?.group_pic,helper?.getView(R.id.mIvGameItemPic))
         }
     }
 
@@ -33,9 +39,18 @@ class GameFragment :BaseRecyclerViewFragment<String>(){
 
     override fun onRefresh() {
         super.onRefresh()
-        testAdd("")
+        mPresent.getDataByPost(0x0,RequestParamsHelper.getGroupListParam(currentPage))
     }
 
+
+    override fun onLoadMore() {
+        super.onLoadMore()
+        mPresent.getDataByPost(0x0,RequestParamsHelper.getGroupListParam(currentPage))
+    }
+
+    override fun <T : Any?> onRequestSuccess(requestID: Int, result: T) {
+        processList(result as String,GroupBean::class.java)
+    }
 
     override fun getItemDecoration(): RecyclerView.ItemDecoration {
         val decoration = super.getItemDecoration() as DividerItemDecoration
