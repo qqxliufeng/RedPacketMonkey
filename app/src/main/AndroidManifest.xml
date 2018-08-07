@@ -73,6 +73,9 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoDisplay" />
+        <activity android:name=".ui.activity.TestRedPacket" >
+
+        </activity>
 
     </application>
 

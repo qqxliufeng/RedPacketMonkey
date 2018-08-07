@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "6278449642c0f36275210ce1bf943b2e",
+    "entities": [
+      {
+        "tableName": "red_packet",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `redPacketId` INTEGER NOT NULL, `sendUserFace` TEXT, `sendUserNickName` TEXT, `sendTime` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "redPacketId",
+            "columnName": "redPacketId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sendUserFace",
+            "columnName": "sendUserFace",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sendUserNickName",
+            "columnName": "sendUserNickName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sendTime",
+            "columnName": "sendTime",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_red_packet_redPacketId",
+            "unique": true,
+            "columnNames": [
+              "redPacketId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_red_packet_redPacketId` ON `${TABLE_NAME}` (`redPacketId`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6278449642c0f36275210ce1bf943b2e\")"
+    ]
+  }
+}

@@ -4,10 +4,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import cn.jpush.im.android.api.JMessageClient
+import cn.jpush.im.android.api.callback.GetGroupIDListCallback
+import cn.jpush.im.android.api.callback.GetGroupInfoCallback
+import cn.jpush.im.android.api.model.GroupInfo
+import cn.jpush.im.api.BasicCallback
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.game.RedPacketListFragment
@@ -60,6 +67,26 @@ class GameFragment :BaseRecyclerViewFragment<GroupBean>(){
 
     override fun onMyItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         super.onMyItemClick(adapter, view, position)
-        FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("发红包").setClazz(RedPacketListFragment::class.java).start()
+//        FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("发红包").setClazz(RedPacketListFragment::class.java).start()
+
+        val message = JMessageClient.createGroupTextMessage(mArrayList[position].group_gid!!,"test group")
+        message.setOnSendCompleteCallback(object : BasicCallback() {
+            override fun gotResult(p0: Int, p1: String?) {
+                Log.e("TAG","p1----> $p1")
+            }
+        })
+        JMessageClient.sendMessage(message)
+
+
+//        JMessageClient.getGroupInfo(mArrayList[position].group_gid!!, object : GetGroupInfoCallback() {
+//            override fun gotResult(p0: Int, p1: String?, p2: GroupInfo?) {
+//                Log.e("TAG","info ---->  ${p2?.toString()}")
+//                p2?.addGroupKeeper(p2.groupMembers, object : BasicCallback() {
+//                    override fun gotResult(p0: Int, p1: String?) {
+//                        Log.e("TAG","p1----> $p1")
+//                    }
+//                })
+//            }
+//        })
     }
 }

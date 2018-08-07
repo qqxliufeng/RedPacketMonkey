@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.bottom
 
 import android.graphics.Bitmap
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -8,16 +9,31 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.application.MyApplication
+import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.Constants
 import kotlinx.android.synthetic.main.fragment_message_layout.*
 
 
- class MessageFragment : BaseNetWorkingFragment() {
+class MessageFragment : BaseNetWorkingFragment() {
 
     override fun getLayoutId() = R.layout.fragment_message_layout
 
     override fun initView(view: View?) {
+//        val redPacketEntity = RedPacketEntity()
+//        redPacketEntity.sendTime = "2018-8-6"
+//        redPacketEntity.redPacketId = 1
+//        redPacketEntity.sendUserFace = "face"
+//        redPacketEntity.sendUserNickName = "nickname"
+//        MyApplication.getInstance().redPacketDao.insertRedPacket(redPacketEntity)
+
+        MyApplication.getInstance().redPacketDao.queryAll().forEach {
+            Log.e("TAG",it.sendUserNickName)
+            Log.e("TAG",it.sendUserFace)
+        }
+
+
         (mTlMainMessage.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         val setting = mWbMessageContent.settings
         setting.javaScriptEnabled = true
@@ -57,7 +73,7 @@ import kotlinx.android.synthetic.main.fragment_message_layout.*
                 }
             }
         }
-        mWbMessageContent.loadUrl(Constants.BASE_IP+"/api/system/gonggao")
+        mWbMessageContent.loadUrl(Constants.BASE_IP + "/api/system/gonggao")
 //        mWbMessageContent.loadUrl("http://47.75.58.32/index.php")
         mSrlMessage.setOnRefreshListener {
             mWbMessageContent.reload()

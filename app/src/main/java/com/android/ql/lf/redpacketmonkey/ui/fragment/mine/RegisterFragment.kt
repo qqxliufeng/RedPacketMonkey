@@ -4,12 +4,17 @@ import android.graphics.Color
 import android.os.CountDownTimer
 import android.view.View
 import android.view.ViewGroup
+import cn.jpush.im.android.api.JMessageClient
+import cn.jpush.im.android.api.callback.RequestCallback
+import cn.jpush.im.android.api.model.DeviceInfo
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.*
 import kotlinx.android.synthetic.main.fragment_register_layout.*
 import org.jetbrains.anko.support.v4.toast
+import org.json.JSONObject
 
 class RegisterFragment : BaseNetWorkingFragment() {
 
@@ -120,9 +125,22 @@ class RegisterFragment : BaseNetWorkingFragment() {
                 }
             }
             0x1 -> {
-                if (obj != null) {
-                    toast("注册成功，请登录！")
-                    finish()
+                if (checkedObjType(obj)) {
+                    JMessageClient.register((obj as JSONObject).optString("user_as"), obj.optString("user_as"), object : RequestCallback<List<DeviceInfo>>() {
+                        override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
+                            if (progressDialog != null && progressDialog.isShowing) {
+                                progressDialog.dismiss()
+                                progressDialog = null
+                            }
+                            if (p0 == 0) { //表示注册成功
+                                toast("注册成功，请登录！")
+                                finish()
+                            } else { //表示注册异常，提示异常信息
+                                toast("注册失败，请重试！")
+                            }
+                        }
+                    })
+
                 }
             }
         }

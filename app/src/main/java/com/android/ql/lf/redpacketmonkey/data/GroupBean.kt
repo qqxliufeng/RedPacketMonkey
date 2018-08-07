@@ -12,7 +12,7 @@ class GroupBean : Serializable {
     var group_pic: String? = null
     var group_cou: String? = null
     var group_number: String? = null
-    var group_gid: String? = null
+    var group_gid: Long? = null
     var group_max: String? = null
     var group_is_show: String? = null
     var group_times: String? = null

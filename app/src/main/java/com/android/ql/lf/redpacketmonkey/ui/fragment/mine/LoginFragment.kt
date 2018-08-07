@@ -87,11 +87,15 @@ class LoginFragment : BaseNetWorkingFragment() {
             userPresent.onLogin(obj as JSONObject)
             JMessageClient.login(UserInfo.getInstance().user_as, UserInfo.getInstance().user_as, object : RequestCallback<List<DeviceInfo>>() {
                 override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
+                    if (progressDialog != null && progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                        progressDialog = null
+                    }
                     if (p0 == 0) { //表示登录成功
                         startActivity(Intent(mContext, MainActivity::class.java))
                         finish()
                     } else { //表示登录异常，提示异常信息
-                        toast("$p1")
+                        toast("登录失败")
                     }
                 }
             })

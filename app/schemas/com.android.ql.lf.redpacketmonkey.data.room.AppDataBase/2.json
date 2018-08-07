@@ -1,0 +1,72 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "d4249c3aefe27723f33f786a18973284",
+    "entities": [
+      {
+        "tableName": "red_packet",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `redPacketId` INTEGER NOT NULL, `sendUserFace` TEXT, `sendUserNickName` TEXT, `sendTime` TEXT, `new_column` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "redPacketId",
+            "columnName": "redPacketId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sendUserFace",
+            "columnName": "sendUserFace",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sendUserNickName",
+            "columnName": "sendUserNickName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sendTime",
+            "columnName": "sendTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newColumn",
+            "columnName": "new_column",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_red_packet_redPacketId",
+            "unique": true,
+            "columnNames": [
+              "redPacketId"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_red_packet_redPacketId` ON `${TABLE_NAME}` (`redPacketId`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d4249c3aefe27723f33f786a18973284\")"
+    ]
+  }
+}
