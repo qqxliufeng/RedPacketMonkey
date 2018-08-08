@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import cn.jpush.im.android.api.JMessageClient
 import cn.jpush.im.android.api.callback.RequestCallback
 import cn.jpush.im.android.api.model.DeviceInfo
+import cn.jpush.im.android.api.options.RegisterOptionalUserInfo
 import com.android.ql.lf.redpacketmonkey.R
-import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.*
@@ -106,12 +106,18 @@ class RegisterFragment : BaseNetWorkingFragment() {
             0x0 -> {
                 "获取验证码失败"
             }
-            0x1 -> {
+            0x1, 0x2 -> {
                 "注册失败"
             }
             else -> {
                 "未知错误"
             }
+        }
+    }
+
+    override fun onRequestEnd(requestID: Int) {
+        if (requestID == 0x0 || requestID == 0x2) {
+            super.onRequestEnd(requestID)
         }
     }
 
@@ -126,21 +132,26 @@ class RegisterFragment : BaseNetWorkingFragment() {
             }
             0x1 -> {
                 if (checkedObjType(obj)) {
-                    JMessageClient.register((obj as JSONObject).optString("user_as"), obj.optString("user_as"), object : RequestCallback<List<DeviceInfo>>() {
+                    val user_as = (obj as JSONObject).optString("user_as")
+                    val user_id = obj.optString("user_id")
+                    val optionUserInfo = RegisterOptionalUserInfo()
+                    optionUserInfo.nickname = obj.optString("user_nickname")
+                    optionUserInfo.avatar = GlideManager.getImageUrl(obj.optString("user_pic"))
+                    JMessageClient.register(user_as, user_as,optionUserInfo,object : RequestCallback<List<DeviceInfo>>() {
                         override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
-                            if (progressDialog != null && progressDialog.isShowing) {
-                                progressDialog.dismiss()
-                                progressDialog = null
-                            }
                             if (p0 == 0) { //表示注册成功
-                                toast("注册成功，请登录！")
-                                finish()
+                                mPresent.getDataByPost(0x2, RequestParamsHelper.getIMgroupParam(user_as, user_id))
                             } else { //表示注册异常，提示异常信息
                                 toast("注册失败，请重试！")
                             }
                         }
                     })
-
+                }
+            }
+            0x2 -> {
+                if (obj != null) {
+                    toast("注册成功，请登录")
+                    finish()
                 }
             }
         }

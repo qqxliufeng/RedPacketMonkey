@@ -5,18 +5,26 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import cn.jpush.im.android.api.JMessageClient
+import cn.jpush.im.android.api.event.MessageEvent
+import cn.jpush.im.android.api.event.OfflineMessageEvent
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.GroupBean
+import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
+import com.android.ql.lf.redpacketmonkey.ui.adapter.RedPacketAdapter
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_red_packet_list_layout.*
+import org.jetbrains.anko.bundleOf
 
-class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
+class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
 
     private val openRedPacketDialogFragment by lazy {
@@ -35,20 +43,19 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
         MyAccountDialogFragment()
     }
 
+    private val groupInfo by lazy {
+        arguments!!.getSerializable(SendRedPacketFragment.GROUP_INFO_FLAG) as GroupBean
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         setHasOptionsMenu(true)
     }
 
-    override fun createAdapter(): BaseQuickAdapter<String, BaseViewHolder> = object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.adapter_red_packet_item_layout, mArrayList) {
-        override fun convert(helper: BaseViewHolder?, item: String?) {
-            helper!!.addOnClickListener(R.id.mRLRedPacketItemContainer)
-        }
-    }
+    override fun createAdapter(): BaseQuickAdapter<RedPacketEntity, BaseViewHolder> = RedPacketAdapter(mArrayList)
 
     override fun onRefresh() {
         super.onRefresh()
-        testAdd("")
         mRecyclerView.scrollToPosition(mArrayList.size - 1)
     }
 
@@ -56,6 +63,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
 
     override fun initView(view: View?) {
         super.initView(view)
+        JMessageClient.registerEventReceiver(this)
         setLoadEnable(false)
         mIvRedPacketAdd.setOnClickListener {
             if (mLlRedPacketPayTypeContainer.visibility == View.GONE) {
@@ -66,7 +74,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
             }
         }
         mLlRedPacketListSendByRed.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setClazz(SendRedPacketFragment::class.java).setTitle("发红包").setNeedNetWorking(true).start()
+            FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(Pair(SendRedPacketFragment.GROUP_INFO_FLAG, groupInfo))).setClazz(SendRedPacketFragment::class.java).setTitle("发红包").setNeedNetWorking(true).start()
             mLlRedPacketPayTypeContainer.visibility = View.GONE
         }
         mLlRedPacketListSendByAccount.setOnClickListener {
@@ -104,5 +112,21 @@ class RedPacketListFragment : BaseRecyclerViewFragment<String>() {
             }
         }
     }
+
+
+    fun onEvent(event: OfflineMessageEvent) {
+        Log.e("TAG", "OfflineMessageEvent --->  ${event.offlineMessageList}")
+    }
+
+
+    fun onEvent(event: MessageEvent) {
+        Log.e("TAG", "MessageEvent --->  ${event.message.content.toJson()}")
+    }
+
+    override fun onDestroyView() {
+        JMessageClient.unRegisterEventReceiver(this)
+        super.onDestroyView()
+    }
+
 
 }

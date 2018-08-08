@@ -13,6 +13,7 @@ import java.util.List;
 public interface RedPacketDao {
 
 
+
     /**
      * 增加一条新的记录
      *
@@ -50,7 +51,7 @@ public interface RedPacketDao {
      * @param redPacketId
      * @return
      */
-    @Query("select * from red_packet where redPacketId = :redPacketId limit 1;")
+    @Query("select * from red_packet where group_red_id = :redPacketId limit 1;")
     public RedPacketEntity queryById(long redPacketId);
 
     /**

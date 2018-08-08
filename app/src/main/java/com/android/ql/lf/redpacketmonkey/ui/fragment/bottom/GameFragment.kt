@@ -18,11 +18,13 @@ import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.game.RedPacketListFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.game.SendRedPacketFragment
 import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_main_game_layout.*
+import org.jetbrains.anko.bundleOf
 
 class GameFragment :BaseRecyclerViewFragment<GroupBean>(){
 
@@ -42,7 +44,10 @@ class GameFragment :BaseRecyclerViewFragment<GroupBean>(){
         (mTlMainGame.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         mBaseAdapter.addHeaderView(View.inflate(mContext,R.layout.layout_game_top_layout,null))
         setLoadEnable(false)
+        mBaseAdapter.setHeaderFooterEmpty(true,false)
     }
+
+    override fun getEmptyMessage() = "暂无群组"
 
     override fun onRefresh() {
         super.onRefresh()
@@ -67,26 +72,6 @@ class GameFragment :BaseRecyclerViewFragment<GroupBean>(){
 
     override fun onMyItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         super.onMyItemClick(adapter, view, position)
-//        FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("发红包").setClazz(RedPacketListFragment::class.java).start()
-
-        val message = JMessageClient.createGroupTextMessage(mArrayList[position].group_gid!!,"test group")
-        message.setOnSendCompleteCallback(object : BasicCallback() {
-            override fun gotResult(p0: Int, p1: String?) {
-                Log.e("TAG","p1----> $p1")
-            }
-        })
-        JMessageClient.sendMessage(message)
-
-
-//        JMessageClient.getGroupInfo(mArrayList[position].group_gid!!, object : GetGroupInfoCallback() {
-//            override fun gotResult(p0: Int, p1: String?, p2: GroupInfo?) {
-//                Log.e("TAG","info ---->  ${p2?.toString()}")
-//                p2?.addGroupKeeper(p2.groupMembers, object : BasicCallback() {
-//                    override fun gotResult(p0: Int, p1: String?) {
-//                        Log.e("TAG","p1----> $p1")
-//                    }
-//                })
-//            }
-//        })
+        FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("发红包").setExtraBundle(bundleOf(Pair(SendRedPacketFragment.GROUP_INFO_FLAG,mArrayList[position]))).setClazz(RedPacketListFragment::class.java).start()
     }
 }

@@ -71,7 +71,7 @@ public class GlideManager {
                 .into(imageView);
     }
 
-    private static String getImageUrl(String url) {
+    public static String getImageUrl(String url) {
         if (TextUtils.isEmpty(url)) {
             return "";
         }

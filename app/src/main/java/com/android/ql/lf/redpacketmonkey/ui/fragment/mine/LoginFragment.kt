@@ -82,6 +82,9 @@ class LoginFragment : BaseNetWorkingFragment() {
         return "登录失败"
     }
 
+    override fun onRequestEnd(requestID: Int) {
+    }
+
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         if (checkedObjType(obj)) {
             userPresent.onLogin(obj as JSONObject)

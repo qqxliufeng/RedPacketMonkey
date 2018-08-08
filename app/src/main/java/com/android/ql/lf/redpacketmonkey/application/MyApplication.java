@@ -14,6 +14,7 @@ import com.android.ql.lf.redpacketmonkey.component.DaggerAppComponent;
 import com.android.ql.lf.redpacketmonkey.data.room.AppDataBase;
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketDao;
 
+
 import cn.jpush.im.android.api.JMessageClient;
 
 public class MyApplication extends MultiDexApplication {
@@ -32,6 +33,7 @@ public class MyApplication extends MultiDexApplication {
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
         JMessageClient.setDebugMode(true);
         JMessageClient.init(this);
+        JMessageClient.setNotificationFlag(JMessageClient.FLAG_NOTIFY_DISABLE);
         setupDataBase();
     }
 
@@ -40,19 +42,19 @@ public class MyApplication extends MultiDexApplication {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-                Log.e("TAG","db create");
+                Log.e("TAG", "db create");
             }
 
             @Override
             public void onOpen(@NonNull SupportSQLiteDatabase db) {
                 super.onOpen(db);
-                Log.e("TAG","db onOpen");
+                Log.e("TAG", "db onOpen");
             }
-        }).allowMainThreadQueries().addMigrations(migration_1_2).fallbackToDestructiveMigration().build();
+        }).allowMainThreadQueries().addMigrations().fallbackToDestructiveMigration().build();
         redPacketDao = db.redPacketDao();
     }
 
-    static final Migration migration_1_2 = new Migration(1,2) {
+    static final Migration migration_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("alter table red_packet add column new_column TEXT");
@@ -68,7 +70,7 @@ public class MyApplication extends MultiDexApplication {
         return appComponent;
     }
 
-    public RedPacketDao getRedPacketDao() {
-        return redPacketDao;
+    public static RedPacketDao getRedPacketDao() {
+        return MyApplication.getInstance().redPacketDao;
     }
 }

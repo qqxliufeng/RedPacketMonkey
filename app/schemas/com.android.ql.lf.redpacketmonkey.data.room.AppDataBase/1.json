@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6278449642c0f36275210ce1bf943b2e",
+    "identityHash": "6ba6344ca34825375c07981fde2c5ab3",
     "entities": [
       {
         "tableName": "red_packet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `redPacketId` INTEGER NOT NULL, `sendUserFace` TEXT, `sendUserNickName` TEXT, `sendTime` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `group_red_id` INTEGER NOT NULL, `group_red_group` INTEGER NOT NULL, `group_red_uid` INTEGER NOT NULL, `group_red_sum` TEXT, `group_red_min` TEXT, `group_red_cou` TEXT, `group_red_recou` TEXT, `group_red_mine` INTEGER NOT NULL, `group_red_quit` TEXT, `group_red_quit_times` TEXT, `group_red_is_quit` INTEGER NOT NULL, `group_red_times` TEXT, `group_red_type` INTEGER NOT NULL, `itemType` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,28 +15,88 @@
             "notNull": true
           },
           {
-            "fieldPath": "redPacketId",
-            "columnName": "redPacketId",
+            "fieldPath": "group_red_id",
+            "columnName": "group_red_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "sendUserFace",
-            "columnName": "sendUserFace",
+            "fieldPath": "group_red_group",
+            "columnName": "group_red_group",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group_red_uid",
+            "columnName": "group_red_uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group_red_sum",
+            "columnName": "group_red_sum",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "sendUserNickName",
-            "columnName": "sendUserNickName",
+            "fieldPath": "group_red_min",
+            "columnName": "group_red_min",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "sendTime",
-            "columnName": "sendTime",
+            "fieldPath": "group_red_cou",
+            "columnName": "group_red_cou",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "group_red_recou",
+            "columnName": "group_red_recou",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "group_red_mine",
+            "columnName": "group_red_mine",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group_red_quit",
+            "columnName": "group_red_quit",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "group_red_quit_times",
+            "columnName": "group_red_quit_times",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "group_red_is_quit",
+            "columnName": "group_red_is_quit",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group_red_times",
+            "columnName": "group_red_times",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "group_red_type",
+            "columnName": "group_red_type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemType",
+            "columnName": "itemType",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -47,12 +107,12 @@
         },
         "indices": [
           {
-            "name": "index_red_packet_redPacketId",
+            "name": "index_red_packet_group_red_id",
             "unique": true,
             "columnNames": [
-              "redPacketId"
+              "group_red_id"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_red_packet_redPacketId` ON `${TABLE_NAME}` (`redPacketId`)"
+            "createSql": "CREATE UNIQUE INDEX `index_red_packet_group_red_id` ON `${TABLE_NAME}` (`group_red_id`)"
           }
         ],
         "foreignKeys": []
@@ -60,7 +120,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6278449642c0f36275210ce1bf943b2e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6ba6344ca34825375c07981fde2c5ab3\")"
     ]
   }
 }

@@ -88,6 +88,12 @@ class RequestParamsHelper {
             return params
         }
 
+        fun getIMgroupParam(userAs: String, uid: String) = getBaseParams()
+                .addParam(ApiParams.MOD_NAME, LOGIN_MODEL)
+                .addParam(ApiParams.ACT_NAME, "logingroup")
+                .addParam("user_as", userAs)
+                .addParam("uid", uid)
+
 
         /**              login model  end           **/
 
@@ -183,13 +189,17 @@ class RequestParamsHelper {
         /**             log model start    **/
 
 
-
-
         /**             group model start    **/
 
         val GROUP_MODEL = "group"
 
-        fun getGroupListParam(page: Int) = getWithPageParams(page).addParam(ApiParams.MOD_NAME,GROUP_MODEL).addParam(ApiParams.ACT_NAME,"group")
+        fun getGroupListParam(page: Int) = getWithPageParams(page).addParam(ApiParams.MOD_NAME, GROUP_MODEL).addParam(ApiParams.ACT_NAME, "group")
+
+
+        fun getGroupInfoParam(groupId: String) = getWithIdParams().addParam(ApiParams.MOD_NAME, GROUP_MODEL).addParam(ApiParams.ACT_NAME, "groupInfo").addParam("group_id", groupId)
+
+        fun getSendRedPacketParam(groupId:String,money: String, mine: String) = getWithIdParams(GROUP_MODEL, "groupqueue").addParam("group_id",groupId).addParam("money", money).addParam("mine", mine)
+
 
         /**             group model end    **/
 

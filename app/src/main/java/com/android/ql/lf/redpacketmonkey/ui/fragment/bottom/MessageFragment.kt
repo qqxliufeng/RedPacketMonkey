@@ -21,19 +21,6 @@ class MessageFragment : BaseNetWorkingFragment() {
     override fun getLayoutId() = R.layout.fragment_message_layout
 
     override fun initView(view: View?) {
-//        val redPacketEntity = RedPacketEntity()
-//        redPacketEntity.sendTime = "2018-8-6"
-//        redPacketEntity.redPacketId = 1
-//        redPacketEntity.sendUserFace = "face"
-//        redPacketEntity.sendUserNickName = "nickname"
-//        MyApplication.getInstance().redPacketDao.insertRedPacket(redPacketEntity)
-
-        MyApplication.getInstance().redPacketDao.queryAll().forEach {
-            Log.e("TAG",it.sendUserNickName)
-            Log.e("TAG",it.sendUserFace)
-        }
-
-
         (mTlMainMessage.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         val setting = mWbMessageContent.settings
         setting.javaScriptEnabled = true
