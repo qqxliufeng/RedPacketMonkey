@@ -51,6 +51,15 @@ public class RedPacketEntity implements MultiItemEntity {
     //红包类型
     public int group_red_type;
 
+    //IM群ID
+    public long group_red_group_gid;
+
+    //发送人的昵称
+    public String group_red_name;
+
+    //发送人的头像
+    public String group_red_pic;
+
 
     public static final int SEND_RED_PACKET = 0;
     public static final int FROM_RED_PACKET = 1;
@@ -67,24 +76,4 @@ public class RedPacketEntity implements MultiItemEntity {
         return itemType;
     }
 
-    @Override
-    public String toString() {
-        return "RedPacketEntity{" +
-                "id=" + id +
-                ", group_red_id=" + group_red_id +
-                ", group_red_group=" + group_red_group +
-                ", group_red_uid=" + group_red_uid +
-                ", group_red_sum='" + group_red_sum + '\'' +
-                ", group_red_min='" + group_red_min + '\'' +
-                ", group_red_cou='" + group_red_cou + '\'' +
-                ", group_red_recou='" + group_red_recou + '\'' +
-                ", group_red_mine=" + group_red_mine +
-                ", group_red_quit='" + group_red_quit + '\'' +
-                ", group_red_quit_times='" + group_red_quit_times + '\'' +
-                ", group_red_is_quit=" + group_red_is_quit +
-                ", group_red_times='" + group_red_times + '\'' +
-                ", group_red_type=" + group_red_type +
-                ", itemType=" + itemType +
-                '}';
-    }
 }

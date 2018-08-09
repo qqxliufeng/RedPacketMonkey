@@ -3,6 +3,8 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.game
 import android.view.View
 import android.widget.LinearLayout
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.GroupBean
+import com.android.ql.lf.redpacketmonkey.present.RedPacketManager
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.alert
@@ -13,6 +15,11 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
 
     override fun getLayoutId() = R.layout.fragment_group_setting_layout
 
+
+    private val groupInfo by lazy {
+        arguments!!.getSerializable("groupInfo") as GroupBean
+    }
+
     override fun initView(view: View?) {
         (0 until 5).forEach {
             val childView = View.inflate(mContext, R.layout.adapter_group_member_item_layout, null) as LinearLayout
@@ -22,6 +29,7 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
             childView.layoutParams = param
             mLlGroupSettingMemberContainer.addView(childView)
         }
+        mTvGroupSettingGroupNum.text = groupInfo.group_number
         mTvGroupSettingMemberCount.setOnClickListener {
             FragmentContainerActivity.from(mContext).setClazz(GroupMemberListFragment::class.java).setTitle("成员列表").setNeedNetWorking(true).start()
         }
@@ -32,6 +40,7 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
         }
         mTvGroupSettingClearAllMessage.setOnClickListener {
             alert("提示", "确定要清空聊天记录吗？", "清空", "不清空", { _, _ ->
+                RedPacketManager.deleteRedPacketAll(groupInfo.group_id!!)
                 toast("清空成功")
             }, null)
         }

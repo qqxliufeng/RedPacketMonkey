@@ -1,8 +1,8 @@
 package com.android.ql.lf.redpacketmonkey.present;
 
 
-import com.android.ql.lf.carapp.action.IViewUserAction;
 import com.android.ql.lf.redpacketmonkey.data.UserInfo;
+import com.android.ql.lf.redpacketmonkey.interfaces.IViewUserAction;
 import com.android.ql.lf.redpacketmonkey.interfaces.ViewUserAction;
 import com.android.ql.lf.redpacketmonkey.utils.RxBus;
 

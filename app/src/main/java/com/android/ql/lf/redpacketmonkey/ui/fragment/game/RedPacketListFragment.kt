@@ -1,5 +1,6 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.game
 
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -14,8 +15,11 @@ import cn.jpush.im.android.api.JMessageClient
 import cn.jpush.im.android.api.event.MessageEvent
 import cn.jpush.im.android.api.event.OfflineMessageEvent
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
+import com.android.ql.lf.redpacketmonkey.present.RedPacketManager
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.adapter.RedPacketAdapter
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
@@ -55,14 +59,35 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
     override fun createAdapter(): BaseQuickAdapter<RedPacketEntity, BaseViewHolder> = RedPacketAdapter(mArrayList)
 
     override fun onRefresh() {
-        super.onRefresh()
-        mRecyclerView.scrollToPosition(mArrayList.size - 1)
+        //加载数据
+        mArrayList.clear()
+        MyApplication.getRedPacketDao().queryAll(groupInfo.group_id!!).let {
+            mArrayList.addAll(it)
+            mBaseAdapter.notifyDataSetChanged()
+            mRecyclerView.scrollToPosition(mArrayList.size - 1)
+            onRequestEnd(-1)
+        }
     }
 
     override fun getLayoutId() = R.layout.fragment_red_packet_list_layout
 
     override fun initView(view: View?) {
         super.initView(view)
+        //监听插入的一条记录
+        MyApplication.getRedPacketDao().queryLastOne(groupInfo.group_id!!).observe(this, Observer<RedPacketEntity> {
+            if (it != null) {
+                mArrayList.add(it)
+                mBaseAdapter.notifyItemInserted(mArrayList.indexOf(it))
+                mRecyclerView.scrollToPosition(mArrayList.size - 1)
+            }
+        })
+
+//        //监听删除所有记录
+//        MyApplication.getRedPacketDao().deleteAll(groupInfo.group_id!!).observe(this, Observer {
+//            mArrayList.clear()
+//            mBaseAdapter.notifyDataSetChanged()
+//        })
+
         JMessageClient.registerEventReceiver(this)
         setLoadEnable(false)
         mIvRedPacketAdd.setOnClickListener {
@@ -81,7 +106,9 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             myAccountDialogFragment.myShow(childFragmentManager, "my_account_dialog", "0.0")
             mLlRedPacketPayTypeContainer.visibility = View.GONE
         }
+
     }
+
 
     override fun getItemDecoration(): RecyclerView.ItemDecoration {
         val decoration = super.getItemDecoration() as DividerItemDecoration
@@ -94,33 +121,38 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        FragmentContainerActivity.from(mContext).setClazz(GroupSettingFragment::class.java).setTitle("群设置").setNeedNetWorking(true).start()
+        FragmentContainerActivity.from(mContext).setClazz(GroupSettingFragment::class.java).setExtraBundle(bundleOf(Pair("groupInfo",groupInfo))).setTitle("群设置").setNeedNetWorking(true).start()
         return super.onOptionsItemSelected(item)
     }
 
     override fun onMyItemChildClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         super.onMyItemChildClick(adapter, view, position)
-        if (view!!.id == R.id.mRLRedPacketItemContainer) {
-            if (position == 0) {
-                openRedPacketDialogFragment.show(childFragmentManager, "open_red_packet_dialog")
-            } else if (position == 1) {
-                noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog") {
-                    FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("红包详情").setClazz(RedPacketInfoFragment::class.java).start()
-                }
-            } else {
-                noMoneyDialogFragment.show(childFragmentManager, "no_money_dialog")
+        when (view!!.id) {
+            R.id.mRLRedPacketFromItemContainer -> {
+                openRedPacket()
+            }
+            R.id.mRLRedPacketSendItemContainer -> {
+            }
+            else -> {
             }
         }
     }
 
-
-    fun onEvent(event: OfflineMessageEvent) {
-        Log.e("TAG", "OfflineMessageEvent --->  ${event.offlineMessageList}")
+    fun openRedPacket() {
+        openRedPacketDialogFragment.show(childFragmentManager, "open_red_packet_dialog")
     }
 
 
+    fun onEvent(event: OfflineMessageEvent) {
+    }
+
+
+    /**
+     * 接收消息
+     */
     fun onEvent(event: MessageEvent) {
-        Log.e("TAG", "MessageEvent --->  ${event.message.content.toJson()}")
+        val receiverJson = event.message.content.toJsonElement().asJsonObject.get("text").asString
+        RedPacketManager.insertRedPacket(receiverJson)
     }
 
     override fun onDestroyView() {

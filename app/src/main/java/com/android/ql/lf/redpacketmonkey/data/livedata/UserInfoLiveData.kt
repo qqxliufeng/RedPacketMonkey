@@ -11,14 +11,4 @@ object UserInfoLiveData : LiveData<UserInfo>() {
         value = UserInfo.getInstance()
     }
 
-    override fun onActive() {
-        super.onActive()
-        Log.e("TAG","onActive")
-    }
-
-    override fun onInactive() {
-        super.onInactive()
-        Log.e("TAG","onInactive")
-    }
-
 }

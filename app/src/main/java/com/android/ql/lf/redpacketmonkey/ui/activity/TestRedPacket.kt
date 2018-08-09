@@ -43,7 +43,7 @@ class TestRedPacket : BaseActivity() {
 //            redPacketDao.deleteRedPacket(redPacketEntity)
         }
         mBtDeleteAll.setOnClickListener {
-            redPacketDao.deleteAll()
+//            redPacketDao.deleteAll()
         }
         mBtQueryOne.setOnClickListener {
             redPacketDao.queryById(2).apply {
@@ -51,9 +51,9 @@ class TestRedPacket : BaseActivity() {
             }
         }
         mBtQueryAll.setOnClickListener {
-            redPacketDao.queryAll().apply {
-                mTvResult.text = Gson().toJson(this)
-            }
+//            redPacketDao.queryAll().apply {
+//                mTvResult.text = Gson().toJson(this)
+//            }
         }
     }
 }

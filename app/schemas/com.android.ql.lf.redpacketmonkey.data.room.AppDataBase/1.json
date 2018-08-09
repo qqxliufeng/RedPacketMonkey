@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6ba6344ca34825375c07981fde2c5ab3",
+    "identityHash": "07b6512ebeeccbdc002dff941d67eccb",
     "entities": [
       {
         "tableName": "red_packet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `group_red_id` INTEGER NOT NULL, `group_red_group` INTEGER NOT NULL, `group_red_uid` INTEGER NOT NULL, `group_red_sum` TEXT, `group_red_min` TEXT, `group_red_cou` TEXT, `group_red_recou` TEXT, `group_red_mine` INTEGER NOT NULL, `group_red_quit` TEXT, `group_red_quit_times` TEXT, `group_red_is_quit` INTEGER NOT NULL, `group_red_times` TEXT, `group_red_type` INTEGER NOT NULL, `itemType` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `group_red_id` INTEGER NOT NULL, `group_red_group` INTEGER NOT NULL, `group_red_uid` INTEGER NOT NULL, `group_red_sum` TEXT, `group_red_min` TEXT, `group_red_cou` TEXT, `group_red_recou` TEXT, `group_red_mine` INTEGER NOT NULL, `group_red_quit` TEXT, `group_red_quit_times` TEXT, `group_red_is_quit` INTEGER NOT NULL, `group_red_times` TEXT, `group_red_type` INTEGER NOT NULL, `group_red_group_gid` INTEGER NOT NULL, `group_red_name` TEXT, `group_red_pic` TEXT, `itemType` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -93,6 +93,24 @@
             "notNull": true
           },
           {
+            "fieldPath": "group_red_group_gid",
+            "columnName": "group_red_group_gid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group_red_name",
+            "columnName": "group_red_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "group_red_pic",
+            "columnName": "group_red_pic",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "itemType",
             "columnName": "itemType",
             "affinity": "INTEGER",
@@ -120,7 +138,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6ba6344ca34825375c07981fde2c5ab3\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"07b6512ebeeccbdc002dff941d67eccb\")"
     ]
   }
 }

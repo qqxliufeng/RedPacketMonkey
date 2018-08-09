@@ -1,7 +1,6 @@
 package com.android.ql.lf.redpacketmonkey.interfaces;
 
 
-import com.android.ql.lf.carapp.action.IViewUserAction;
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
 import com.android.ql.lf.redpacketmonkey.data.UserInfo;
 import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData;

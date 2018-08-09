@@ -1,9 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.game
 
-import android.util.Log
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
-import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
@@ -12,7 +10,6 @@ import com.android.ql.lf.redpacketmonkey.utils.getTextString
 import com.android.ql.lf.redpacketmonkey.utils.isEmpty
 import com.android.ql.lf.redpacketmonkey.utils.isMoney
 import com.google.gson.Gson
-import com.google.gson.stream.JsonReader
 import kotlinx.android.synthetic.main.fragment_send_red_packet_layout.*
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
@@ -29,6 +26,10 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
 
     private var minCount: Double? = null
     private var maxCount: Double? = null
+
+    private val noMoneyDialogFragment by lazy {
+        NoMoneyDialogFragment()
+    }
 
 
     override fun getLayoutId() = R.layout.fragment_send_red_packet_layout
@@ -54,15 +55,25 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                 toast("请输入红包雷数")
                 return@setOnClickListener
             }
-            mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!, mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
+            mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!.toString(), mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
         }
-        mPresent.getDataByPost(0x0, RequestParamsHelper.getGroupInfoParam(groupInfo.group_id!!))
+        mPresent.getDataByPost(0x0, RequestParamsHelper.getGroupInfoParam(groupInfo.group_id!!.toString()))
     }
 
     override fun onRequestStart(requestID: Int) {
         when (requestID) {
             0x0 -> getFastProgressDialog("正在加载信息……")
             0x1 -> getFastProgressDialog("正在发红包……")
+        }
+    }
+
+    override fun <T : Any?> onRequestSuccess(requestID: Int, result: T) {
+        super.onRequestSuccess(requestID, result)
+        if (requestID == 0x1) {
+            val json = JSONObject(result.toString())
+            if (json.optInt(RESULT_CODE) == 300 && json.optString(MSG_FLAG) == "您得余额不足!") {
+                noMoneyDialogFragment.show(fragmentManager, "no_money_dialog")
+            }
         }
     }
 
@@ -83,7 +94,6 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                 if (checkedObjType(obj)) {
                     val redPacketEntity = Gson().fromJson((obj as JSONObject).toString(), RedPacketEntity::class.java)
                     redPacketEntity.itemType = RedPacketEntity.SEND_RED_PACKET
-//                    MyApplication.getRedPacketDao().insertRedPacket(redPacketEntity)
                     finish()
                 } else {
                     toast("红包发送失败")

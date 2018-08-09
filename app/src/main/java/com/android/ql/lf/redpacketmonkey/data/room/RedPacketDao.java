@@ -1,5 +1,6 @@
 package com.android.ql.lf.redpacketmonkey.data.room;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Dao
 public interface RedPacketDao {
-
 
 
     /**
@@ -42,12 +42,13 @@ public interface RedPacketDao {
     /**
      * 删除全部
      */
-    @Query("delete from red_packet;")
-    public void deleteAll();
+    @Query("delete from red_packet where group_red_id = :gid;")
+    public void deleteAll(long gid);
 
 
     /**
      * 根据id查询
+     *
      * @param redPacketId
      * @return
      */
@@ -56,10 +57,14 @@ public interface RedPacketDao {
 
     /**
      * 查询所有的
+     *
      * @return
      */
-    @Query("select * from red_packet;")
-    public List<RedPacketEntity> queryAll();
+    @Query("select * from red_packet where group_red_group = :gid;")
+    public List<RedPacketEntity> queryAll(long gid);
 
+
+    @Query("select * from red_packet where group_red_group =:gid order by id desc limit 1;")
+    public LiveData<RedPacketEntity> queryLastOne(long gid);
 
 }

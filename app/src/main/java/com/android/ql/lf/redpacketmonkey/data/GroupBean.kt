@@ -3,7 +3,7 @@ package com.android.ql.lf.redpacketmonkey.data
 import java.io.Serializable
 
 class GroupBean : Serializable {
-    var group_id: String? = null
+    var group_id: Long? = null
     var group_name: String? = null
     var group_nickname: String? = null
     var group_desc: String? = null
