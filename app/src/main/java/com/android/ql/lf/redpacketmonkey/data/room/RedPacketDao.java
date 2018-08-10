@@ -42,7 +42,7 @@ public interface RedPacketDao {
     /**
      * 删除全部
      */
-    @Query("delete from red_packet where group_red_id = :gid;")
+    @Query("delete from red_packet where group_red_group = :gid;")
     public void deleteAll(long gid);
 
 
@@ -53,7 +53,7 @@ public interface RedPacketDao {
      * @return
      */
     @Query("select * from red_packet where group_red_id = :redPacketId limit 1;")
-    public RedPacketEntity queryById(long redPacketId);
+    public LiveData<RedPacketEntity> queryById(long redPacketId);
 
     /**
      * 查询所有的

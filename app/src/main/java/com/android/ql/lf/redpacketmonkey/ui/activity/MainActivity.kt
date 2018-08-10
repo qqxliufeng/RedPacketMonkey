@@ -1,25 +1,28 @@
 package com.android.ql.lf.redpacketmonkey.ui.activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.os.SystemClock
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.util.Log
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
-import com.android.ql.lf.redpacketmonkey.receiver.RedPacketBroadCastReceiver
+import com.android.ql.lf.redpacketmonkey.services.RedPacketServices
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.GameFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MessageFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.LoginFragment
-import com.android.ql.lf.redpacketmonkey.utils.Constants
-import com.android.ql.lf.redpacketmonkey.utils.PollingUtils
 import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
 
+    private var exsit:Long = 0L
 
     private val userLogoutSubscription by lazy {
         RxBus.getDefault().toObservable(UserInfo::class.java).subscribe {
@@ -57,18 +60,28 @@ class MainActivity : BaseActivity() {
         }
         mVpMainContainer.offscreenPageLimit = 3
         mVpMainContainer.adapter = MainAdapter(supportFragmentManager)
-
-        PollingUtils.startPollingService(MyApplication.application, 5, RedPacketBroadCastReceiver::class.java, Constants.RED_PACKET_ACTION)
+        MyApplication.getInstance().handler.postAtTime({
+            Log.e("TAG","postAtTime")
+            startService(Intent(this@MainActivity, RedPacketServices::class.java))
+        }, (1000 * 10)+ SystemClock.uptimeMillis())
     }
 
     override fun getStatusBarColor() = Color.TRANSPARENT
-
 
     override fun onDestroy() {
         if (!userLogoutSubscription.isUnsubscribed) {
             userLogoutSubscription.unsubscribe()
         }
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - exsit > 2000){
+            exsit = System.currentTimeMillis()
+            toast("再按一次退出")
+        }else{
+            moveTaskToBack(false)
+        }
     }
 
     class MainAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {

@@ -59,13 +59,12 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
     override fun createAdapter(): BaseQuickAdapter<RedPacketEntity, BaseViewHolder> = RedPacketAdapter(mArrayList)
 
     override fun onRefresh() {
-        //加载数据
-        mArrayList.clear()
+        //第一次取得所有记录
         MyApplication.getRedPacketDao().queryAll(groupInfo.group_id!!).let {
-            mArrayList.addAll(it)
+            mArrayList.clear()
+            mBaseAdapter.addData(it)
             mBaseAdapter.notifyDataSetChanged()
             mRecyclerView.scrollToPosition(mArrayList.size - 1)
-            onRequestEnd(-1)
         }
     }
 
@@ -73,22 +72,31 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        //监听插入的一条记录
+        onRequestEnd(-1)
+        setRefreshEnable(false)
+
+        //监听插入、删除所有的记录
         MyApplication.getRedPacketDao().queryLastOne(groupInfo.group_id!!).observe(this, Observer<RedPacketEntity> {
             if (it != null) {
-                mArrayList.add(it)
-                mBaseAdapter.notifyItemInserted(mArrayList.indexOf(it))
+                mBaseAdapter.addData(it)
                 mRecyclerView.scrollToPosition(mArrayList.size - 1)
+            } else {
+                mArrayList.clear()
+                mBaseAdapter.notifyDataSetChanged()
             }
         })
-
-//        //监听删除所有记录
-//        MyApplication.getRedPacketDao().deleteAll(groupInfo.group_id!!).observe(this, Observer {
-//            mArrayList.clear()
-//            mBaseAdapter.notifyDataSetChanged()
-//        })
-
-        JMessageClient.registerEventReceiver(this)
+//        mBaseAdapter.isUpFetchEnable = true
+//        mBaseAdapter.setStartUpFetchPosition(1)
+//        mBaseAdapter.setUpFetchListener {
+//            if (mBaseAdapter.isUpFetching && tempList!=null){
+//                return@setUpFetchListener
+//            }
+//            mBaseAdapter.isUpFetching = true
+//            mRecyclerView.postDelayed({
+//                mBaseAdapter.addData(0,tempList!!)
+//                mBaseAdapter.isUpFetching = false
+//            }, 1000)
+//        }
         setLoadEnable(false)
         mIvRedPacketAdd.setOnClickListener {
             if (mLlRedPacketPayTypeContainer.visibility == View.GONE) {
@@ -109,7 +117,6 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
     }
 
-
     override fun getItemDecoration(): RecyclerView.ItemDecoration {
         val decoration = super.getItemDecoration() as DividerItemDecoration
         decoration.setDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -121,7 +128,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        FragmentContainerActivity.from(mContext).setClazz(GroupSettingFragment::class.java).setExtraBundle(bundleOf(Pair("groupInfo",groupInfo))).setTitle("群设置").setNeedNetWorking(true).start()
+        FragmentContainerActivity.from(mContext).setClazz(GroupSettingFragment::class.java).setExtraBundle(bundleOf(Pair("groupInfo", groupInfo))).setTitle("群设置").setNeedNetWorking(true).start()
         return super.onOptionsItemSelected(item)
     }
 
@@ -141,24 +148,5 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
     fun openRedPacket() {
         openRedPacketDialogFragment.show(childFragmentManager, "open_red_packet_dialog")
     }
-
-
-    fun onEvent(event: OfflineMessageEvent) {
-    }
-
-
-    /**
-     * 接收消息
-     */
-    fun onEvent(event: MessageEvent) {
-        val receiverJson = event.message.content.toJsonElement().asJsonObject.get("text").asString
-        RedPacketManager.insertRedPacket(receiverJson)
-    }
-
-    override fun onDestroyView() {
-        JMessageClient.unRegisterEventReceiver(this)
-        super.onDestroyView()
-    }
-
 
 }

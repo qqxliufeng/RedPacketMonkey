@@ -4,6 +4,8 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
+import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
@@ -13,9 +15,12 @@ import com.android.ql.lf.redpacketmonkey.component.AppModule;
 import com.android.ql.lf.redpacketmonkey.component.DaggerAppComponent;
 import com.android.ql.lf.redpacketmonkey.data.room.AppDataBase;
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketDao;
+import com.android.ql.lf.redpacketmonkey.present.RedPacketManager;
+import com.android.ql.lf.redpacketmonkey.services.RedPacketServices;
 
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.event.MessageEvent;
 
 public class MyApplication extends MultiDexApplication {
 
@@ -24,6 +29,8 @@ public class MyApplication extends MultiDexApplication {
     public static MyApplication application;
 
     public RedPacketDao redPacketDao;
+
+    private Handler handler = new Handler();
 
 
     @Override
@@ -34,7 +41,18 @@ public class MyApplication extends MultiDexApplication {
         JMessageClient.setDebugMode(true);
         JMessageClient.init(this);
         JMessageClient.setNotificationFlag(JMessageClient.FLAG_NOTIFY_DISABLE);
+        JMessageClient.registerEventReceiver(this);
         setupDataBase();
+        startService(new Intent(MyApplication.this,RedPacketServices.class));
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void onEvent(MessageEvent event) {
+        String receiverJson = event.getMessage().getContent().toJsonElement().getAsJsonObject().get("text").getAsString();
+        RedPacketManager.insertRedPacket(receiverJson);
     }
 
     private void setupDataBase() {
@@ -61,7 +79,6 @@ public class MyApplication extends MultiDexApplication {
         }
     };
 
-
     public static MyApplication getInstance() {
         return application;
     }
@@ -73,4 +90,9 @@ public class MyApplication extends MultiDexApplication {
     public static RedPacketDao getRedPacketDao() {
         return MyApplication.getInstance().redPacketDao;
     }
+
+    public void unRegisterEvent() {
+        JMessageClient.unRegisterEventReceiver(this);
+    }
+
 }
