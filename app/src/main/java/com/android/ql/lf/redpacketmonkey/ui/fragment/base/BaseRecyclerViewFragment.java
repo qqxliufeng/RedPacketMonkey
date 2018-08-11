@@ -44,6 +44,7 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseNetWorkingFragment
 
     protected int currentPage = 0;
 
+    protected boolean isNeedLoad = true;
     protected boolean isFirstRefresh = true;
     private boolean isTest = false;
 
@@ -106,7 +107,9 @@ public abstract class BaseRecyclerViewFragment<T> extends BaseNetWorkingFragment
         }
         mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.colorAccent));
         mBaseAdapter.openLoadAnimation();
-        mBaseAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        if (isNeedLoad) {
+            mBaseAdapter.setOnLoadMoreListener(this, mRecyclerView);
+        }
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView.setLayoutManager(getLayoutManager());
         mRecyclerView.setAdapter(mBaseAdapter);

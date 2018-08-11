@@ -49,11 +49,11 @@ class MineFragment : BaseNetWorkingFragment() {
             GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
             mTvMineNickName.text = UserInfo.getInstance().user_nickname
             mTvMinePhone.text = "TEL：${UserInfo.getInstance().user_phone.hiddenPhone()}"
-            mTvMineMoneyCount.text = "￥ ${UserInfo.getInstance().money_sum_cou.toFloat()}"
         }
         UserInfoLiveData.observe(this, Observer<UserInfo> {
             mTvMineNickName.text = it?.user_nickname
             GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
+            mTvMineMoneyCount.text = "￥ ${UserInfo.getInstance().money_sum_cou.toFloat()}"
         })
         (mTlMainMine.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         mTlMainMine.post {

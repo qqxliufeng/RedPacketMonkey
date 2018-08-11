@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:minWidth="300dp"
     android:orientation="vertical">
 
@@ -22,17 +23,19 @@
 
 
         <ImageView
+            android:id="@+id/mIvNoRedPacketFace"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:src="@drawable/test_face" />
 
         <TextView
+            android:id="@+id/mTvNoRedPacketNickName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
             android:gravity="center"
-            android:text="红尘大美女"
+            tools:text="红尘大美女"
             android:textColor="#e8bd8d"
             android:textSize="@dimen/sp_14" />
 

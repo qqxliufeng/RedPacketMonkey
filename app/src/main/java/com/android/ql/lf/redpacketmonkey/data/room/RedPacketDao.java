@@ -67,4 +67,8 @@ public interface RedPacketDao {
     @Query("select * from red_packet where group_red_group =:gid order by id desc limit 1;")
     public LiveData<RedPacketEntity> queryLastOne(long gid);
 
+
+    @Query("select * from red_packet where group_red_group =:gid order by id desc limit :start , :end")
+    public List<RedPacketEntity> queryByLimit(long gid, int start, int end);
+
 }

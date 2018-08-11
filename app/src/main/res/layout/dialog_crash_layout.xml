@@ -81,6 +81,7 @@
             android:textSize="@dimen/sp_14" />
 
         <TextView
+            android:id="@+id/mTvCrashDialogShouXuFei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="（当前手续费为1%）"
@@ -105,10 +106,12 @@
             android:textStyle="bold" />
 
         <EditText
+            android:id="@+id/mEtCrashDialogMoney"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="输入提现金额"
             android:paddingLeft="@dimen/dp_10"
+            android:inputType="numberDecimal"
             android:textColor="@color/deepTextColor"
             android:textSize="@dimen/sp_14" />
 
@@ -121,13 +124,15 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/mTvCrashDialogAllMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="可能余额10.00元"
+            android:text="可用余额10.00元"
             android:textColor="@color/normalTextColor"
             android:textSize="@dimen/sp_14" />
 
         <TextView
+            android:id="@+id/mTvCrashDialogAllCrash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -136,6 +141,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/mBtCrashDialogSubmit"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="20dp"

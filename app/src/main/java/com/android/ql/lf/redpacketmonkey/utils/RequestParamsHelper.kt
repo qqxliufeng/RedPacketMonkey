@@ -195,13 +195,26 @@ class RequestParamsHelper {
 
         fun getGroupListParam(page: Int) = getWithPageParams(page).addParam(ApiParams.MOD_NAME, GROUP_MODEL).addParam(ApiParams.ACT_NAME, "group")
 
-
         fun getGroupInfoParam(groupId: String) = getWithIdParams().addParam(ApiParams.MOD_NAME, GROUP_MODEL).addParam(ApiParams.ACT_NAME, "groupInfo").addParam("group_id", groupId)
 
-        fun getSendRedPacketParam(groupId:String,money: String, mine: String) = getWithIdParams(GROUP_MODEL, "groupqueue").addParam("group_id",groupId).addParam("money", money).addParam("mine", mine)
+        fun getSendRedPacketParam(groupId: String, money: String, mine: String) = getWithIdParams(GROUP_MODEL, "groupqueue").addParam("group_id", groupId).addParam("money", money).addParam("mine", mine)
 
 
         /**             group model end    **/
+
+
+        /**             red packet model start    **/
+
+
+        val RED_PACKET_MODEL = "red"
+
+        fun getRedPacketClickParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "clicks").addParam("red_id", red_id)
+
+        fun getRedPacketListsParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "lists").addParam("red_id", red_id)
+
+        fun getRedBiddingParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL,"bidding").addParam("red_id",red_id)
+
+        /**             red packet model end    **/
 
     }
 }

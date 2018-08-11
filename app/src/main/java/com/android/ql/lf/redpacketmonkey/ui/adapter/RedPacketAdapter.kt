@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.ui.adapter
 
 import android.text.TextUtils
+import android.widget.RelativeLayout
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
@@ -22,6 +23,12 @@ class RedPacketAdapter(list: ArrayList<RedPacketEntity>) : BaseMultiItemQuickAda
                 GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, helper!!.getView(R.id.mIvRedPacketSendItemFace))
                 helper.setText(R.id.mTvRedPacketSendItemName, UserInfo.getInstance().user_nickname)
                 helper.setText(R.id.mTvRedPacketSendItemTitle, "${item.group_red_sum} - ${item.group_red_mine}")
+                val rl_container = helper.getView<RelativeLayout>(R.id.mRLRedPacketSendItemContainer)
+                if (item.group_red_cou == "0"){
+                    rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_4)
+                }else{
+                    rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_3)
+                }
                 helper.addOnClickListener(R.id.mRLRedPacketSendItemContainer)
             }
             RedPacketEntity.FROM_RED_PACKET -> {
@@ -31,7 +38,14 @@ class RedPacketAdapter(list: ArrayList<RedPacketEntity>) : BaseMultiItemQuickAda
                 } else {
                     item.group_red_name
                 })
-                helper.setText(R.id.mTvRedPacketFromItemTitle, "${item.group_red_cou} - ${item.group_red_mine}")
+                helper.setText(R.id.mTvRedPacketFromItemTitle, "${item.group_red_sum} - ${item.group_red_mine}")
+                val rl_container = helper.getView<RelativeLayout>(R.id.mRLRedPacketFromItemContainer)
+                if (item.group_red_cou == "0"){
+                    rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_2)
+                }else{
+                    rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_1)
+                }
+                helper.addOnClickListener(R.id.mRLRedPacketFromItemContainer)
             }
         }
     }

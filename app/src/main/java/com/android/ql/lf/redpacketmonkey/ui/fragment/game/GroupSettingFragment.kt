@@ -29,7 +29,7 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
             childView.layoutParams = param
             mLlGroupSettingMemberContainer.addView(childView)
         }
-        mTvGroupSettingGroupNum.text = groupInfo.group_number
+        mTvGroupSettingGroupNum.text = groupInfo.group_number.toString()
         mTvGroupSettingMemberCount.setOnClickListener {
             FragmentContainerActivity.from(mContext).setClazz(GroupMemberListFragment::class.java).setTitle("成员列表").setNeedNetWorking(true).start()
         }

@@ -72,6 +72,6 @@ class GameFragment :BaseRecyclerViewFragment<GroupBean>(){
 
     override fun onMyItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         super.onMyItemClick(adapter, view, position)
-        FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("发红包").setExtraBundle(bundleOf(Pair(SendRedPacketFragment.GROUP_INFO_FLAG,mArrayList[position]))).setClazz(RedPacketListFragment::class.java).start()
+        FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle(mArrayList[position].group_name).setExtraBundle(bundleOf(Pair(SendRedPacketFragment.GROUP_INFO_FLAG,mArrayList[position]))).setClazz(RedPacketListFragment::class.java).start()
     }
 }
