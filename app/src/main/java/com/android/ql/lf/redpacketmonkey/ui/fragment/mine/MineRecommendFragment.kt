@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_mine_recommend_layout.*
 
-class MineRecommendFragment :BaseRecyclerViewFragment<String>(){
+class MineRecommendFragment : BaseRecyclerViewFragment<String>() {
 
 
     override fun onAttach(context: Context?) {
@@ -19,7 +19,7 @@ class MineRecommendFragment :BaseRecyclerViewFragment<String>(){
         setHasOptionsMenu(true)
     }
 
-    override fun createAdapter() = object : BaseQuickAdapter<String,BaseViewHolder>(R.layout.fragment_packet_info_list_item_layout,mArrayList) {
+    override fun createAdapter() = object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.fragment_packet_info_list_item_layout, mArrayList) {
         override fun convert(helper: BaseViewHolder?, item: String?) {
         }
     }
@@ -36,25 +36,25 @@ class MineRecommendFragment :BaseRecyclerViewFragment<String>(){
         (mContext as FragmentContainerActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         mTlMineRecommend.setNavigationOnClickListener { finish() }
         mAlMineRecommend.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            mRlMineRecommendShouYiContainer.alpha = 1 - Math.abs(verticalOffset).toFloat()/appBarLayout.totalScrollRange
+            mRlMineRecommendShouYiContainer.alpha = 1 - Math.abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
         }
     }
 
     override fun onRefresh() {
         super.onRefresh()
-        testAdd("")
     }
 
+    override fun getEmptyMessage() = "暂无收益记录"
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.recommend,menu)
+        inflater?.inflate(R.menu.recommend, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item!!.itemId == R.id.mMenuRecommend){
+        if (item!!.itemId == R.id.mMenuRecommend) {
             FragmentContainerActivity.from(mContext).setTitle("我的下线").setClazz(MineLowerLevelFragment::class.java).start()
         }
         return super.onOptionsItemSelected(item)
     }
-
 
 }

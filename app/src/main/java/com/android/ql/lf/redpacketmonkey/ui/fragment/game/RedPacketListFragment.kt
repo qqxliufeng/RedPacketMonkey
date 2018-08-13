@@ -89,7 +89,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             when (RedPacketManager.current_mode) {
                 RedPacketManager.ActionMode.INSERT -> {
                     if (it != null) {
-                        if (mArrayList.isEmpty() || mArrayList[mArrayList.size - 1].id != it.id){ // 如果集合是空的 或者 集合中最后一条数据的id 不等于 it 的id 要插入
+                        if (mArrayList.isEmpty() || mArrayList[mArrayList.size - 1].id != it.id) { // 如果集合是空的 或者 集合中最后一条数据的id 不等于 it 的id 要插入
                             mBaseAdapter.addData(it)
                             mRecyclerView.scrollToPosition(mArrayList.size - 1)
                         }
@@ -117,9 +117,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             if (mBaseAdapter.isUpFetching) {
                 return@setUpFetchListener
             }
-            Log.e("TAG","currentPage before --->  $currentPage")
             currentPage++
-            Log.e("TAG","currentPage after --->  $currentPage")
             mBaseAdapter.isUpFetching = true
             val tempList = RedPacketManager.queryByLimit(groupInfo.group_id!!, currentPage, 10)
             if (tempList != null && !tempList.isEmpty()) {
@@ -221,7 +219,8 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                             FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(
                                     Pair("red_id", currentRedPacketEntity!!.group_red_id.toString()),
                                     Pair("pic", currentRedPacketEntity!!.group_red_pic),
-                                    Pair("nick_name", currentRedPacketEntity!!.group_red_name)
+                                    Pair("nick_name", currentRedPacketEntity!!.group_red_name),
+                                    Pair("money", currentRedPacketEntity!!.group_red_sum + "-" + currentRedPacketEntity!!.group_red_mine)
                             )).setTitle("红包详情").setNeedNetWorking(true).setClazz(RedPacketInfoFragment::class.java).start()
                         }
                     }
@@ -234,7 +233,8 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                         FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(
                                 Pair("red_id", currentRedPacketEntity!!.group_red_id.toString()),
                                 Pair("pic", currentRedPacketEntity!!.group_red_pic),
-                                Pair("nick_name", currentRedPacketEntity!!.group_red_name)
+                                Pair("nick_name", currentRedPacketEntity!!.group_red_name),
+                                Pair("money", currentRedPacketEntity!!.group_red_sum + "-" + currentRedPacketEntity!!.group_red_mine)
                         )).setTitle("红包详情").setNeedNetWorking(true).setClazz(RedPacketInfoFragment::class.java).start()
                     } else {
                         toast((checked.obj as JSONObject).optString(MSG_FLAG))

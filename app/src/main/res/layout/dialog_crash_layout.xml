@@ -24,22 +24,24 @@
         android:textSize="@dimen/sp_16" />
 
     <TextView
+        android:id="@+id/mTvCrashDialogSelectType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
         android:drawableRight="@drawable/icon_enter_2"
         android:paddingLeft="@dimen/dp_10"
         android:paddingTop="20dp"
         android:paddingRight="@dimen/dp_10"
         android:paddingBottom="20dp"
         android:text="银行卡"
-        android:clickable="true"
-        android:background="?android:selectableItemBackground"
         android:textColor="@color/deepTextColor"
         android:textSize="@dimen/sp_14" />
 
 
     <LinearLayout
+        android:id="@+id/mLlCrashDialogBankCardContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fafafa"
@@ -53,15 +55,16 @@
             android:textColor="@color/deepTextColor" />
 
         <TextView
+            android:id="@+id/mTvCrashDialogBankCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_10"
             android:drawableRight="@drawable/icon_enter_2"
             android:drawablePadding="@dimen/dp_10"
             android:gravity="center_vertical"
-            android:text="中国工商银行卡"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            android:text="暂无"
             android:textColor="@color/deepTextColor" />
 
     </LinearLayout>
@@ -110,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="输入提现金额"
-            android:paddingLeft="@dimen/dp_10"
             android:inputType="numberDecimal"
+            android:paddingLeft="@dimen/dp_10"
             android:textColor="@color/deepTextColor"
             android:textSize="@dimen/sp_14" />
 

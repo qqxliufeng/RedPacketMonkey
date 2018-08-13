@@ -199,6 +199,9 @@ class RequestParamsHelper {
 
         fun getSendRedPacketParam(groupId: String, money: String, mine: String) = getWithIdParams(GROUP_MODEL, "groupqueue").addParam("group_id", groupId).addParam("money", money).addParam("mine", mine)
 
+        fun getGroupSettingParam(groupId: String) = getWithIdParams(GROUP_MODEL, "groupUser").addParam("group_id", groupId)
+
+        fun getGroupUserList(groupId: String) = getWithIdParams(GROUP_MODEL, "groupUserList").addParam("group_id", groupId)
 
         /**             group model end    **/
 
@@ -212,7 +215,7 @@ class RequestParamsHelper {
 
         fun getRedPacketListsParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "lists").addParam("red_id", red_id)
 
-        fun getRedBiddingParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL,"bidding").addParam("red_id",red_id)
+        fun getRedBiddingParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "bidding").addParam("red_id", red_id)
 
         /**             red packet model end    **/
 

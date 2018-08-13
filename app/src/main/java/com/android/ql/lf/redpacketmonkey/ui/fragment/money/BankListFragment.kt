@@ -14,8 +14,15 @@ import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import com.android.ql.lf.redpacketmonkey.utils.hiddenBankCarNum
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import org.jetbrains.anko.bundleOf
 
 class BankListFragment : BaseRecyclerViewFragment<BankCardInfoBean>() {
+
+    companion object {
+        fun startBankCardList(context: Context, isSelectMode: Boolean) {
+            FragmentContainerActivity.from(context).setNeedNetWorking(true).setExtraBundle(bundleOf(Pair("is_select_mode", isSelectMode))).setTitle("银行卡").setClazz(BankListFragment::class.java).start()
+        }
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -70,6 +77,13 @@ class BankListFragment : BaseRecyclerViewFragment<BankCardInfoBean>() {
     override fun <T : Any?> onRequestSuccess(requestID: Int, result: T) {
         super.onRequestSuccess(requestID, result)
         processList(result as String, BankCardInfoBean::class.java)
+    }
+
+    override fun onMyItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+        if (arguments!!.getBoolean("is_select_mode", false)) {
+            RxBus.getDefault().post(mArrayList[position])
+            finish()
+        }
     }
 
     override fun onDestroyView() {

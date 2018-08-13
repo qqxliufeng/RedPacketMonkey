@@ -36,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:drawableRight="@drawable/icon_enter_2"
                 android:drawablePadding="@dimen/dp_10"
-                android:text="共20人"
+                android:text="共0人"
                 android:textColor="@color/deepTextColor" />
 
         </RelativeLayout>

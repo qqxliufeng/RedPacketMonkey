@@ -15,6 +15,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragme
 import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.RedPacketRecordFragment
 import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
+import com.android.ql.lf.redpacketmonkey.utils.formatTime
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_red_packet_info_layout.*
@@ -32,7 +33,7 @@ class RedPacketInfoFragment : BaseRecyclerViewFragment<RedPacketInfoBean>() {
         override fun convert(helper: BaseViewHolder?, item: RedPacketInfoBean?) {
             GlideManager.loadFaceCircleImage(mContext, item!!.red_re_pic, helper!!.getView(R.id.mIvRedPacketInfoItemFace))
             helper.setText(R.id.mTvRedPacketInfoItemNickName, item.red_re_nickname)
-            helper.setText(R.id.mTvRedPacketInfoItemTime, item.red_times)
+            helper.setText(R.id.mTvRedPacketInfoItemTime, item.red_times?.toString()?.formatTime())
             helper.setText(R.id.mTvRedPacketInfoItemMoney, item.red_sum.toString())
             helper.setVisible(R.id.mTvRedPacketInfoItemLuck, item.red_luck == 1)
         }
@@ -48,6 +49,7 @@ class RedPacketInfoFragment : BaseRecyclerViewFragment<RedPacketInfoBean>() {
         super.initView(view)
         GlideManager.loadFaceCircleImage(mContext, arguments!!.getString("pic"), mIvRedPacketInfoFace)
         mTvRedPacketInfoNickName.text = arguments!!.getString("nick_name")
+        mTvRedPacketInfoMoneyAndMine.text = arguments!!.getString("money")
         setLoadEnable(false)
         setRefreshEnable(false)
     }

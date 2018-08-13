@@ -2,14 +2,19 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.game
 
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
 import com.android.ql.lf.redpacketmonkey.present.RedPacketManager
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
+import com.android.ql.lf.redpacketmonkey.utils.GlideManager
+import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.android.ql.lf.redpacketmonkey.utils.alert
 import kotlinx.android.synthetic.main.fragment_group_setting_layout.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
+import org.json.JSONObject
 
 class GroupSettingFragment : BaseNetWorkingFragment() {
 
@@ -21,17 +26,13 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
     }
 
     override fun initView(view: View?) {
-        (0 until 5).forEach {
-            val childView = View.inflate(mContext, R.layout.adapter_group_member_item_layout, null) as LinearLayout
-            val param = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
-            param.weight = 1.0f
-            param.width = 0
-            childView.layoutParams = param
-            mLlGroupSettingMemberContainer.addView(childView)
-        }
-        mTvGroupSettingGroupNum.text = groupInfo.group_number.toString()
         mTvGroupSettingMemberCount.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setClazz(GroupMemberListFragment::class.java).setTitle("成员列表").setNeedNetWorking(true).start()
+            FragmentContainerActivity.from(mContext)
+                    .setClazz(GroupMemberListFragment::class.java)
+                    .setTitle("成员列表")
+                    .setExtraBundle(bundleOf(Pair("groupId",groupInfo.group_id)))
+                    .setNeedNetWorking(true)
+                    .start()
         }
         mTvGroupSettingLogoutGroup.setOnClickListener {
             alert("提示", "确定要退出群组吗？", "退出", "不退出", { _, _ ->
@@ -51,5 +52,50 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
                 }, null)
             }
         }
+        mPresent.getDataByPost(0x0, RequestParamsHelper.getGroupSettingParam(groupInfo.group_id.toString()))
     }
+
+    override fun onRequestStart(requestID: Int) {
+        when (requestID) {
+            0x0 -> {
+                getFastProgressDialog("正在加载群信息……")
+            }
+        }
+    }
+
+    override fun <T : Any?> onRequestSuccess(requestID: Int, result: T) {
+        when (requestID) {
+            0x0 -> {
+                val checked = checkResultCode(result)
+                if (checked != null) {
+                    if (checked.code == SUCCESS_CODE) {
+                        val resultJson = checked.obj as JSONObject
+                        mTvGroupSettingMemberCount.text = "共${resultJson.optString("count")}人"
+                        mTvGroupSettingGroupNum.text = resultJson.optString("number")
+                        val dataJsonArray = resultJson.optJSONArray("data")
+                        if (dataJsonArray != null && dataJsonArray.length() > 0) {
+                            (0 until dataJsonArray.length()).forEach {
+                                val childView = View.inflate(mContext, R.layout.adapter_group_member_item_layout, null) as LinearLayout
+                                val param = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                param.weight = 1.0f
+                                param.width = 0
+                                childView.layoutParams = param
+                                GlideManager.loadFaceCircleImage(mContext,dataJsonArray.optJSONObject(it).optString("group_user_pic"),childView.findViewById(R.id.mIvGroupSettingMemberItemPic))
+                                childView.findViewById<TextView>(R.id.mTvGroupSettingMemberItemNickName).text = dataJsonArray.optJSONObject(it).optString("group_user_name")
+                                mLlGroupSettingMemberContainer.addView(childView)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun showFailMessage(requestID: Int): String {
+        return when (requestID) {
+            0x0 -> "加载失败……"
+            else -> "未知错误"
+        }
+    }
+
 }

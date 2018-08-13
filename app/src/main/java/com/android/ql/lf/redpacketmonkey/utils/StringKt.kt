@@ -1,5 +1,9 @@
 package com.android.ql.lf.redpacketmonkey.utils
 
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.logging.SimpleFormatter
+
 fun String.hiddenPhone(): String {
     return "${this.substring(0, 3)}****${this.substring(7, this.length)}"
 }
@@ -15,6 +19,15 @@ fun String.hiddenBankCarNum(): String {
         return ""
     } catch (e: Exception) {
         return ""
+    }
+}
+
+fun String.formatTime(): String {
+    return try {
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        simpleDateFormat.format(Date(this.toLong()))
+    } catch (e: Exception) {
+        ""
     }
 }
 

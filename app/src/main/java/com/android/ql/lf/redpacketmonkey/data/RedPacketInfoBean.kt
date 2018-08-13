@@ -14,6 +14,6 @@ class RedPacketInfoBean {
     var red_name: String? = null
     var red_sum: Double? = null
     var red_type: Int? = null
-    var red_times:String? = null
+    var red_times:Long? = null
     var red_luck: Int? = null
 }

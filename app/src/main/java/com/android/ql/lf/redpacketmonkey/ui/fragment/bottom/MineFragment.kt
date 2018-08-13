@@ -3,10 +3,12 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.bottom
 import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.support.v4.widget.NestedScrollView
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.BankCardInfoBean
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
@@ -24,6 +26,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareCodeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
 import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
+import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 import org.jetbrains.anko.support.v4.toast
@@ -42,9 +45,16 @@ class MineFragment : BaseNetWorkingFragment() {
 
     private var toolBarHeight = 0
 
+    private val bankCardSubscription by lazy {
+        RxBus.getDefault().toObservable(BankCardInfoBean::class.java).subscribe {
+            crashFragment.setBankCardName(it.card_nickname!!)
+        }
+    }
+
     override fun getLayoutId() = R.layout.fragment_mine_layout
 
     override fun initView(view: View?) {
+        bankCardSubscription
         if (UserInfo.getInstance().isLogin) {
             GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
             mTvMineNickName.text = UserInfo.getInstance().user_nickname
@@ -76,14 +86,33 @@ class MineFragment : BaseNetWorkingFragment() {
         mTvMineRecharge.setOnClickListener {
             rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
                 if (!TextUtils.isEmpty(it)) {
-                    RechargeFragment.startRecharge(mContext,"1")
+                    RechargeFragment.startRecharge(mContext, "1")
                 } else {
                     toast("请输入充值金额")
                 }
             }
         }
         mTvMineCrash.setOnClickListener {
-            crashFragment.show(childFragmentManager, "crash_dialog")
+            crashFragment.myShow(childFragmentManager, "crash_dialog", listener = {
+
+            }, selectTypeListener = {
+                var which = 0
+                val builder = AlertDialog.Builder(mContext)
+                builder.setSingleChoiceItems(arrayOf("银行卡", "支付宝"), 0) { _, it ->
+                    which = it
+                }
+                builder.setNegativeButton("取消", null)
+                builder.setPositiveButton("确定") { _, _ ->
+                    crashFragment.setSelectedTypeResult(if (which == 0) {
+                        "银行卡"
+                    } else {
+                        "支付宝"
+                    })
+                }
+                builder.create().show()
+            }, selectBankCardListener = {
+                BankListFragment.startBankCardList(mContext, true)
+            })
         }
         mTvMineSetting.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(false).setTitle("设置").setClazz(SettingFragment::class.java).start()
@@ -104,7 +133,7 @@ class MineFragment : BaseNetWorkingFragment() {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setHiddenToolBar(true).setClazz(MineRecommendFragment::class.java).start()
         }
         mTvBankList.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("银行卡").setClazz(BankListFragment::class.java).start()
+            BankListFragment.startBankCardList(mContext, false)
         }
         mTvMineShareCode.setOnClickListener {
             ShareCodeFragment.start(mContext)
@@ -139,16 +168,21 @@ class MineFragment : BaseNetWorkingFragment() {
     }
 
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
-        when(requestID){
-            0x0->{
-                if (obj!=null){
+        when (requestID) {
+            0x0 -> {
+                if (obj != null) {
                     toast("充值成功！")
                 }
             }
-            0x1->{
+            0x1 -> {
 
             }
         }
+    }
+
+    override fun onDestroyView() {
+        unsubscribe(bankCardSubscription)
+        super.onDestroyView()
     }
 
 }
