@@ -11,6 +11,7 @@ import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.BankCardInfoBean
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData
+import com.android.ql.lf.redpacketmonkey.present.UserPresent
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
@@ -30,14 +31,13 @@ import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 import org.jetbrains.anko.support.v4.toast
+import org.json.JSONObject
 
 class MineFragment : BaseNetWorkingFragment() {
-
 
     private val rechargeFragment by lazy {
         RechargeDialogFragment()
     }
-
 
     private val crashFragment by lazy {
         CrashFragment()
@@ -51,10 +51,21 @@ class MineFragment : BaseNetWorkingFragment() {
         }
     }
 
+    private val reloadUserInfoSubscription by lazy {
+        RxBus.getDefault().toObservable(ReloadUserInfoBean::class.java).subscribe {
+            mPresent.getDataByPost(0x2, RequestParamsHelper.getPersonalParam(UserInfo.getInstance().user_id))
+        }
+    }
+
+    private val userPresent by lazy {
+        UserPresent()
+    }
+
     override fun getLayoutId() = R.layout.fragment_mine_layout
 
     override fun initView(view: View?) {
         bankCardSubscription
+        reloadUserInfoSubscription
         if (UserInfo.getInstance().isLogin) {
             GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
             mTvMineNickName.text = UserInfo.getInstance().user_nickname
@@ -95,21 +106,6 @@ class MineFragment : BaseNetWorkingFragment() {
         mTvMineCrash.setOnClickListener {
             crashFragment.myShow(childFragmentManager, "crash_dialog", listener = {
 
-            }, selectTypeListener = {
-                var which = 0
-                val builder = AlertDialog.Builder(mContext)
-                builder.setSingleChoiceItems(arrayOf("银行卡", "支付宝"), 0) { _, it ->
-                    which = it
-                }
-                builder.setNegativeButton("取消", null)
-                builder.setPositiveButton("确定") { _, _ ->
-                    crashFragment.setSelectedTypeResult(if (which == 0) {
-                        "银行卡"
-                    } else {
-                        "支付宝"
-                    })
-                }
-                builder.create().show()
             }, selectBankCardListener = {
                 BankListFragment.startBankCardList(mContext, true)
             })
@@ -120,9 +116,9 @@ class MineFragment : BaseNetWorkingFragment() {
         mClMineInfoContainer.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("个人信息").setClazz(MineInfoFragment::class.java).start()
         }
-        mTvMineAli.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("支付宝").setClazz(AliPayFragment::class.java).start()
-        }
+//        mTvMineAli.setOnClickListener {
+//            FragmentContainerActivity.from(mContext).setNeedNetWorking(true).setTitle("支付宝").setClazz(AliPayFragment::class.java).start()
+//        }
         mTvMineShare.setOnClickListener {
             FragmentContainerActivity.from(mContext).setNeedNetWorking(false).setTitle("分享").setClazz(ShareFragment::class.java).start()
         }
@@ -152,7 +148,6 @@ class MineFragment : BaseNetWorkingFragment() {
         }
     }
 
-
     override fun showFailMessage(requestID: Int): String {
         return when (requestID) {
             0x0 -> {
@@ -175,14 +170,19 @@ class MineFragment : BaseNetWorkingFragment() {
                 }
             }
             0x1 -> {
-
+            }
+            0x2->{
+                userPresent.onLoginNoBus(obj as JSONObject)
             }
         }
     }
 
     override fun onDestroyView() {
+        unsubscribe(reloadUserInfoSubscription)
         unsubscribe(bankCardSubscription)
         super.onDestroyView()
     }
+
+    class ReloadUserInfoBean
 
 }

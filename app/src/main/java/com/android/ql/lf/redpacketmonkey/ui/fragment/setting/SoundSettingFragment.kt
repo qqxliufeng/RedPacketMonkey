@@ -4,6 +4,8 @@ import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
+import com.android.ql.lf.redpacketmonkey.utils.PHONE_REG
+import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import kotlinx.android.synthetic.main.fragment_sound_setting_layout.*
 import org.jetbrains.anko.support.v4.toast
@@ -15,7 +17,9 @@ class SoundSettingFragment : BaseNetWorkingFragment() {
     override fun initView(view: View?) {
         mSwSoundSettingNewMessage.isChecked = UserInfo.getInstance().user_is_news == 1
         mSwSoundSettingRedPacket.isChecked = UserInfo.getInstance().user_is_red == 1
-            mSwSoundSettingNewMessage.setOnClickListener {
+        PreferenceUtils.setPrefBoolean(mContext,"new_message_sound",UserInfo.getInstance().user_is_news == 1)
+        PreferenceUtils.setPrefBoolean(mContext,"red_packet_sound",UserInfo.getInstance().user_is_red == 1)
+        mSwSoundSettingNewMessage.setOnClickListener {
             mPresent.getDataByPost(0x0, RequestParamsHelper.getSoundSwitchParam(1, if (UserInfo.getInstance().user_is_news == 1) 2 else 1))
         }
         mSwSoundSettingRedPacket.setOnClickListener {
@@ -37,19 +41,21 @@ class SoundSettingFragment : BaseNetWorkingFragment() {
     }
 
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
-        when(requestID){
-            0x0->{
-                if (obj!=null){
+        when (requestID) {
+            0x0 -> {
+                if (obj != null) {
                     toast("修改成功")
                     UserInfo.getInstance().user_is_news = if (UserInfo.getInstance().user_is_news == 1) 2 else 1
                     mSwSoundSettingNewMessage.isChecked = UserInfo.getInstance().user_is_news == 1
+                    PreferenceUtils.setPrefBoolean(mContext,"new_message_sound",UserInfo.getInstance().user_is_news == 1)
                 }
             }
-            0x1->{
-                if (obj!=null){
+            0x1 -> {
+                if (obj != null) {
                     toast("修改成功")
                     UserInfo.getInstance().user_is_red = if (UserInfo.getInstance().user_is_red == 1) 2 else 1
                     mSwSoundSettingRedPacket.isChecked = UserInfo.getInstance().user_is_red == 1
+                    PreferenceUtils.setPrefBoolean(mContext,"red_packet_sound",UserInfo.getInstance().user_is_red == 1)
                 }
             }
         }
@@ -60,9 +66,11 @@ class SoundSettingFragment : BaseNetWorkingFragment() {
         when (requestID) {
             0x0 -> {
                 mSwSoundSettingNewMessage.isChecked = UserInfo.getInstance().user_is_news == 1
+                PreferenceUtils.setPrefBoolean(mContext,"new_message_sound",UserInfo.getInstance().user_is_news == 1)
             }
             0x1 -> {
                 mSwSoundSettingRedPacket.isChecked = UserInfo.getInstance().user_is_red == 1
+                PreferenceUtils.setPrefBoolean(mContext,"red_packet_sound",UserInfo.getInstance().user_is_red == 1)
             }
             else -> {
             }

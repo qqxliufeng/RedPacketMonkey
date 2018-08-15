@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
+import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
@@ -55,6 +56,7 @@ class MinePacketFragment : BaseNetWorkingFragment() {
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         if (checkedObjType(obj)){
             UserInfo.getInstance().money_sum_cou = (obj as JSONObject).optString("sumcou")
+            UserInfoLiveData.postUserInfo()
             mTvMinePacketMoneyCount.text = "${UserInfo.getInstance().money_sum_cou.toFloat()}"
         }
     }

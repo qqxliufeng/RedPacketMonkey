@@ -1,10 +1,13 @@
 package com.android.ql.lf.redpacketmonkey.present;
 
+import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
 import com.android.ql.lf.redpacketmonkey.data.UserInfo;
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity;
+import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -80,6 +83,28 @@ public class RedPacketManager {
         } catch (Exception e) {
             current_mode = ActionMode.NONE;
             return null;
+        }
+    }
+
+
+    /**
+     * 判断是否屏蔽了群消息
+     */
+    public static boolean isBlockMessage(Context context, long groupId) {
+        try {
+            String blockStr = PreferenceUtils.getPrefString(context, "block_group_id", "");
+            if (TextUtils.isEmpty(blockStr)) {
+                return false;
+            }
+            String[] blocks = blockStr.split(",");
+            for (String item : blocks) {
+                if (item.equals(String.valueOf(groupId))) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

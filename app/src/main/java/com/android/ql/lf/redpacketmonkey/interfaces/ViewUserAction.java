@@ -55,7 +55,6 @@ public class ViewUserAction implements IViewUserAction {
     }
 
 
-
     @Override
     public boolean onLogout() {
         UserInfo.getInstance().loginOut();

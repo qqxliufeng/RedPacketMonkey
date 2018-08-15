@@ -5,6 +5,9 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
@@ -17,7 +20,13 @@ import com.android.ql.lf.redpacketmonkey.data.room.AppDataBase;
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketDao;
 import com.android.ql.lf.redpacketmonkey.present.RedPacketManager;
 import com.android.ql.lf.redpacketmonkey.services.RedPacketServices;
+import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.event.MessageEvent;
@@ -32,6 +41,8 @@ public class MyApplication extends MultiDexApplication {
 
     private Handler handler = new Handler();
 
+    private MediaPlayer mediaPlayer;
+
 
     @Override
     public void onCreate() {
@@ -43,7 +54,13 @@ public class MyApplication extends MultiDexApplication {
         JMessageClient.setNotificationFlag(JMessageClient.FLAG_NOTIFY_DISABLE);
         JMessageClient.registerEventReceiver(this);
         setupDataBase();
-        startService(new Intent(MyApplication.this,RedPacketServices.class));
+        startService(new Intent(MyApplication.this, RedPacketServices.class));
+        mediaPlayer = MediaPlayer.create(this, getDefaultUri());
+        if(Double.isNaN(10)){
+            Log.e("TAG","is nan");
+        }else {
+            Log.e("TAG","is no nan");
+        }
     }
 
     public Handler getHandler() {
@@ -51,8 +68,32 @@ public class MyApplication extends MultiDexApplication {
     }
 
     public void onEvent(MessageEvent event) {
-        String receiverJson = event.getMessage().getContent().toJsonElement().getAsJsonObject().get("text").getAsString();
-        RedPacketManager.insertRedPacket(receiverJson);
+        try {
+            String receiverJson = event.getMessage().getContent().toJsonElement().getAsJsonObject().get("text").getAsString();
+            JSONObject jsonObject = new JSONObject(receiverJson);
+            long groupId = jsonObject.optLong("group_red_group");
+            if (!RedPacketManager.isBlockMessage(this, groupId)) {
+                RedPacketManager.insertRedPacket(receiverJson);
+                //插入成功，需要播放声音的，要播放声音
+                if (PreferenceUtils.getPrefBoolean(this, "new_message_sound", false)) {
+                    mediaPlayer.setLooping(false);
+                    try {
+                        mediaPlayer.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
+                    }
+                    mediaPlayer.start();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Uri getDefaultUri() {
+        return RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
     }
 
     private void setupDataBase() {

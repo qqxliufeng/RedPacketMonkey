@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.MediaPlayer
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -21,7 +22,9 @@ import com.android.ql.lf.redpacketmonkey.present.UserPresent
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.adapter.RedPacketAdapter
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
+import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
+import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_red_packet_list_layout.*
@@ -56,6 +59,16 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         UserPresent()
     }
 
+    private val logoutGroupSubscription by lazy {
+        RxBus.getDefault().toObservable(GroupSettingFragment.GroupLogoutBean::class.java).subscribe {
+            finish()
+        }
+    }
+
+    private val mediaPlayer by lazy {
+        MediaPlayer.create(mContext, R.raw.diaoluo_da)
+    }
+
     private var currentRedPacketEntity: RedPacketEntity? = null
 
     override fun onAttach(context: Context?) {
@@ -80,6 +93,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
     override fun initView(view: View?) {
         isNeedLoad = false
         super.initView(view)
+        logoutGroupSubscription
         setLoadEnable(false)
         onRequestEnd(-1)
         setRefreshEnable(false)
@@ -184,7 +198,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
     override fun onRequestStart(requestID: Int) {
         when (requestID) {
-            0x0, 0x2 -> {
+            0x0, 0x2-> {
                 getFastProgressDialog("正在加载……")
             }
         }
@@ -210,7 +224,8 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                 if (checked != null) {
                     if (checked.code == SUCCESS_CODE) {
                         openRedPacketDialogFragment.myShow(childFragmentManager, "open_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "${currentRedPacketEntity!!.group_red_sum} - ${currentRedPacketEntity!!.group_red_mine}") {
-                            mPresent.getDataByPost(0x1, RequestParamsHelper.getRedBiddingParam(currentRedPacketEntity!!.group_red_id.toString()))
+                            //检查余额是否够抢红包的
+                            mPresent.getDataByPost(0x3, RequestParamsHelper.getPersonalParam(UserInfo.getInstance().user_id))
                         }
                     } else if (checked.code == "300") {// 没有红包了
                         currentRedPacketEntity!!.group_red_cou = "0"
@@ -230,6 +245,9 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                 val checked = checkResultCode(result)
                 if (checked != null) {
                     if (checked.code == SUCCESS_CODE) {
+                        if (PreferenceUtils.getPrefBoolean(mContext,"red_packet_sound",UserInfo.getInstance().user_is_red == 1)) {
+                            playSound()
+                        }
                         FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(
                                 Pair("red_id", currentRedPacketEntity!!.group_red_id.toString()),
                                 Pair("pic", currentRedPacketEntity!!.group_red_pic),
@@ -254,6 +272,34 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                     toast("加载失败……")
                 }
             }
+            0x3 -> {
+                val checked = checkResultCode(result)
+                if (checked != null) {
+                    if (checked.code == SUCCESS_CODE) {
+                        userPresent.onLoginNoBus((checked.obj as JSONObject).optJSONObject("data"))
+                        if (UserInfo.getInstance().money_sum_cou.toFloat() < currentRedPacketEntity!!.group_red_sum.toFloat() * 1.5) {
+                            noMoneyDialogFragment.show(fragmentManager, "no_money_dialog")
+                            openRedPacketDialogFragment.dismiss()
+                        } else {
+                            //如果余额够用，则打开红包
+                            mPresent.getDataByPost(0x1, RequestParamsHelper.getRedBiddingParam(currentRedPacketEntity!!.group_red_id.toString()))
+                        }
+                    } else {
+                        noMoneyDialogFragment.show(fragmentManager, "no_money_dialog")
+                    }
+                } else {
+                    noMoneyDialogFragment.show(fragmentManager, "no_money_dialog")
+                }
+            }
         }
+    }
+
+    private fun playSound() {
+        mediaPlayer.start()
+    }
+
+    override fun onDestroyView() {
+        unsubscribe(logoutGroupSubscription)
+        super.onDestroyView()
     }
 }

@@ -17,11 +17,7 @@ class CrashFragment : DialogFragment() {
 
     private var listener: (() -> Unit)? = null
 
-    private var selectTypeListener: (() -> Unit)? = null
-
     private var selectBankCarListener: (() -> Unit)? = null
-
-    private var tv_select_type: TextView? = null
 
     private var tv_bank_card: TextView? = null
 
@@ -52,10 +48,6 @@ class CrashFragment : DialogFragment() {
             }
             listener?.invoke()
         }
-        tv_select_type = contentView.findViewById(R.id.mTvCrashDialogSelectType)
-        tv_select_type?.setOnClickListener {
-            selectTypeListener?.invoke()
-        }
         ll_bank_card_container?.setOnClickListener {
             selectBankCarListener?.invoke()
         }
@@ -63,24 +55,15 @@ class CrashFragment : DialogFragment() {
         return contentView
     }
 
-    fun setSelectedTypeResult(type: String) {
-        tv_select_type?.text = type
-        if (type == "支付宝") {
-            ll_bank_card_container?.visibility = View.GONE
-        } else {
-            ll_bank_card_container?.visibility = View.VISIBLE
-        }
-    }
 
     fun setBankCardName(bankCardName: String) {
         tv_bank_card?.text = bankCardName
     }
 
 
-    fun myShow(manager: FragmentManager?, tag: String?, listener: () -> Unit, selectTypeListener: () -> Unit, selectBankCardListener: () -> Unit) {
+    fun myShow(manager: FragmentManager?, tag: String?, listener: () -> Unit, selectBankCardListener: () -> Unit) {
         this.listener = listener
         this.selectBankCarListener = selectBankCardListener
-        this.selectTypeListener = selectTypeListener
         super.show(manager, tag)
     }
 }

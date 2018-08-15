@@ -188,13 +188,13 @@
                         android:drawableLeft="@drawable/icon_mine_yhk"
                         android:text="银行卡" />
 
-                    <View style="@style/style_view_line1" />
+                   <!-- <View style="@style/style_view_line1" />
 
                     <TextView
                         android:id="@+id/mTvMineAli"
                         style="@style/style_tv1"
                         android:drawableLeft="@drawable/icon_mine_zfb"
-                        android:text="支付宝" />
+                        android:text="支付宝" />-->
 
                     <View style="@style/style_view_line1" />
 

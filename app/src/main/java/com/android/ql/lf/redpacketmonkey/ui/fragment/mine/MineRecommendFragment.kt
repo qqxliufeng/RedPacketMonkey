@@ -2,16 +2,18 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.mine
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.*
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.RecordBean
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
+import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_mine_recommend_layout.*
+import org.json.JSONObject
 
-class MineRecommendFragment : BaseRecyclerViewFragment<String>() {
+class MineRecommendFragment : BaseRecyclerViewFragment<RecordBean>() {
 
 
     override fun onAttach(context: Context?) {
@@ -19,8 +21,11 @@ class MineRecommendFragment : BaseRecyclerViewFragment<String>() {
         setHasOptionsMenu(true)
     }
 
-    override fun createAdapter() = object : BaseQuickAdapter<String, BaseViewHolder>(R.layout.fragment_packet_info_list_item_layout, mArrayList) {
-        override fun convert(helper: BaseViewHolder?, item: String?) {
+    override fun createAdapter() = object : BaseQuickAdapter<RecordBean, BaseViewHolder>(R.layout.fragment_packet_info_list_item_layout, mArrayList) {
+        override fun convert(helper: BaseViewHolder?, item: RecordBean?) {
+            helper!!.setText(R.id.mTvRecordItemEventName,item!!.name)
+            helper.setText(R.id.mTvPacketInfoListItemMoney,"${item.fu}${item.sum}")
+            helper.setText(R.id.mTvPacketInfoListItemTime,item.times)
         }
     }
 
@@ -42,6 +47,17 @@ class MineRecommendFragment : BaseRecyclerViewFragment<String>() {
 
     override fun onRefresh() {
         super.onRefresh()
+        mPresent.getDataByPost(0x0, RequestParamsHelper.getRecordParam(6, currentPage))
+    }
+
+    override fun <T : Any?> onRequestSuccess(requestID: Int, result: T) {
+        processList(result as String, RecordBean::class.java)
+        if (currentPage == 0) {
+            val json = JSONObject(result)
+            mTvMineRecommendMoney.text = json.optDouble("sumcou").toString()
+            mTvMineRecommendJin.text = json.optDouble("jincou").toString()
+            mTvMineRecommendZuo.text = json.optDouble("zuocou").toString()
+        }
     }
 
     override fun getEmptyMessage() = "暂无收益记录"
