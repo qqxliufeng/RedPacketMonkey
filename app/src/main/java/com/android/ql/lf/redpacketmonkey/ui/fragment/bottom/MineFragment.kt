@@ -3,7 +3,6 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.bottom
 import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.support.v4.widget.NestedScrollView
-import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.CrashFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.dialog.RechargeDialogFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineInfoFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.mine.MineRecommendFragment
-import com.android.ql.lf.redpacketmonkey.ui.fragment.money.AliPayFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.BankListFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.money.RechargeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.MinePacketFragment

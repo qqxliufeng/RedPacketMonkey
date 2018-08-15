@@ -22,6 +22,7 @@ import com.android.ql.lf.redpacketmonkey.present.UserPresent
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.adapter.RedPacketAdapter
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
 import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.android.ql.lf.redpacketmonkey.utils.RxBus
@@ -254,6 +255,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                                 Pair("nick_name", currentRedPacketEntity!!.group_red_name),
                                 Pair("money", currentRedPacketEntity!!.group_red_sum + "-" + currentRedPacketEntity!!.group_red_mine)
                         )).setTitle("红包详情").setNeedNetWorking(true).setClazz(RedPacketInfoFragment::class.java).start()
+                        RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                     } else {
                         toast((checked.obj as JSONObject).optString(MSG_FLAG))
                     }

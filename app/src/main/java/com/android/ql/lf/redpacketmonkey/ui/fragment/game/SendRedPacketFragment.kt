@@ -5,10 +5,8 @@ import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
-import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
-import com.android.ql.lf.redpacketmonkey.utils.getTextString
-import com.android.ql.lf.redpacketmonkey.utils.isEmpty
-import com.android.ql.lf.redpacketmonkey.utils.isMoney
+import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
+import com.android.ql.lf.redpacketmonkey.utils.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_send_red_packet_layout.*
 import org.jetbrains.anko.support.v4.toast
@@ -94,6 +92,7 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                 if (checkedObjType(obj)) {
                     val redPacketEntity = Gson().fromJson((obj as JSONObject).toString(), RedPacketEntity::class.java)
                     redPacketEntity.itemType = RedPacketEntity.SEND_RED_PACKET
+                    RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                     finish()
                 } else {
                     toast("红包发送失败")
