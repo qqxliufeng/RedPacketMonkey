@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
@@ -23,6 +24,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_main_game_layout.*
 import org.jetbrains.anko.bundleOf
 import org.json.JSONObject
+import java.util.*
 
 class GameFragment : BaseRecyclerViewFragment<GroupBean>() {
 
@@ -46,6 +48,10 @@ class GameFragment : BaseRecyclerViewFragment<GroupBean>() {
         if (UserInfo.getInstance().isLogin) {
             mPresent.getDataByPost(0x1, RequestParamsHelper.getLoginRedParam())
         }
+
+        Log.e("TAG", Calendar.getInstance().get(Calendar.MILLISECOND).toString())
+        Log.e("TAG", System.currentTimeMillis().toString())
+
     }
 
     override fun getEmptyMessage() = "暂无群组"
@@ -71,11 +77,14 @@ class GameFragment : BaseRecyclerViewFragment<GroupBean>() {
                     if (jsonArray != null && jsonArray.length() > 0) {
                         (0..jsonArray.length()).forEach {
                             val jsonData = jsonArray.optJSONObject(it)
-                            MyApplication.application.handler.postDelayed({
-                                val intent = Intent(MyApplication.application, RedPacketServices::class.java)
-                                intent.putExtra("red_id", jsonData.optLong("group_red_id"))
-                                MyApplication.application.startService(intent)
-                            }, jsonData.optLong("group_red_quit_times") * 1000 - System.currentTimeMillis())
+                            val time = jsonData.optLong("group_red_quit_times") * 1000 - System.currentTimeMillis()
+                            if (time > 0) {
+                                MyApplication.application.handler.postDelayed({
+                                    val intent = Intent(MyApplication.application, RedPacketServices::class.java)
+                                    intent.putExtra("red_id", jsonData.optLong("group_red_id"))
+                                    MyApplication.application.startService(intent)
+                                }, jsonData.optLong("group_red_quit_times") * 1000 - System.currentTimeMillis())
+                            }
                         }
                     }
                 }
