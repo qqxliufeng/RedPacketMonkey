@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.money
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -31,8 +32,11 @@ class BankListFragment : BaseRecyclerViewFragment<BankCardInfoBean>() {
 
     override fun createAdapter() = object : BaseQuickAdapter<BankCardInfoBean, BaseViewHolder>(R.layout.adapter_bank_list_item_layout, mArrayList) {
         override fun convert(helper: BaseViewHolder?, item: BankCardInfoBean?) {
-            helper?.setText(R.id.mTvBankListItemName, item?.card_nickname)
-            helper?.setText(R.id.mTvBankListItemType, item?.card_type)
+            helper?.setText(R.id.mTvBankListItemName, if (TextUtils.isEmpty(item?.card_name)) {
+                "暂无所属银行"
+            }else{
+                item?.card_name
+            })
             helper?.setText(R.id.mTvBankListItemCardNumber, item?.card_number?.hiddenBankCarNum())
         }
     }

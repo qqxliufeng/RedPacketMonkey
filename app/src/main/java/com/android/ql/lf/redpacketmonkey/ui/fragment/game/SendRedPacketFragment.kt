@@ -1,14 +1,18 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.game
 
+import android.content.Intent
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
+import com.android.ql.lf.redpacketmonkey.services.RedPacketServices
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
 import com.android.ql.lf.redpacketmonkey.utils.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_send_red_packet_layout.*
+import org.jetbrains.anko.support.v4.startService
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
 
@@ -29,6 +33,8 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
         NoMoneyDialogFragment()
     }
 
+
+    private var back_time:Long? = null
 
     override fun getLayoutId() = R.layout.fragment_send_red_packet_layout
 
@@ -75,6 +81,12 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
         }
     }
 
+    override fun onRequestFail(requestID: Int, e: Throwable) {
+        if (requestID == 0x0){
+            toast("信息加载失败")
+        }
+    }
+
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         when (requestID) {
             0x0 -> {
@@ -86,13 +98,18 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                     mTvSendRedPacketAgain.text = "游戏倍数：${obj.optString("group_again")}"
                     mTvSendRedPacketRange.text = "红包发布范围：$minCount - $maxCount"
                     mTvSendRedPacketBackTime.text = "未领取的红包将于${obj.optString("group_quit_times")}分钟后发起退款"
+                    back_time = obj.optString("group_quit_times").toLong()
                 }
             }
             0x1 -> {
                 if (checkedObjType(obj)) {
                     val redPacketEntity = Gson().fromJson((obj as JSONObject).toString(), RedPacketEntity::class.java)
-                    redPacketEntity.itemType = RedPacketEntity.SEND_RED_PACKET
                     RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
+                    MyApplication.application.handler.postDelayed({
+                        val intent = Intent(MyApplication.application, RedPacketServices::class.java)
+                        intent.putExtra("red_id", redPacketEntity.group_red_id)
+                        MyApplication.application.startService(intent)
+                    }, 1000 * (back_time!! * 60))
                     finish()
                 } else {
                     toast("红包发送失败")

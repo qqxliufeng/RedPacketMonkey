@@ -54,13 +54,7 @@ public class MyApplication extends MultiDexApplication {
         JMessageClient.setNotificationFlag(JMessageClient.FLAG_NOTIFY_DISABLE);
         JMessageClient.registerEventReceiver(this);
         setupDataBase();
-        startService(new Intent(MyApplication.this, RedPacketServices.class));
         mediaPlayer = MediaPlayer.create(this, getDefaultUri());
-        if(Double.isNaN(10)){
-            Log.e("TAG","is nan");
-        }else {
-            Log.e("TAG","is no nan");
-        }
     }
 
     public Handler getHandler() {
@@ -70,7 +64,7 @@ public class MyApplication extends MultiDexApplication {
     public void onEvent(MessageEvent event) {
         try {
             String receiverJson = event.getMessage().getContent().toJsonElement().getAsJsonObject().get("text").getAsString();
-            JSONObject jsonObject = new JSONObject(receiverJson);
+            final JSONObject jsonObject = new JSONObject(receiverJson);
             long groupId = jsonObject.optLong("group_red_group");
             if (!RedPacketManager.isBlockMessage(this, groupId)) {
                 RedPacketManager.insertRedPacket(receiverJson);

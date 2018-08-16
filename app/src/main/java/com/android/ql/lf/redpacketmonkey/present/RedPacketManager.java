@@ -34,6 +34,7 @@ public class RedPacketManager {
                 } else {
                     redPacketEntity.setItemType(RedPacketEntity.FROM_RED_PACKET);
                 }
+                redPacketEntity.groud_red_is_get = 0;
                 return MyApplication.getRedPacketDao().insertRedPacket(redPacketEntity);
             } else {
                 return EXECUTE_FAILED;

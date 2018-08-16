@@ -50,6 +50,7 @@ class RedPacketInfoFragment : BaseRecyclerViewFragment<RedPacketInfoBean>() {
         GlideManager.loadFaceCircleImage(mContext, arguments!!.getString("pic"), mIvRedPacketInfoFace)
         mTvRedPacketInfoNickName.text = arguments!!.getString("nick_name")
         mTvRedPacketInfoMoneyAndMine.text = arguments!!.getString("money")
+        mTvRedPacketInfoCount.text = "${arguments!!.getString("count")}个红包"
         setLoadEnable(false)
         setRefreshEnable(false)
     }

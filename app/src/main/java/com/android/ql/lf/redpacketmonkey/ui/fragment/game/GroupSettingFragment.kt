@@ -26,7 +26,7 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
     }
 
     override fun initView(view: View?) {
-        mTvGroupSettingMemberCount.setOnClickListener {
+        mRlGroupSettingMemberCountContainer.setOnClickListener {
             FragmentContainerActivity.from(mContext)
                     .setClazz(GroupMemberListFragment::class.java)
                     .setTitle("成员列表")
@@ -89,7 +89,8 @@ class GroupSettingFragment : BaseNetWorkingFragment() {
                         mTvGroupSettingGroupNum.text = resultJson.optString("number")
                         val dataJsonArray = resultJson.optJSONArray("data")
                         if (dataJsonArray != null && dataJsonArray.length() > 0) {
-                            (0 until dataJsonArray.length()).forEach {
+                            val length = if (dataJsonArray.length()>5) 5 else dataJsonArray.length()
+                            (0 until length).forEach {
                                 val childView = View.inflate(mContext, R.layout.adapter_group_member_item_layout, null) as LinearLayout
                                 val param = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 param.weight = 1.0f

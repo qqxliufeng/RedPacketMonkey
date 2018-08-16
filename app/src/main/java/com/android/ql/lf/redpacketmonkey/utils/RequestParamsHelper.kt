@@ -57,6 +57,8 @@ class RequestParamsHelper {
         fun getPhoneParam(phone: String) = getBaseParams(SYSTEM_MODEL, ACT_PHONE)
                 .addParam("phone", phone)
 
+        fun getVerupdateParam() = getBaseParams(SYSTEM_MODEL, "verupdate")
+
 
         /**              system model  end           **/
 
@@ -94,6 +96,7 @@ class RequestParamsHelper {
                 .addParam("user_as", userAs)
                 .addParam("uid", uid)
 
+        fun getLoginRedParam() = getWithIdParams(LOGIN_MODEL,"loginRed")
 
         /**              login model  end           **/
 
@@ -149,6 +152,8 @@ class RequestParamsHelper {
         val MONEY_MODEL = "money"
 
         fun getReChargeParam(money: String) = getWithIdParams(MONEY_MODEL, "recharge").addParam("money", money)
+
+        fun getCrashParam(card: String, sum: String) = getWithIdParams(MONEY_MODEL, "deposit").addParam("card", card).addParam("sum", sum)
 
         /**              money model end           **/
 
@@ -216,6 +221,8 @@ class RequestParamsHelper {
         fun getRedPacketListsParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "lists").addParam("red_id", red_id)
 
         fun getRedBiddingParam(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "bidding").addParam("red_id", red_id)
+
+        fun getBackRedPacket(red_id: String) = getWithIdParams(RED_PACKET_MODEL, "refund").addParam("red_id", red_id)
 
         /**             red packet model end    **/
 

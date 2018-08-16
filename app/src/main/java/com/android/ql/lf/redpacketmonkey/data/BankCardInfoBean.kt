@@ -10,4 +10,5 @@ class BankCardInfoBean {
     var card_phone:String? = null
     var card_is_show:String? = null
     var card_times:String? = null
+    var card_name:String? = null
 }

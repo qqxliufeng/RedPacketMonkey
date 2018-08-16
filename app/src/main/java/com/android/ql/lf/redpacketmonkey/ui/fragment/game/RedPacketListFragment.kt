@@ -193,13 +193,29 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
     fun openRedPacket() {
         if (currentRedPacketEntity != null) {
-            mPresent.getDataByPost(0x0, RequestParamsHelper.getRedPacketClickParam(currentRedPacketEntity!!.group_red_id.toString()))
+            if (currentRedPacketEntity!!.groud_red_is_get == 0) {
+                mPresent.getDataByPost(0x0, RequestParamsHelper.getRedPacketClickParam(currentRedPacketEntity!!.group_red_id.toString()))
+            } else {
+                noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "您已经抢过该红包了") {
+                    openRedPacketInfo()
+                }
+            }
         }
+    }
+
+    private fun openRedPacketInfo() {
+        FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(
+                Pair("red_id", currentRedPacketEntity!!.group_red_id.toString()),
+                Pair("pic", currentRedPacketEntity!!.group_red_pic),
+                Pair("nick_name", currentRedPacketEntity!!.group_red_name),
+                Pair("money", currentRedPacketEntity!!.group_red_sum + "-" + currentRedPacketEntity!!.group_red_mine),
+                Pair("count", currentRedPacketEntity!!.group_red_cou)
+        )).setTitle("红包详情").setNeedNetWorking(true).setClazz(RedPacketInfoFragment::class.java).start()
     }
 
     override fun onRequestStart(requestID: Int) {
         when (requestID) {
-            0x0, 0x2-> {
+            0x0, 0x2 -> {
                 getFastProgressDialog("正在加载……")
             }
         }
@@ -231,13 +247,8 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                     } else if (checked.code == "300") {// 没有红包了
                         currentRedPacketEntity!!.group_red_cou = "0"
                         RedPacketManager.updateRedPacket(currentRedPacketEntity!!)
-                        noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name) {
-                            FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(
-                                    Pair("red_id", currentRedPacketEntity!!.group_red_id.toString()),
-                                    Pair("pic", currentRedPacketEntity!!.group_red_pic),
-                                    Pair("nick_name", currentRedPacketEntity!!.group_red_name),
-                                    Pair("money", currentRedPacketEntity!!.group_red_sum + "-" + currentRedPacketEntity!!.group_red_mine)
-                            )).setTitle("红包详情").setNeedNetWorking(true).setClazz(RedPacketInfoFragment::class.java).start()
+                        noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "手慢了，红包派完了") {
+                            openRedPacketInfo()
                         }
                     }
                 }
@@ -246,15 +257,16 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                 val checked = checkResultCode(result)
                 if (checked != null) {
                     if (checked.code == SUCCESS_CODE) {
-                        if (PreferenceUtils.getPrefBoolean(mContext,"red_packet_sound",UserInfo.getInstance().user_is_red == 1)) {
+                        if (PreferenceUtils.getPrefBoolean(mContext, "red_packet_sound", UserInfo.getInstance().user_is_red == 1)) {
                             playSound()
                         }
-                        FragmentContainerActivity.from(mContext).setExtraBundle(bundleOf(
-                                Pair("red_id", currentRedPacketEntity!!.group_red_id.toString()),
-                                Pair("pic", currentRedPacketEntity!!.group_red_pic),
-                                Pair("nick_name", currentRedPacketEntity!!.group_red_name),
-                                Pair("money", currentRedPacketEntity!!.group_red_sum + "-" + currentRedPacketEntity!!.group_red_mine)
-                        )).setTitle("红包详情").setNeedNetWorking(true).setClazz(RedPacketInfoFragment::class.java).start()
+                        openRedPacketInfo()
+
+                        //标记已经抢过红包了
+                        currentRedPacketEntity!!.groud_red_is_get = 1
+
+                        RedPacketManager.updateRedPacket(currentRedPacketEntity)
+
                         RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                     } else {
                         toast((checked.obj as JSONObject).optString(MSG_FLAG))
@@ -295,6 +307,8 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             }
         }
     }
+
+
 
     private fun playSound() {
         mediaPlayer.start()

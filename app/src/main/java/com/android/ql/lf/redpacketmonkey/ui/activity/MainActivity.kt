@@ -1,17 +1,12 @@
 package com.android.ql.lf.redpacketmonkey.ui.activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.os.SystemClock
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.util.Log
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
-import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
-import com.android.ql.lf.redpacketmonkey.services.RedPacketServices
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.GameFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MessageFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
@@ -22,15 +17,13 @@ import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity() {
 
-    private var exsit:Long = 0L
+    private var exsit: Long = 0L
 
     private val userLogoutSubscription by lazy {
         RxBus.getDefault().toObservable(UserInfo::class.java).subscribe {
-            if (!it.isLogin) {
-                UserInfo.clearUserCache(this)
-                LoginFragment.startLogin(this)
-                finish()
-            }
+            UserInfo.clearUserCache(this)
+            LoginFragment.startLogin(this)
+            finish()
         }
     }
 
@@ -60,10 +53,7 @@ class MainActivity : BaseActivity() {
         }
         mVpMainContainer.offscreenPageLimit = 3
         mVpMainContainer.adapter = MainAdapter(supportFragmentManager)
-        MyApplication.getInstance().handler.postAtTime({
-            Log.e("TAG","postAtTime")
-            startService(Intent(this@MainActivity, RedPacketServices::class.java))
-        }, (1000 * 10)+ SystemClock.uptimeMillis())
+
     }
 
     override fun getStatusBarColor() = Color.TRANSPARENT
@@ -76,10 +66,10 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (System.currentTimeMillis() - exsit > 2000){
+        if (System.currentTimeMillis() - exsit > 2000) {
             exsit = System.currentTimeMillis()
             toast("再按一次退出")
-        }else{
+        } else {
             moveTaskToBack(false)
         }
     }

@@ -37,8 +37,8 @@ class SettingFragment : BaseFragment() {
         mBtSettingLogout.setOnClickListener{
             alert("提示","是否要退出当前账号？","退出","暂不退出",{_,_->
                 JMessageClient.logout()
-                UserInfo.getInstance().loginOut()
                 RxBus.getDefault().post(UserInfo.getInstance())
+                UserInfo.getInstance().loginOut()
                 finish()
             },null)
         }

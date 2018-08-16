@@ -54,15 +54,15 @@ class AddBankCarFragment : BaseNetWorkingFragment() {
             postBankCardBean.phone = mEtAddBankListCardPhone.getTextString()
             postBankCardBean.code = mEtAddBankListCardCode.getTextString()
             val checked = postBankCardBean.checked()
-            if (checked != ""){
+            if (checked != "") {
                 toast(checked)
                 return@setOnClickListener
             }
-            if (postBankCardBean.code != code){
+            if (postBankCardBean.code != code) {
                 toast("请输入正确的验证码")
                 return@setOnClickListener
             }
-            mPresent.getDataByPost(0x1,RequestParamsHelper.getAddBankCarParam(postBankCardBean))
+            mPresent.getDataByPost(0x1, RequestParamsHelper.getAddBankCarParam(postBankCardBean))
         }
     }
 
@@ -101,11 +101,9 @@ class AddBankCarFragment : BaseNetWorkingFragment() {
                 }
             }
             0x1 -> {
-                if (obj != null) {
-                    toast("添加成功")
-                    RxBus.getDefault().post(BankCardInfoBean())
-                    finish()
-                }
+                toast("添加成功")
+                RxBus.getDefault().post(BankCardInfoBean())
+                finish()
             }
         }
     }

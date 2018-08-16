@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.component;
 
 
+import com.android.ql.lf.redpacketmonkey.services.RedPacketServices;
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity;
 import com.android.ql.lf.redpacketmonkey.ui.activity.SelectAddressActivity;
 import com.android.ql.lf.redpacketmonkey.ui.activity.SplashActivity;
@@ -24,5 +25,7 @@ public interface ApiServerComponent {
     void inject(SplashActivity splashActivity);
 
     void inject(SelectAddressActivity selectAddressActivity);
+
+    void inject(RedPacketServices redPacketServices);
 
 }

@@ -64,6 +64,8 @@
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
             android:text="暂无"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/deepTextColor" />
 
     </LinearLayout>

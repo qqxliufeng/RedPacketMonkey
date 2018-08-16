@@ -9,13 +9,14 @@ import android.view.ViewGroup
 import android.widget.*
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
+import com.android.ql.lf.redpacketmonkey.utils.getTextString
 import com.android.ql.lf.redpacketmonkey.utils.isEmpty
 import com.android.ql.lf.redpacketmonkey.utils.isMoney
 import org.jetbrains.anko.support.v4.toast
 
 class CrashFragment : DialogFragment() {
 
-    private var listener: (() -> Unit)? = null
+    private var listener: ((String) -> Unit)? = null
 
     private var selectBankCarListener: (() -> Unit)? = null
 
@@ -46,7 +47,15 @@ class CrashFragment : DialogFragment() {
                 toast("请输入合法的提现金额")
                 return@setOnClickListener
             }
-            listener?.invoke()
+            if (et_money.getTextString().toFloat() == 0.0f){
+                toast("请输入合法的提现金额")
+                return@setOnClickListener
+            }
+            if (et_money.getTextString().toFloat() > UserInfo.getInstance().money_sum_cou.toFloat()) {
+                toast("提现金额不能大于当前帐户中的金额！")
+                return@setOnClickListener
+            }
+            listener?.invoke(et_money.getTextString())
         }
         ll_bank_card_container?.setOnClickListener {
             selectBankCarListener?.invoke()
@@ -61,7 +70,7 @@ class CrashFragment : DialogFragment() {
     }
 
 
-    fun myShow(manager: FragmentManager?, tag: String?, listener: () -> Unit, selectBankCardListener: () -> Unit) {
+    fun myShow(manager: FragmentManager?, tag: String?, listener: (String) -> Unit, selectBankCardListener: () -> Unit) {
         this.listener = listener
         this.selectBankCarListener = selectBankCardListener
         super.show(manager, tag)

@@ -43,9 +43,12 @@ class MineFragment : BaseNetWorkingFragment() {
 
     private var toolBarHeight = 0
 
+    private var bankCardInfoBean: BankCardInfoBean? = null
+
     private val bankCardSubscription by lazy {
         RxBus.getDefault().toObservable(BankCardInfoBean::class.java).subscribe {
-            crashFragment.setBankCardName(it.card_nickname!!)
+            bankCardInfoBean = it
+            crashFragment.setBankCardName(it.card_name!!)
         }
     }
 
@@ -64,6 +67,9 @@ class MineFragment : BaseNetWorkingFragment() {
     override fun initView(view: View?) {
         bankCardSubscription
         reloadUserInfoSubscription
+        mSrfMine.setOnRefreshListener {
+            mPresent.getDataByPost(0x2, RequestParamsHelper.getPersonalParam(UserInfo.getInstance().user_id))
+        }
         if (UserInfo.getInstance().isLogin) {
             GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
             mTvMineNickName.text = UserInfo.getInstance().user_nickname
@@ -95,7 +101,7 @@ class MineFragment : BaseNetWorkingFragment() {
         mTvMineRecharge.setOnClickListener {
             rechargeFragment.myShow(childFragmentManager, "recharge_dialog") {
                 if (!TextUtils.isEmpty(it)) {
-                    RechargeFragment.startRecharge(mContext, "1")
+                    RechargeFragment.startRecharge(mContext, it)
                 } else {
                     toast("请输入充值金额")
                 }
@@ -103,7 +109,12 @@ class MineFragment : BaseNetWorkingFragment() {
         }
         mTvMineCrash.setOnClickListener {
             crashFragment.myShow(childFragmentManager, "crash_dialog", listener = {
-
+                if (bankCardInfoBean == null) {
+                    toast("请先选择银行")
+                    return@myShow
+                }
+                mPresent.getDataByPost(0x3, RequestParamsHelper.getCrashParam(bankCardInfoBean!!.card_number!!, it))
+                crashFragment.dismiss()
             }, selectBankCardListener = {
                 BankListFragment.startBankCardList(mContext, true)
             })
@@ -137,22 +148,16 @@ class MineFragment : BaseNetWorkingFragment() {
     override fun onRequestStart(requestID: Int) {
         super.onRequestStart(requestID)
         when (requestID) {
-            0x0 -> {
-                getFastProgressDialog("正在充值……")
-            }
-            0x1 -> {
-
+            0x3 -> {
+                getFastProgressDialog("正在申请提现……")
             }
         }
     }
 
     override fun showFailMessage(requestID: Int): String {
         return when (requestID) {
-            0x0 -> {
-                "充值失败"
-            }
-            0x1 -> {
-                "充值失败"
+            0x3 -> {
+                "申请提现失败"
             }
             else -> {
                 "未知错误"
@@ -160,17 +165,21 @@ class MineFragment : BaseNetWorkingFragment() {
         }
     }
 
+    override fun onRequestEnd(requestID: Int) {
+        super.onRequestEnd(requestID)
+        if (requestID == 0x2) {
+            mSrfMine.post { mSrfMine.isRefreshing = false }
+        }
+    }
+
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         when (requestID) {
-            0x0 -> {
-                if (obj != null) {
-                    toast("充值成功！")
-                }
-            }
-            0x1 -> {
-            }
-            0x2->{
+            0x2 -> {
                 userPresent.onLoginNoBus(obj as JSONObject)
+            }
+            0x3 -> {
+                toast("提现成功，请等待后台审核……")
+
             }
         }
     }

@@ -79,10 +79,10 @@ class RechargeDialogFragment : DialogFragment() {
                 toast("请输入金额")
                 return@setOnClickListener
             }
-//            if (selectedItem!!.toFloat() < 50.00f || selectedItem!!.toFloat() > 5000.00f) {
-//                toast("请输入50 ~ 5000之间的金额")
-//                return@setOnClickListener
-//            }
+            if (selectedItem!!.toFloat() < 50.00f || selectedItem!!.toFloat() > 5000.00f) {
+                toast("请输入50 ~ 5000之间的金额")
+                return@setOnClickListener
+            }
             this.listener?.invoke(selectedItem!!.trim())
             dismiss()
         }

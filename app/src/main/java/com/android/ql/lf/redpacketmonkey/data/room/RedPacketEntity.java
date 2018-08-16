@@ -60,6 +60,9 @@ public class RedPacketEntity implements MultiItemEntity {
     //发送人的头像
     public String group_red_pic;
 
+    //记录是否已经抢过红包了
+    public int groud_red_is_get;
+
 
     public static final int SEND_RED_PACKET = 0;
     public static final int FROM_RED_PACKET = 1;
