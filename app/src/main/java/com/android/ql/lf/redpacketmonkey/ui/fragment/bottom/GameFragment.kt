@@ -5,14 +5,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import cn.jpush.im.android.api.JMessageClient
-import cn.jpush.im.android.api.callback.GetGroupIDListCallback
-import cn.jpush.im.android.api.callback.GetGroupInfoCallback
-import cn.jpush.im.android.api.model.GroupInfo
-import cn.jpush.im.api.BasicCallback
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
@@ -26,7 +20,6 @@ import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import kotlinx.android.synthetic.main.activity_fragment_container_layout.*
 import kotlinx.android.synthetic.main.fragment_main_game_layout.*
 import org.jetbrains.anko.bundleOf
 import org.json.JSONObject
