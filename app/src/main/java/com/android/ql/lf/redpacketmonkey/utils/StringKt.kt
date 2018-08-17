@@ -25,7 +25,7 @@ fun String.hiddenBankCarNum(): String {
 fun String.formatTime(): String {
     return try {
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        simpleDateFormat.format(Date(this.toLong()))
+        simpleDateFormat.format(Date(this.toLong() * 1000))
     } catch (e: Exception) {
         ""
     }

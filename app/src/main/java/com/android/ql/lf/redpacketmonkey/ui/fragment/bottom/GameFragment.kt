@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
@@ -42,16 +43,14 @@ class GameFragment : BaseRecyclerViewFragment<GroupBean>() {
     override fun initView(view: View?) {
         super.initView(view)
         (mTlMainGame.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
-        mBaseAdapter.addHeaderView(View.inflate(mContext, R.layout.layout_game_top_layout, null))
+        val topView = View.inflate(mContext, R.layout.layout_game_top_layout, null)
+        GlideManager.loadImage(mContext,UserInfo.getInstance().logo,topView.findViewById(R.id.mIvGameTopPic))
+        mBaseAdapter.addHeaderView(topView)
         setLoadEnable(false)
         mBaseAdapter.setHeaderFooterEmpty(true, false)
         if (UserInfo.getInstance().isLogin) {
             mPresent.getDataByPost(0x1, RequestParamsHelper.getLoginRedParam())
         }
-
-        Log.e("TAG", Calendar.getInstance().get(Calendar.MILLISECOND).toString())
-        Log.e("TAG", System.currentTimeMillis().toString())
-
     }
 
     override fun getEmptyMessage() = "暂无群组"
@@ -83,7 +82,7 @@ class GameFragment : BaseRecyclerViewFragment<GroupBean>() {
                                     val intent = Intent(MyApplication.application, RedPacketServices::class.java)
                                     intent.putExtra("red_id", jsonData.optLong("group_red_id"))
                                     MyApplication.application.startService(intent)
-                                }, jsonData.optLong("group_red_quit_times") * 1000 - System.currentTimeMillis())
+                                }, time)
                             }
                         }
                     }

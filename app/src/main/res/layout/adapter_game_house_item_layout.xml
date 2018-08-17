@@ -15,6 +15,7 @@
         android:layout_height="70dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="centerCrop"
         android:src="@drawable/icon_game_lei" />
 
     <TextView

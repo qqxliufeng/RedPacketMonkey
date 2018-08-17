@@ -125,7 +125,6 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             RedPacketManager.current_mode = RedPacketManager.ActionMode.NONE
         })
 
-
         mBaseAdapter.isUpFetchEnable = true
         mBaseAdapter.setStartUpFetchPosition(0)
         mBaseAdapter.setUpFetchListener {
@@ -191,10 +190,22 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         }
     }
 
-    fun openRedPacket() {
+    private fun openRedPacket() {
         if (currentRedPacketEntity != null) {
-            if (currentRedPacketEntity!!.groud_red_is_get == 0) {
-                mPresent.getDataByPost(0x0, RequestParamsHelper.getRedPacketClickParam(currentRedPacketEntity!!.group_red_id.toString()))
+            if (groupInfo.group_as == UserInfo.getInstance().user_as) { //判断当前用户是不是群主，若是，则直接看手气
+                noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "您已经抢过该红包了") {
+                    openRedPacketInfo()
+                }
+                return
+            }
+            if (currentRedPacketEntity!!.groud_red_is_get == 0) { //判断自己是否已经抢过了 0 没有 1 抢过了
+                if (currentRedPacketEntity!!.group_red_quit_times.toLong() * 1000 > System.currentTimeMillis()) { //判断红包是否已经过期了
+                    mPresent.getDataByPost(0x0, RequestParamsHelper.getRedPacketClickParam(currentRedPacketEntity!!.group_red_id.toString()))
+                } else {
+                    noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "该红包已经过期了~") {
+                        openRedPacketInfo()
+                    }
+                }
             } else {
                 noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "您已经抢过该红包了") {
                     openRedPacketInfo()
@@ -239,16 +250,34 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             0x0 -> { //打开红包
                 val checked = checkResultCode(result)
                 if (checked != null) {
-                    if (checked.code == SUCCESS_CODE) {
-                        openRedPacketDialogFragment.myShow(childFragmentManager, "open_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "${currentRedPacketEntity!!.group_red_sum} - ${currentRedPacketEntity!!.group_red_mine}") {
-                            //检查余额是否够抢红包的
-                            mPresent.getDataByPost(0x3, RequestParamsHelper.getPersonalParam(UserInfo.getInstance().user_id))
+                    when (checked.code) {
+                        SUCCESS_CODE -> { //正常抢红包
+                            openRedPacketDialogFragment.myShow(childFragmentManager, "open_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "${currentRedPacketEntity!!.group_red_sum} - ${currentRedPacketEntity!!.group_red_mine}") {
+                                //检查余额是否够抢红包的
+                                mPresent.getDataByPost(0x3, RequestParamsHelper.getPersonalParam(UserInfo.getInstance().user_id))
+                            }
                         }
-                    } else if (checked.code == "300") {// 没有红包了
-                        currentRedPacketEntity!!.group_red_cou = "0"
-                        RedPacketManager.updateRedPacket(currentRedPacketEntity!!)
-                        noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "手慢了，红包派完了") {
-                            openRedPacketInfo()
+                        "301" -> { //你已经抢过红包了!
+                            //标记已经抢过红包了
+                            currentRedPacketEntity!!.groud_red_is_get = 1
+                            RedPacketManager.updateRedPacket(currentRedPacketEntity)
+
+                            noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "您已经抢过该红包了") {
+                                openRedPacketInfo()
+                            }
+                        }
+                        "302" -> {//你得手慢了,红包已经被强光了!
+                            currentRedPacketEntity!!.group_red_recou = currentRedPacketEntity!!.group_red_cou
+                            RedPacketManager.updateRedPacket(currentRedPacketEntity)
+
+                            noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "手慢了，红包派完了") {
+                                openRedPacketInfo()
+                            }
+                        }
+                        "303" -> {//该红包已经过期了!
+                            noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "该红包已经过期了~") {
+                                openRedPacketInfo()
+                            }
                         }
                     }
                 }
@@ -256,20 +285,23 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             0x1 -> { //获取红包钱
                 val checked = checkResultCode(result)
                 if (checked != null) {
-                    if (checked.code == SUCCESS_CODE) {
-                        if (PreferenceUtils.getPrefBoolean(mContext, "red_packet_sound", UserInfo.getInstance().user_is_red == 1)) {
-                            playSound()
+                    when (checked.code) {
+                        SUCCESS_CODE -> {
+                            if (PreferenceUtils.getPrefBoolean(mContext, "red_packet_sound", UserInfo.getInstance().user_is_red == 1)) {
+                                playSound()
+                            }
+                            openRedPacketInfo()
+                            //标记已经抢过红包了
+                            currentRedPacketEntity!!.groud_red_is_get = 1
+                            RedPacketManager.updateRedPacket(currentRedPacketEntity)
+
+                            RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                         }
-                        openRedPacketInfo()
-
-                        //标记已经抢过红包了
-                        currentRedPacketEntity!!.groud_red_is_get = 1
-
-                        RedPacketManager.updateRedPacket(currentRedPacketEntity)
-
-                        RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
-                    } else {
-                        toast((checked.obj as JSONObject).optString(MSG_FLAG))
+                        "300" -> {
+                            toast((checked.obj as JSONObject).optString(MSG_FLAG))
+                            openRedPacketInfo()
+                        }
+                        else -> toast((checked.obj as JSONObject).optString(MSG_FLAG))
                     }
                 }
             }
@@ -307,8 +339,6 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             }
         }
     }
-
-
 
     private fun playSound() {
         mediaPlayer.start()

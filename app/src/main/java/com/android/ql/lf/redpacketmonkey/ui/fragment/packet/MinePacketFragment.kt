@@ -11,6 +11,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import kotlinx.android.synthetic.main.fragment_mine_packet_layout.*
 import org.json.JSONObject
+import java.math.BigDecimal
 
 class MinePacketFragment : BaseNetWorkingFragment() {
 
@@ -55,9 +56,9 @@ class MinePacketFragment : BaseNetWorkingFragment() {
 
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         if (checkedObjType(obj)){
-            UserInfo.getInstance().money_sum_cou = (obj as JSONObject).optString("sumcou")
+            UserInfo.getInstance().setMoney_sum_cou((obj as JSONObject).optDouble("sumcou"))
             UserInfoLiveData.postUserInfo()
-            mTvMinePacketMoneyCount.text = "${UserInfo.getInstance().money_sum_cou.toFloat()}"
+            mTvMinePacketMoneyCount.text = "${UserInfo.getInstance().money_sum_cou}"
         }
     }
 }

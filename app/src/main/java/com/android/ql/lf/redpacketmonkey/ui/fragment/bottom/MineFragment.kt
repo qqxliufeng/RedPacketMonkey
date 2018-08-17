@@ -48,7 +48,7 @@ class MineFragment : BaseNetWorkingFragment() {
     private val bankCardSubscription by lazy {
         RxBus.getDefault().toObservable(BankCardInfoBean::class.java).subscribe {
             bankCardInfoBean = it
-            crashFragment.setBankCardName(it.card_name!!)
+            crashFragment.setBankCardName(if(TextUtils.isEmpty(it.card_name))"暂无所属银行" else it.card_name!!)
         }
     }
 
@@ -78,7 +78,7 @@ class MineFragment : BaseNetWorkingFragment() {
         UserInfoLiveData.observe(this, Observer<UserInfo> {
             mTvMineNickName.text = it?.user_nickname
             GlideManager.loadFaceCircleImage(mContext, UserInfo.getInstance().user_pic, mIvMineFace)
-            mTvMineMoneyCount.text = "￥ ${UserInfo.getInstance().money_sum_cou.toFloat()}"
+            mTvMineMoneyCount.text = "￥ ${UserInfo.getInstance().money_sum_cou}"
         })
         (mTlMainMine.layoutParams as ViewGroup.MarginLayoutParams).topMargin = statusBarHeight
         mTlMainMine.post {

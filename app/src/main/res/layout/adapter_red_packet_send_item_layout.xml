@@ -7,6 +7,17 @@
     android:orientation="vertical"
     android:padding="@dimen/dp_10">
 
+   <!-- <TextView
+        android:id="@+id/mTvRedPacketSendItemTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="2018-09-18"
+        android:textColor="#999"
+        android:textSize="@dimen/sp_12"
+        android:gravity="center"/>-->
+
+
     <ImageView
         android:id="@+id/mIvRedPacketSendItemFace"
         android:layout_width="50dp"

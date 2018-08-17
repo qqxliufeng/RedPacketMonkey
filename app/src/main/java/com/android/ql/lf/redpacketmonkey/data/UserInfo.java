@@ -7,6 +7,9 @@ import android.text.TextUtils;
 import com.android.ql.lf.redpacketmonkey.utils.Constants;
 import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 /**
  * Created by lf on 18.2.10.
  *
@@ -60,7 +63,7 @@ public class UserInfo {
     private String user_sex;
     private String user_dizhi;
     private String money_id;
-    private String money_sum_cou;
+    private double money_sum_cou;
     private String money_sum_emit;
     private String money_sum_collect;
     private String money_sum_ti;
@@ -70,6 +73,16 @@ public class UserInfo {
 
     private int user_is_news;
     private int user_is_red;
+
+    private String logo;
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
     public int getUser_is_news() {
         return user_is_news;
@@ -128,10 +141,11 @@ public class UserInfo {
     }
 
     public String getMoney_sum_cou() {
-        return money_sum_cou;
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(money_sum_cou);
     }
 
-    public void setMoney_sum_cou(String money_sum_cou) {
+    public void setMoney_sum_cou(double money_sum_cou) {
         this.money_sum_cou = money_sum_cou;
     }
 

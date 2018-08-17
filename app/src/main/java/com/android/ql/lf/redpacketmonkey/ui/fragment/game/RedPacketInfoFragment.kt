@@ -36,6 +36,11 @@ class RedPacketInfoFragment : BaseRecyclerViewFragment<RedPacketInfoBean>() {
             helper.setText(R.id.mTvRedPacketInfoItemTime, item.red_times?.toString()?.formatTime())
             helper.setText(R.id.mTvRedPacketInfoItemMoney, item.red_sum.toString())
             helper.setVisible(R.id.mTvRedPacketInfoItemLuck, item.red_luck == 1)
+            if (item.red_mine == null){
+                helper.setGone(R.id.mTvRedPacketInfoItemMine,false)
+            }else{
+                helper.setGone(R.id.mTvRedPacketInfoItemMine,item.red_mine == 1)
+            }
         }
     }
 

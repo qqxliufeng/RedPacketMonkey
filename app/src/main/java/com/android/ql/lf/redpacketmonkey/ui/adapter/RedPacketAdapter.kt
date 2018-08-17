@@ -24,7 +24,7 @@ class RedPacketAdapter(list: ArrayList<RedPacketEntity>) : BaseMultiItemQuickAda
                 helper.setText(R.id.mTvRedPacketSendItemName, UserInfo.getInstance().user_nickname)
                 helper.setText(R.id.mTvRedPacketSendItemTitle, "${item.group_red_sum} - ${item.group_red_mine}")
                 val rl_container = helper.getView<RelativeLayout>(R.id.mRLRedPacketSendItemContainer)
-                if (item.group_red_cou == "0"){
+                if (item.group_red_cou == item.group_red_recou || item.groud_red_is_get == 1 || item.group_red_quit_times.toLong() * 1000 < System.currentTimeMillis()){
                     rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_4)
                 }else{
                     rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_3)
@@ -40,7 +40,7 @@ class RedPacketAdapter(list: ArrayList<RedPacketEntity>) : BaseMultiItemQuickAda
                 })
                 helper.setText(R.id.mTvRedPacketFromItemTitle, "${item.group_red_sum} - ${item.group_red_mine}")
                 val rl_container = helper.getView<RelativeLayout>(R.id.mRLRedPacketFromItemContainer)
-                if (item.group_red_cou == "0"){
+                if (item.group_red_cou == item.group_red_recou || item.groud_red_is_get == 1 || item.group_red_quit_times.toLong() * 1000 < System.currentTimeMillis()){
                     rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_2)
                 }else{
                     rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_1)

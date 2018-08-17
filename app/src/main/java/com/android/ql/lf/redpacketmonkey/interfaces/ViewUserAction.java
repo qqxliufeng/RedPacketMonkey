@@ -37,7 +37,7 @@ public class ViewUserAction implements IViewUserAction {
             UserInfo.getInstance().setUser_dizhi(result.optString("user_dizhi"));
 
             UserInfo.getInstance().setMoney_id(result.optString("money_id"));
-            UserInfo.getInstance().setMoney_sum_cou(result.optString("money_sum_cou"));
+            UserInfo.getInstance().setMoney_sum_cou(result.optDouble("money_sum_cou"));
             UserInfo.getInstance().setMoney_sum_emit(result.optString("money_sum_emit"));
             UserInfo.getInstance().setMoney_sum_collect(result.optString("money_sum_collect"));
             UserInfo.getInstance().setMoney_sum_ti(result.optString("money_sum_ti"));
@@ -45,6 +45,8 @@ public class ViewUserAction implements IViewUserAction {
 
             UserInfo.getInstance().setUser_is_news(result.optInt("user_is_news"));
             UserInfo.getInstance().setUser_is_red(result.optInt("user_is_red"));
+
+            UserInfo.getInstance().setLogo(result.optString("logo"));
 
             PreferenceUtils.setPrefString(MyApplication.application, UserInfo.USER_ID_FLAG, UserInfo.getInstance().getUser_id());
             UserInfoLiveData.INSTANCE.postUserInfo();

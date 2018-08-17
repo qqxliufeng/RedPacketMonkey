@@ -3,6 +3,7 @@ package com.android.ql.lf.redpacketmonkey.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
 import com.android.ql.lf.redpacketmonkey.component.ApiServerModule;
