@@ -19,8 +19,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
 import com.android.ql.lf.redpacketmonkey.ui.widgets.PayPsdInputView
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.windowManager
 
 fun Context.checkGpsIsOpen(): Boolean {
@@ -66,7 +68,7 @@ fun Context.getScreenSize(): BaseFragment.ScreenSize {
 fun Context.startWebAliPay(url: String): Boolean {
     if (url.contains("platformapi/startapp")) {
         return try {
-            Log.e("TAG",url)
+            Log.e("TAG", url)
             val intent: Intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)
             intent.component = null
             startActivity(intent)
@@ -132,8 +134,15 @@ fun Context.showPayPasswordDialog(resetAction: () -> Unit, forgetAction: () -> U
         }
 
         override fun inputFinished(inputPsd: String?) {
-            action(inputPsd!!)
-            dialog.dismiss()
+            if (inputPsd != null) {
+                if (inputPsd.md5().md5() == UserInfo.getInstance().user_z_pass) {
+                    action(inputPsd)
+                    dialog.dismiss()
+                } else {
+                    toast("支付密码不正确")
+                    et_password.setText("")
+                }
+            }
         }
     })
     dialog.setContentView(contentView)

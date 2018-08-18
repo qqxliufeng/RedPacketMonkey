@@ -6,8 +6,6 @@ import android.text.TextUtils;
 
 import com.android.ql.lf.redpacketmonkey.utils.Constants;
 import com.android.ql.lf.redpacketmonkey.utils.PreferenceUtils;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -62,6 +60,7 @@ public class UserInfo {
     private String user_as;
     private String user_sex;
     private String user_dizhi;
+    private String user_z_pass;
     private String money_id;
     private double money_sum_cou;
     private String money_sum_emit;
@@ -287,6 +286,14 @@ public class UserInfo {
 
     public void setUser_pic(String user_pic) {
         this.user_pic = user_pic;
+    }
+
+    public String getUser_z_pass() {
+        return user_z_pass;
+    }
+
+    public void setUser_z_pass(String user_z_pass) {
+        this.user_z_pass = user_z_pass;
     }
 
     public boolean isLogin() {

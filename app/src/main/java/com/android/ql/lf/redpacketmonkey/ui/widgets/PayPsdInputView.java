@@ -82,7 +82,7 @@ public class PayPsdInputView extends AppCompatEditText {
      * 竖直分割线的颜色
      */
     private int divideLineColor = getResources().getColor(R.color.colorPrimary);
-    private int focusedColor = getResources().getColor(R.color.colorPrimary);
+    private int focusedColor = getResources().getColor(R.color.colorAccent);
     private RectF rectF = new RectF();
     private RectF focusedRecF = new RectF();
     private int psdType = 0;

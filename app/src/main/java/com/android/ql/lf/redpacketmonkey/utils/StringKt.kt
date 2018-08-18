@@ -2,7 +2,9 @@ package com.android.ql.lf.redpacketmonkey.utils
 
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.SimpleFormatter
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
 
 fun String.hiddenPhone(): String {
     return "${this.substring(0, 3)}****${this.substring(7, this.length)}"
@@ -61,4 +63,26 @@ fun String.getBankCardCheckCode(nonCheckCodeBankCard: String?): Char {
         j++
     }
     return if (luhmSum % 10 == 0) '0' else (10 - luhmSum % 10 + '0'.toInt()).toChar()
+}
+
+
+fun String.md5(): String {
+    try {
+        val instance: MessageDigest = MessageDigest.getInstance("MD5")
+        val digest: ByteArray = instance.digest(this.toByteArray())
+        val sb = StringBuffer()
+        for (b in digest) {
+            val i: Int = b.toInt() and 0xff
+            var hexString = Integer.toHexString(i)
+            if (hexString.length < 2) {
+                hexString = "0$hexString"
+            }
+            sb.append(hexString)
+        }
+        return sb.toString()
+
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+    }
+    return ""
 }

@@ -34,7 +34,7 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
     }
 
 
-    private var back_time:Long? = null
+    private var back_time: Long? = null
 
     override fun getLayoutId() = R.layout.fragment_send_red_packet_layout
 
@@ -59,7 +59,9 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                 toast("请输入红包雷数")
                 return@setOnClickListener
             }
-            mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!.toString(), mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
+            mContext.showPayPasswordDialog({}, {}) {
+                mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!.toString(), mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
+            }
         }
         mPresent.getDataByPost(0x0, RequestParamsHelper.getGroupInfoParam(groupInfo.group_id!!.toString()))
     }
@@ -82,7 +84,7 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
     }
 
     override fun onRequestFail(requestID: Int, e: Throwable) {
-        if (requestID == 0x0){
+        if (requestID == 0x0) {
             toast("信息加载失败")
         }
     }
