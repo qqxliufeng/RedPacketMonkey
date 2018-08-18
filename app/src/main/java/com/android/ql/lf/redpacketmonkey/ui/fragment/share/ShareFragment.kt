@@ -41,7 +41,7 @@ class ShareFragment : BaseFragment(), IUiListener {
                 when(it){
                     ShareDialogFragment.WX_SHARE->{
                         Glide.with(this)
-                                .load(UserInfo.getInstance().sharePic)
+                                .load(R.mipmap.ic_launcher)
                                 .asBitmap()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .into(object : SimpleTarget<Bitmap>(150, 150) {
@@ -57,7 +57,7 @@ class ShareFragment : BaseFragment(), IUiListener {
                     }
                     ShareDialogFragment.CIRCLE_SHARE->{
                         Glide.with(this)
-                                .load(UserInfo.getInstance().sharePic)
+                                .load(R.mipmap.ic_launcher)
                                 .asBitmap()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .into(object : SimpleTarget<Bitmap>(150, 150) {

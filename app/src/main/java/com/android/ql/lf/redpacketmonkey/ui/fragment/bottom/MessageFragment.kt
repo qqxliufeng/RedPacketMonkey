@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
@@ -27,7 +26,7 @@ import org.json.JSONObject
 class MessageFragment : BaseNetWorkingFragment() {
 
     companion object {
-        val INSTALL_PACKAGES_REQUESTCODE = 0
+        const val INSTALL_PACKAGES_REQUESTCODE = 0
     }
 
 
@@ -53,6 +52,7 @@ class MessageFragment : BaseNetWorkingFragment() {
                 mSrlMessage.post {
                     mSrlMessage.isRefreshing = false
                 }
+                imgReset()
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -78,6 +78,17 @@ class MessageFragment : BaseNetWorkingFragment() {
             mWbMessageContent.reload()
         }
         mPresent.getDataByPost(0x0, RequestParamsHelper.getVerupdateParam())
+    }
+
+    private fun imgReset() {
+        mWbMessageContent.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName('img'); " +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{"
+                + "var img = objs[i];   " +
+                "    img.style.maxWidth = '100%'; img.style.height = 'auto';  " +
+                "}" +
+                "})()")
     }
 
 

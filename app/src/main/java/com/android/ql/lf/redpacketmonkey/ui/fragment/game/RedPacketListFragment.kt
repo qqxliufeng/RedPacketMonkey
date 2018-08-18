@@ -30,28 +30,49 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.synthetic.main.fragment_red_packet_list_layout.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.collections.forEachReversedByIndex
+import org.jetbrains.anko.collections.forEachReversedWithIndex
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
 
 class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
+    companion object {
+        //两个红包之间的间隔时间
+        const val INTERVAL_TIME = 60 * 2
+    }
 
+    /**
+     * 显示打开红包的对话框
+     */
     private val openRedPacketDialogFragment by lazy {
         OpenRedPacketDialogFragment()
     }
 
+    /**
+     * 显示没有红包的对话框
+     */
     private val noRedPacketDialogFragment by lazy {
         NoRedPacketDialogFragment()
     }
 
+    /**
+     * 显示余额不足的对话框
+     */
     private val noMoneyDialogFragment by lazy {
         NoMoneyDialogFragment()
     }
 
+    /**
+     * 显示我的余额的对话框
+     */
     private val myAccountDialogFragment by lazy {
         MyAccountDialogFragment()
     }
 
+    /**
+     * 群组信息
+     */
     private val groupInfo by lazy {
         arguments!!.getSerializable(SendRedPacketFragment.GROUP_INFO_FLAG) as GroupBean
     }
@@ -60,12 +81,19 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         UserPresent()
     }
 
+    /**
+     * 退出群组事件
+     */
     private val logoutGroupSubscription by lazy {
         RxBus.getDefault().toObservable(GroupSettingFragment.GroupLogoutBean::class.java).subscribe {
             finish()
         }
     }
 
+
+    /**
+     * 媒体播放组件
+     */
     private val mediaPlayer by lazy {
         MediaPlayer.create(mContext, R.raw.diaoluo_da)
     }
@@ -84,6 +112,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         val tempList = MyApplication.getRedPacketDao().queryByLimit(groupInfo.group_id!!, currentPage, 10)
         if (tempList != null && !tempList.isEmpty()) {
             tempList.reverse()
+            sortTime(tempList as ArrayList<RedPacketEntity>)
             mBaseAdapter.addData(tempList)
             mRecyclerView.scrollToPosition(mArrayList.size - 1)
         }
@@ -102,19 +131,24 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         //监听插入、删除所有的记录
         MyApplication.getRedPacketDao().queryLastOne(groupInfo.group_id!!).observe(this, Observer<RedPacketEntity> {
             when (RedPacketManager.current_mode) {
-                RedPacketManager.ActionMode.INSERT -> {
+                RedPacketManager.ActionMode.INSERT -> { //当前为插入模式
                     if (it != null) {
-                        if (mArrayList.isEmpty() || mArrayList[mArrayList.size - 1].id != it.id) { // 如果集合是空的 或者 集合中最后一条数据的id 不等于 it 的id 要插入
+                        if (mArrayList.isEmpty()) { // 如果集合是空的 或者 集合中最后一条数据的id 不等于 it 的id 要插入
+                            it.isShowTime = true
                             mBaseAdapter.addData(it)
-                            mRecyclerView.scrollToPosition(mArrayList.size - 1)
+                            mRecyclerView.scrollToPosition(mArrayList.lastIndex)
+                        } else if (mArrayList[mArrayList.lastIndex].id != it.id) {
+                            it.isShowTime = it.group_red_times.toLong() - mArrayList[mArrayList.lastIndex].group_red_times.toLong() > INTERVAL_TIME
+                            mBaseAdapter.addData(it)
+                            mRecyclerView.scrollToPosition(mArrayList.lastIndex)
                         }
                     }
                 }
-                RedPacketManager.ActionMode.DELETE -> {
+                RedPacketManager.ActionMode.DELETE -> { //当前为删除模式
                     mArrayList.clear()
                     mBaseAdapter.notifyDataSetChanged()
                 }
-                RedPacketManager.ActionMode.UPDATE -> {
+                RedPacketManager.ActionMode.UPDATE -> { //当前为更新模式
                     if (currentRedPacketEntity != null) {
                         mBaseAdapter.notifyItemChanged(mArrayList.indexOf(currentRedPacketEntity))
                     }
@@ -136,6 +170,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
             val tempList = RedPacketManager.queryByLimit(groupInfo.group_id!!, currentPage, 10)
             if (tempList != null && !tempList.isEmpty()) {
                 tempList.reverse()
+                sortTime(tempList as ArrayList<RedPacketEntity>)
                 mRecyclerView.postDelayed({
                     mBaseAdapter.addData(0, tempList)
                 }, 1000)
@@ -145,7 +180,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         mIvRedPacketAdd.setOnClickListener {
             if (mLlRedPacketPayTypeContainer.visibility == View.GONE) {
                 mLlRedPacketPayTypeContainer.visibility = View.VISIBLE
-                mRecyclerView.scrollToPosition(mArrayList.size - 1)
+                mRecyclerView.scrollToPosition(mArrayList.lastIndex)
             } else {
                 mLlRedPacketPayTypeContainer.visibility = View.GONE
             }
@@ -190,6 +225,9 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         }
     }
 
+    /**
+     * 打开红包，做一定的判断
+     */
     private fun openRedPacket() {
         if (currentRedPacketEntity != null) {
             if (groupInfo.group_as == UserInfo.getInstance().user_as) { //判断当前用户是不是群主，若是，则直接看手气
@@ -205,11 +243,31 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                     noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "该红包已经过期了~") {
                         openRedPacketInfo()
                     }
+                    mBaseAdapter.notifyItemChanged(mArrayList.indexOf(currentRedPacketEntity))
                 }
             } else {
                 noRedPacketDialogFragment.myShow(childFragmentManager, "no_red_packet_dialog", currentRedPacketEntity!!.group_red_pic, currentRedPacketEntity!!.group_red_name, "您已经抢过该红包了") {
                     openRedPacketInfo()
                 }
+            }
+        }
+    }
+
+    /**
+     * 根据间隔时间来排序
+     */
+    private fun sortTime(list: ArrayList<RedPacketEntity>?) {
+        if (list != null) {
+            if (list.size > 2) {
+                list.forEachReversedWithIndex { i, redPacketEntity ->
+                    if (i == 0) { //如果是最后一条数据，则直接显示时间
+                        redPacketEntity.isShowTime = true
+                        return
+                    }
+                    redPacketEntity.isShowTime = redPacketEntity.group_red_times.toLong() - list[i - 1].group_red_times.toLong() > INTERVAL_TIME
+                }
+            } else if (list.size == 1) { //如果只有 1 条 就直接显示时间
+                list[0].isShowTime = true
             }
         }
     }
@@ -294,12 +352,15 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
                             //标记已经抢过红包了
                             currentRedPacketEntity!!.groud_red_is_get = 1
                             RedPacketManager.updateRedPacket(currentRedPacketEntity)
-
                             RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                         }
                         "300" -> {
                             toast((checked.obj as JSONObject).optString(MSG_FLAG))
                             openRedPacketInfo()
+                            //标记已经抢过红包了
+                            currentRedPacketEntity!!.groud_red_is_get = 1
+                            RedPacketManager.updateRedPacket(currentRedPacketEntity)
+                            RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                         }
                         else -> toast((checked.obj as JSONObject).optString(MSG_FLAG))
                     }
@@ -340,6 +401,9 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
         }
     }
 
+    /**
+     *播放红包音效
+     */
     private fun playSound() {
         mediaPlayer.start()
     }

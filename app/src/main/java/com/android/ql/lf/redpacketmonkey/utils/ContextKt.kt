@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -13,8 +14,13 @@ import android.support.v7.app.AlertDialog
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.TextView
+import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseFragment
+import com.android.ql.lf.redpacketmonkey.ui.widgets.PayPsdInputView
 import org.jetbrains.anko.windowManager
 
 fun Context.checkGpsIsOpen(): Boolean {
@@ -98,4 +104,39 @@ fun Context.alert(title: String? = "title",
     builder.setNegativeButton(negativeButton, negativeAction)
     builder.setPositiveButton(positiveButton, positiveAction)
     builder.create().show()
+}
+
+
+fun Context.showPayPasswordDialog(resetAction: () -> Unit, forgetAction: () -> Unit, action: (String) -> Unit) {
+    val dialog = Dialog(this)
+    dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    val attributes = dialog.window.attributes
+    attributes.y = -this.getScreenSize().height / 5
+    dialog.window.attributes = attributes
+    val contentView = View.inflate(this, R.layout.dialog_wallet_password_layout, null)
+    contentView.findViewById<TextView>(R.id.mTvResetWalletPassword).setOnClickListener {
+        dialog.dismiss()
+        resetAction()
+
+    }
+    contentView.findViewById<TextView>(R.id.mTvForgetWalletPassword).setOnClickListener {
+        dialog.dismiss()
+        forgetAction()
+    }
+    val et_password = contentView.findViewById<PayPsdInputView>(R.id.mEtWalletPassword)
+    et_password.setComparePassword(object : PayPsdInputView.onPasswordListener {
+        override fun onDifference(oldPsd: String?, newPsd: String?) {
+        }
+
+        override fun onEqual(psd: String?) {
+        }
+
+        override fun inputFinished(inputPsd: String?) {
+            action(inputPsd!!)
+            dialog.dismiss()
+        }
+    })
+    dialog.setContentView(contentView)
+    dialog.show()
+    contentView.postDelayed({ this.showKeyBoard(contentView.findViewById<EditText>(R.id.mEtWalletPassword)) }, 100)
 }

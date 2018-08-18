@@ -3,27 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/mTvRedPacketReceiverItemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_tv_bg3"
+        android:gravity="center"
+        android:textColor="#999"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ImageView
         android:id="@+id/mIvRedPacketFromItemFace"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/test_face"
-        android:layout_marginTop="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketReceiverItemTime" />
 
     <TextView
         android:id="@+id/mTvRedPacketFromItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_10"
-        android:text="路人甲"
-        android:textSize="@dimen/sp_12"
+        android:layout_marginTop="@dimen/dp_10"
+        tools:text="路人甲"
         android:textColor="@color/normalTextColor"
-        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketFromItemFace" />
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketFromItemFace"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketReceiverItemTime" />
 
     <RelativeLayout
         android:id="@+id/mRLRedPacketFromItemContainer"
@@ -60,12 +75,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="红包"
-            android:layout_marginLeft="20dp"
-            android:textSize="@dimen/sp_12"
-            android:layout_marginBottom="3dp"
             android:layout_alignParentBottom="true"
-            android:textColor="@color/normalTextColor" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"
+            android:text="红包"
+            android:textColor="@color/normalTextColor"
+            android:textSize="@dimen/sp_12" />
 
     </RelativeLayout>
 

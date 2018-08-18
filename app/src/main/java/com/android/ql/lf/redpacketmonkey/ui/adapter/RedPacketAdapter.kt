@@ -6,6 +6,7 @@ import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
 import com.android.ql.lf.redpacketmonkey.utils.GlideManager
+import com.android.ql.lf.redpacketmonkey.utils.formatTime
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
@@ -30,6 +31,10 @@ class RedPacketAdapter(list: ArrayList<RedPacketEntity>) : BaseMultiItemQuickAda
                     rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_3)
                 }
                 helper.addOnClickListener(R.id.mRLRedPacketSendItemContainer)
+                helper.setGone(R.id.mTvRedPacketSendItemTime,item.isShowTime)
+                if (item.isShowTime) {
+                    helper.setText(R.id.mTvRedPacketSendItemTime, item.group_red_times.formatTime())
+                }
             }
             RedPacketEntity.FROM_RED_PACKET -> {
                 GlideManager.loadFaceCircleImage(mContext, item.group_red_pic, helper!!.getView(R.id.mIvRedPacketFromItemFace))
@@ -46,6 +51,10 @@ class RedPacketAdapter(list: ArrayList<RedPacketEntity>) : BaseMultiItemQuickAda
                     rl_container.setBackgroundResource(R.drawable.img_red_packet_bg_1)
                 }
                 helper.addOnClickListener(R.id.mRLRedPacketFromItemContainer)
+                helper.setGone(R.id.mTvRedPacketReceiverItemTime,item.isShowTime)
+                if (item.isShowTime) {
+                    helper.setText(R.id.mTvRedPacketReceiverItemTime, item.group_red_times.formatTime())
+                }
             }
         }
     }

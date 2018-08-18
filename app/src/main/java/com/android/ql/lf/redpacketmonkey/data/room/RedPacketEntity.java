@@ -1,6 +1,7 @@
 package com.android.ql.lf.redpacketmonkey.data.room;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -63,6 +64,9 @@ public class RedPacketEntity implements MultiItemEntity {
     //记录是否已经抢过红包了
     public int groud_red_is_get;
 
+
+    @Ignore
+    public boolean isShowTime = false;
 
     public static final int SEND_RED_PACKET = 0;
     public static final int FROM_RED_PACKET = 1;
