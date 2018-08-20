@@ -50,6 +50,11 @@ class MineRecommendFragment : BaseRecyclerViewFragment<RecordBean>() {
         mPresent.getDataByPost(0x0, RequestParamsHelper.getRecordParam(6, currentPage))
     }
 
+    override fun onLoadMore() {
+        super.onLoadMore()
+        mPresent.getDataByPost(0x0, RequestParamsHelper.getRecordParam(6, currentPage))
+    }
+
     override fun <T : Any?> onRequestSuccess(requestID: Int, result: T) {
         processList(result as String, RecordBean::class.java)
         if (currentPage == 0) {

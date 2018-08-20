@@ -3,6 +3,7 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.base;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -104,7 +105,8 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
 
     @Override
     public void onRequestFail(int requestID, @NotNull Throwable e) {
-        if (e instanceof NullPointerException && !TextUtils.isEmpty(e.getMessage())) {
+        Log.e("TAG", "message --->  " + e.getMessage());
+        if (e instanceof RequestException && !TextUtils.isEmpty(e.getMessage())) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(mContext, showFailMessage(requestID), Toast.LENGTH_SHORT).show();
@@ -112,7 +114,7 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
     }
 
     public String showFailMessage(int requestID) {
-        return "未知错误";
+        return "请求失败";
     }
 
     @Override
@@ -147,11 +149,11 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
                 if (check.code.equals(SUCCESS_CODE)) {
                     onHandleSuccess(requestID, ((JSONObject) check.obj).opt(RESULT_OBJECT));
                 } else {
-                    onRequestFail(requestID, new NullPointerException(((JSONObject) check.obj).optString(MSG_FLAG)));
+                    onRequestFail(requestID, new RequestException(((JSONObject) check.obj).optString(MSG_FLAG)));
                     onRequestEnd(requestID);
                 }
             } else {
-                onRequestFail(requestID, new NullPointerException());
+                onRequestFail(requestID, new RequestException());
                 onRequestEnd(requestID);
             }
         } catch (Exception e) {
@@ -167,7 +169,6 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
         return obj instanceof JSONObject;
     }
 
-
     @Override
     public void onDestroyView() {
         unsubscribe(logoutSubscription);
@@ -178,4 +179,19 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
         }
     }
 
+    public static class RequestException extends Exception {
+
+        public RequestException() {
+            super();
+        }
+
+        public RequestException(String message) {
+            super(message);
+        }
+
+        @Override
+        public String getMessage() {
+            return "提示：" + super.getMessage();
+        }
+    }
 }

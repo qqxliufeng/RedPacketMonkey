@@ -16,6 +16,7 @@ import android.util.Log;
 import com.android.ql.lf.redpacketmonkey.component.AppComponent;
 import com.android.ql.lf.redpacketmonkey.component.AppModule;
 import com.android.ql.lf.redpacketmonkey.component.DaggerAppComponent;
+import com.android.ql.lf.redpacketmonkey.data.UserInfo;
 import com.android.ql.lf.redpacketmonkey.data.room.AppDataBase;
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketDao;
 import com.android.ql.lf.redpacketmonkey.present.RedPacketManager;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.event.LoginStateChangeEvent;
 import cn.jpush.im.android.api.event.MessageEvent;
 
 public class MyApplication extends MultiDexApplication {
@@ -61,10 +63,15 @@ public class MyApplication extends MultiDexApplication {
         return handler;
     }
 
+    /**
+     * 监听红包事件
+     *
+     * @param event
+     */
     public void onEvent(MessageEvent event) {
         try {
             String receiverJson = event.getMessage().getContent().toJsonElement().getAsJsonObject().get("text").getAsString();
-            Log.e("TAG",receiverJson);
+            Log.e("TAG", receiverJson);
             final JSONObject jsonObject = new JSONObject(receiverJson);
             long groupId = jsonObject.optLong("group_red_group");
             if (!RedPacketManager.isBlockMessage(this, groupId)) {
@@ -84,6 +91,32 @@ public class MyApplication extends MultiDexApplication {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 监听用户登录状态事件
+     *
+     * @param event
+     */
+    public void onEvent(LoginStateChangeEvent event) {
+        LoginStateChangeEvent.Reason reason = event.getReason();
+        cn.jpush.im.android.api.model.UserInfo myInfo = event.getMyInfo();
+        if (myInfo.getUserName() != null && myInfo.getUserName().equals(UserInfo.getInstance().getUser_as())) {
+            switch (reason) {
+                case user_logout:
+                    Log.e("TAG", "user_logout");
+                    break;
+                case user_deleted:
+                    Log.e("TAG", "user_deleted");
+                    break;
+                case user_password_change:
+                    Log.e("TAG", "user_password_change");
+                    break;
+                case user_login_status_unexpected:
+                    Log.e("TAG", "user_user_login_status_unexpectedlogout");
+                    break;
+            }
         }
     }
 
