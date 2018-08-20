@@ -11,9 +11,7 @@ import kotlinx.android.synthetic.main.fragment_mine_lower_level_layout.*
 
 class MineLowerLevelFragment : BaseFragment() {
 
-    companion object {
-        val TITLES = arrayListOf("全部", "直属粉丝", "间接粉丝")
-    }
+    private val TITLES = arrayListOf("全部", "直属粉丝", "间接粉丝")
 
     private val adapter by lazy {
         MineLowerLevelAdapter(childFragmentManager)
@@ -24,19 +22,19 @@ class MineLowerLevelFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         mTvMineLowerLevelAccount.text = "当前帐号：${UserInfo.getInstance().user_phone.hiddenPhone()}"
-        mVpMineLowerLevel.adapter = MineLowerLevelAdapter(childFragmentManager)
+        mVpMineLowerLevel.adapter = adapter
         mVpMineLowerLevel.offscreenPageLimit = 3
         mTlMineLowerLevel.setupWithViewPager(mVpMineLowerLevel)
     }
 
-    fun changeTitle(all:Int,one:Int,two:Int){
+    fun changeTitle(all: Int, one: Int, two: Int) {
         TITLES[0] = "全部(${all}人)"
         TITLES[1] = "直属粉丝(${one}人)"
         TITLES[2] = "间接粉丝(${two}人)"
         adapter.notifyDataSetChanged()
     }
 
-    class MineLowerLevelAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+    inner class MineLowerLevelAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
 
         override fun getItem(position: Int) = when (position) {
             0 -> {
@@ -58,5 +56,4 @@ class MineLowerLevelFragment : BaseFragment() {
         override fun getPageTitle(position: Int) = TITLES[position]
 
     }
-
 }
