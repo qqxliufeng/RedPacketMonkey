@@ -2,6 +2,7 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.share
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
@@ -24,7 +25,7 @@ class ShareCodeFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         (mContext as FragmentContainerActivity).statusBarColor = Color.TRANSPARENT
-        GlideManager.loadImage(mContext,"${Constants.BASE_IP}/api/user/code?uid=${UserInfo.getInstance().user_id}",mIvShareCodeImage)
+        GlideManager.loadImage(mContext,"${Constants.BASE_IP}/api/user/code?uid=${UserInfo.getInstance().user_id}?time=${System.currentTimeMillis()}",mIvShareCodeImage)
 //        mIvShareCodeImage.postDelayed({
 //            val bitmap = QRCodeUtil.createQRCodeBitmap(UserInfo.getInstance().shareUrl, 500, 500)
 //            mIvShareCodeImage.setImageBitmap(bitmap)

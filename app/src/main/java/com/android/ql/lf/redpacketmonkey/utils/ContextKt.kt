@@ -35,7 +35,7 @@ fun Activity.openGpsPage(requestCode: Int = -1) {
 
 fun Context.hiddenKeyBoard(token: IBinder) {
     val inputManager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputManager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
+    inputManager.hideSoftInputFromWindow(token, 0)
 }
 
 fun Context.showKeyBoard(token: View) {
@@ -136,6 +136,8 @@ fun Context.showPayPasswordDialog(resetAction: () -> Unit, forgetAction: () -> U
         override fun inputFinished(inputPsd: String?) {
             if (inputPsd != null) {
                 if (inputPsd.md5().md5() == UserInfo.getInstance().user_z_pass) {
+                    et_password.clearFocus()
+                    hiddenKeyBoard(et_password.windowToken)
                     action(inputPsd)
                     dialog.dismiss()
                 } else {

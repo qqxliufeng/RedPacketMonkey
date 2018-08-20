@@ -128,7 +128,6 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
         }
     }
 
-
     public <T> BaseNetResult checkResultCode(T json) {
         try {
             if (json != null) {
@@ -149,13 +148,15 @@ public abstract class BaseNetWorkingFragment extends BaseFragment implements INe
                     onHandleSuccess(requestID, ((JSONObject) check.obj).opt(RESULT_OBJECT));
                 } else {
                     onRequestFail(requestID, new NullPointerException(((JSONObject) check.obj).optString(MSG_FLAG)));
+                    onRequestEnd(requestID);
                 }
-
             } else {
                 onRequestFail(requestID, new NullPointerException());
+                onRequestEnd(requestID);
             }
         } catch (Exception e) {
             onRequestFail(requestID, e);
+            onRequestEnd(requestID);
         }
     }
 

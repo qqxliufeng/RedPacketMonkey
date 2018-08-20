@@ -3,6 +3,7 @@ package com.android.ql.lf.redpacketmonkey.ui.fragment.setting
 import android.os.CountDownTimer
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.utils.*
@@ -48,7 +49,7 @@ class PayPasswordFragment : BaseNetWorkingFragment() {
                 return@setOnClickListener
             }
             if (mTvSettingPayPassword.getTextString().length < 6) {
-                toast("密码长度至少6位")
+                toast("请输入6位纯数字的密码")
                 return@setOnClickListener
             }
             if (mTvSettingPayConfirmPassword.isEmpty()) {
@@ -56,18 +57,18 @@ class PayPasswordFragment : BaseNetWorkingFragment() {
                 return@setOnClickListener
             }
             if (mTvSettingPayConfirmPassword.getTextString().length < 6) {
-                toast("密码长度至少6位")
+                toast("请输入6位纯数字的密码")
                 return@setOnClickListener
             }
             if (mTvSettingPayPassword.getTextString() != mTvSettingPayConfirmPassword.getTextString()) {
                 toast("两次密码不一致")
                 return@setOnClickListener
             }
-            if (mEtSettingPayCode.isEmpty()){
+            if (mEtSettingPayCode.isEmpty()) {
                 toast("请输入验证码")
                 return@setOnClickListener
             }
-            if (code != mEtSettingPayCode.getTextString()){
+            if (code != mEtSettingPayCode.getTextString()) {
                 toast("请输入正确的验证码")
                 return@setOnClickListener
             }
@@ -105,6 +106,7 @@ class PayPasswordFragment : BaseNetWorkingFragment() {
         when (requestID) {
             0x0 -> {
                 toast("密码修改成功，请牢记")
+                UserInfo.getInstance().user_z_pass = mTvSettingPayPassword.getTextString().md5().md5()
                 UserInfoLiveData.postUserInfo()
                 finish()
             }

@@ -121,6 +121,10 @@ class RegisterFragment : BaseNetWorkingFragment() {
         }
     }
 
+    override fun onRequestFail(requestID: Int, e: Throwable) {
+        super.onRequestFail(requestID, e)
+        super.onRequestEnd(requestID)
+    }
 
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
         when (requestID) {
@@ -137,7 +141,7 @@ class RegisterFragment : BaseNetWorkingFragment() {
                     val optionUserInfo = RegisterOptionalUserInfo()
                     optionUserInfo.nickname = obj.optString("user_nickname")
                     optionUserInfo.avatar = GlideManager.getImageUrl(obj.optString("user_pic"))
-                    JMessageClient.register(user_as, user_as,optionUserInfo,object : RequestCallback<List<DeviceInfo>>() {
+                    JMessageClient.register(user_as, user_as, optionUserInfo, object : RequestCallback<List<DeviceInfo>>() {
                         override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
                             if (p0 == 0) { //表示注册成功
                                 mPresent.getDataByPost(0x2, RequestParamsHelper.getIMgroupParam(user_as, user_id))

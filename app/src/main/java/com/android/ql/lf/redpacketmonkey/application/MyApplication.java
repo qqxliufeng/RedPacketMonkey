@@ -64,6 +64,7 @@ public class MyApplication extends MultiDexApplication {
     public void onEvent(MessageEvent event) {
         try {
             String receiverJson = event.getMessage().getContent().toJsonElement().getAsJsonObject().get("text").getAsString();
+            Log.e("TAG",receiverJson);
             final JSONObject jsonObject = new JSONObject(receiverJson);
             long groupId = jsonObject.optLong("group_red_group");
             if (!RedPacketManager.isBlockMessage(this, groupId)) {

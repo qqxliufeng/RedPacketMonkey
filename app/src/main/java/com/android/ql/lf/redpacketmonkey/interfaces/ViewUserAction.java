@@ -1,6 +1,8 @@
 package com.android.ql.lf.redpacketmonkey.interfaces;
 
 
+import android.text.TextUtils;
+
 import com.android.ql.lf.redpacketmonkey.application.MyApplication;
 import com.android.ql.lf.redpacketmonkey.data.UserInfo;
 import com.android.ql.lf.redpacketmonkey.data.livedata.UserInfoLiveData;
@@ -35,8 +37,12 @@ public class ViewUserAction implements IViewUserAction {
             UserInfo.getInstance().setUser_as(result.optString("user_as"));
             UserInfo.getInstance().setUser_sex(result.optString("user_sex"));
             UserInfo.getInstance().setUser_dizhi(result.optString("user_dizhi"));
-            UserInfo.getInstance().setUser_z_pass(result.optString("user_z_pass"));
-
+            String z_pass = result.optString("user_z_pass");
+            if (TextUtils.isEmpty(z_pass) || "null".equals(z_pass)) {
+                UserInfo.getInstance().setUser_z_pass(null);
+            } else {
+                UserInfo.getInstance().setUser_z_pass(z_pass);
+            }
             UserInfo.getInstance().setMoney_id(result.optString("money_id"));
             UserInfo.getInstance().setMoney_sum_cou(result.optDouble("money_sum_cou"));
             UserInfo.getInstance().setMoney_sum_emit(result.optString("money_sum_emit"));

@@ -47,7 +47,7 @@ class NoRedPacketDialogFragment : DialogFragment() {
     }
 
 
-    fun myShow(manager: FragmentManager?, tag: String?, faceUrl: String, nickName: String, tip: String, listener: (() -> Unit)?) {
+    fun myShow(manager: FragmentManager?, tag: String?, faceUrl: String?, nickName: String, tip: String, listener: (() -> Unit)?) {
         this.faceUrl = faceUrl
         this.nickName = nickName
         this.listener = listener

@@ -1,14 +1,18 @@
 package com.android.ql.lf.redpacketmonkey.ui.fragment.game
 
 import android.content.Intent
+import android.text.TextUtils
 import android.view.View
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.application.MyApplication
 import com.android.ql.lf.redpacketmonkey.data.GroupBean
+import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.data.room.RedPacketEntity
 import com.android.ql.lf.redpacketmonkey.services.RedPacketServices
+import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.bottom.MineFragment
+import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.PayPasswordFragment
 import com.android.ql.lf.redpacketmonkey.utils.*
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_send_red_packet_layout.*
@@ -59,8 +63,16 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                 toast("请输入红包雷数")
                 return@setOnClickListener
             }
-            mContext.showPayPasswordDialog({}, {}) {
-                mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!.toString(), mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
+            mEtSendRedPacketMoney.clearFocus()
+            mEtSendRedPacketMine.clearFocus()
+            if(TextUtils.isEmpty(UserInfo.getInstance().user_z_pass)){
+                alert("提示","当前帐号暂无支付密码，是否要添加，添加之后才能继续发红包","添加","不添加",{_,_->
+                    FragmentContainerActivity.from(mContext).setTitle("添加支付密码").setNeedNetWorking(true).setClazz(PayPasswordFragment::class.java).start()
+                },null)
+            }else {
+                mContext.showPayPasswordDialog({}, {}) {
+                    mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!.toString(), mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
+                }
             }
         }
         mPresent.getDataByPost(0x0, RequestParamsHelper.getGroupInfoParam(groupInfo.group_id!!.toString()))

@@ -62,7 +62,7 @@ class OpenRedPacketDialogFragment : DialogFragment() {
         animationDrawable?.stop()
     }
 
-    fun myShow(manager: FragmentManager?, tag: String?, faceUrl: String, nickName: String, count: String, listener: (() -> Unit)?) {
+    fun myShow(manager: FragmentManager?, tag: String?, faceUrl: String?, nickName: String, count: String, listener: (() -> Unit)?) {
         this.faceUrl = faceUrl
         this.nickName = nickName
         this.count = count

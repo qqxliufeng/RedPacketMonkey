@@ -9,16 +9,14 @@ import android.view.ViewGroup
 import cn.jpush.im.android.api.JMessageClient
 import cn.jpush.im.android.api.callback.RequestCallback
 import cn.jpush.im.android.api.model.DeviceInfo
+import cn.jpush.im.android.api.options.RegisterOptionalUserInfo
 import com.android.ql.lf.redpacketmonkey.R
 import com.android.ql.lf.redpacketmonkey.data.UserInfo
 import com.android.ql.lf.redpacketmonkey.present.UserPresent
 import com.android.ql.lf.redpacketmonkey.ui.activity.FragmentContainerActivity
 import com.android.ql.lf.redpacketmonkey.ui.activity.MainActivity
 import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseNetWorkingFragment
-import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
-import com.android.ql.lf.redpacketmonkey.utils.getTextString
-import com.android.ql.lf.redpacketmonkey.utils.isEmpty
-import com.android.ql.lf.redpacketmonkey.utils.isPhone
+import com.android.ql.lf.redpacketmonkey.utils.*
 import kotlinx.android.synthetic.main.fragment_login_layout.*
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
@@ -75,34 +73,62 @@ class LoginFragment : BaseNetWorkingFragment() {
     }
 
     override fun onRequestStart(requestID: Int) {
-        getFastProgressDialog("正在登录……")
+        if (requestID == 0x0) {
+            getFastProgressDialog("正在登录……")
+        }
     }
 
     override fun showFailMessage(requestID: Int): String {
         return "登录失败"
     }
 
+    override fun onRequestFail(requestID: Int, e: Throwable) {
+        super.onRequestFail(requestID, e)
+        super.onRequestEnd(requestID)
+    }
+
     override fun onRequestEnd(requestID: Int) {
     }
 
     override fun onHandleSuccess(requestID: Int, obj: Any?) {
-        if (checkedObjType(obj)) {
-            userPresent.onLogin(obj as JSONObject)
-            JMessageClient.login(UserInfo.getInstance().user_as, UserInfo.getInstance().user_as, object : RequestCallback<List<DeviceInfo>>() {
-                override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
-                    if (progressDialog != null && progressDialog.isShowing) {
-                        progressDialog.dismiss()
-                        progressDialog = null
+        if (requestID == 0x0) {
+            if (checkedObjType(obj)) {
+                userPresent.onLogin(obj as JSONObject)
+                val optionUserInfo = RegisterOptionalUserInfo()
+                optionUserInfo.nickname = obj.optString("user_nickname")
+                optionUserInfo.avatar = GlideManager.getImageUrl(obj.optString("user_pic"))
+                JMessageClient.register(UserInfo.getInstance().user_as, UserInfo.getInstance().user_as, optionUserInfo, object : RequestCallback<List<DeviceInfo>>() {
+                    override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
+                        if (p0 == 0) { //表示注册成功
+                            mPresent.getDataByPost(0x1, RequestParamsHelper.getIMgroupParam(UserInfo.getInstance().user_as, UserInfo.getInstance().user_id))
+                        } else if (p0 == 898001 || p1 == "user exist") { //用户已经存在，直接登录
+                            loginIM()
+                        } else { //表示注册异常，提示异常信息
+                            toast("登录失败，请重试！")
+                        }
                     }
-                    if (p0 == 0) { //表示登录成功
-                        startActivity(Intent(mContext, MainActivity::class.java))
-                        finish()
-                    } else { //表示登录异常，提示异常信息
-                        toast("登录失败")
-                    }
-                }
-            })
+                })
+            }
+        } else if (requestID == 0x1) {
+            loginIM()
         }
+    }
+
+    private fun loginIM() {
+        JMessageClient.login(UserInfo.getInstance().user_as, UserInfo.getInstance().user_as, object : RequestCallback<List<DeviceInfo>>() {
+            override fun gotResult(p0: Int, p1: String?, p2: List<DeviceInfo>?) {
+                if (progressDialog != null && progressDialog.isShowing) {
+                    progressDialog.dismiss()
+                    progressDialog = null
+                }
+                if (p0 == 0) { //表示登录成功
+                    startActivity(Intent(mContext, MainActivity::class.java))
+                    finish()
+                } else { //表示登录异常，提示异常信息
+                    toast("登录失败")
+                }
+            }
+        })
     }
 
 }
