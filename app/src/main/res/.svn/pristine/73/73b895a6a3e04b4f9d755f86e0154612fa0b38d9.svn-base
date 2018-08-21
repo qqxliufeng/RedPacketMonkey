@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/activity_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/mRlMineInfoFaceContainer"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#fff"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="头像"
+                android:textColor="@color/deepTextColor"
+                android:textSize="@dimen/sp_14" />
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/mIvMineInfoFace"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/test_face" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
+            android:id="@+id/mRlMineInfoNickNameContainer"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#fff"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="昵称"
+                android:textColor="@color/deepTextColor"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/mTvMineInfoNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@null"
+                tools:text="小猴子"
+                android:maxLength="16"
+                android:textColor="@color/normalTextColor"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#fff"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="账号"
+                android:textColor="@color/deepTextColor"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/mTvMineInfoAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_10"
+                tools:text="1005482"
+                android:textColor="@color/normalTextColor"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
+            android:id="@+id/mRlMineInfoSexContainer"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#fff"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="性别"
+                android:textColor="@color/deepTextColor"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/mTvMineInfoSex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_10"
+                tools:text="女"
+                android:textColor="@color/normalTextColor"
+                android:textSize="@dimen/sp_14" />
+
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
+            android:id="@+id/mRlMineInfoAddress"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#fff"
+            android:padding="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="地区"
+                android:textColor="@color/deepTextColor"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/mTvMineInfoAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="@null"
+                tools:text="暂无"
+                android:maxLength="16"
+                android:textColor="@color/normalTextColor"
+                android:textSize="@dimen/sp_14" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/activity_bg"/>
+
+
+</LinearLayout>

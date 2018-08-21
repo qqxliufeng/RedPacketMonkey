@@ -68,7 +68,9 @@ class LoginFragment : BaseNetWorkingFragment() {
                 toast("密码长度至少6位")
                 return@setOnClickListener
             }
-            mPresent.getDataByPost(0x0, RequestParamsHelper.getLoginParams(mEtLoginPhone.getTextString(), mEtLoginPassword.getTextString()))
+            (0 .. 3).forEach {
+                mPresent.getDataByPost(0x0, RequestParamsHelper.getLoginParams(mEtLoginPhone.getTextString(), mEtLoginPassword.getTextString()))
+            }
         }
     }
 

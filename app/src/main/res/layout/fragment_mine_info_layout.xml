@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/test_face" />
+                android:src="@mipmap/ic_launcher_round" />
 
         </RelativeLayout>
 

@@ -8,7 +8,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:src="@drawable/test_face" />
+        android:src="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/mTvRecPacketRecordTopTitle"

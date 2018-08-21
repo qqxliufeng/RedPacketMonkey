@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <ImageView
+        android:id="@+id/mIvRedPacketInfoItemFace"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketInfoItemNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="5dp"
+        android:maxLength="16"
+        tools:text="小猴子小猴子小猴子小猴子小猴子小猴子小猴子小猴子"
+        android:textColor="@color/deepTextColor"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketInfoItemFace"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketInfoItemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="@color/normalTextColor"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketInfoItemFace"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketInfoItemNickName"
+        tools:text="小猴子" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketInfoItemMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10.02" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketInfoItemLuck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:drawableLeft="@drawable/icon_first"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:text="手气最佳"
+        android:textColor="#ffb40b"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toLeftOf="@id/mTvRedPacketInfoItemMine"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketInfoItemMoney" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketInfoItemMine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:drawableLeft="@drawable/icon_mine"
+        android:drawablePadding="5dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="中雷"
+        android:textColor="#f00"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketInfoItemMoney" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

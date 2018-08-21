@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <TextView
+        android:id="@+id/mTvRedPacketReceiverItemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_tv_bg3"
+        android:gravity="center"
+        android:textColor="#999"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/mIvRedPacketFromItemFace"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/test_face"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketReceiverItemTime" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketFromItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        tools:text="路人甲"
+        android:textColor="@color/normalTextColor"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketFromItemFace"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketReceiverItemTime" />
+
+    <RelativeLayout
+        android:id="@+id/mRLRedPacketFromItemContainer"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="@dimen/dp_40"
+        android:background="@drawable/img_red_packet_bg_1"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toRightOf="@id/mIvRedPacketFromItemFace"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketFromItemName">
+
+        <TextView
+            android:id="@+id/mTvRedPacketFromItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="15dp"
+            android:text="50-7"
+            android:textColor="@color/colorPrimary" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTvRedPacketFromItemTitle"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="8dp"
+            android:text="领取红包"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"
+            android:text="红包"
+            android:textColor="@color/normalTextColor"
+            android:textSize="@dimen/sp_12" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

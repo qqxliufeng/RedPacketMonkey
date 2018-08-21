@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitStart"
+        android:src="@drawable/img_bottom_mine_top_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mTlMainMine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="个人中心"
+                android:textColor="@color/deepTextColor"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/mSrfMine"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/mNSvMineContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="45dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/mClMineInfoContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:background="@drawable/shape_ll_bg">
+
+                        <ImageView
+                            android:id="@+id/mIvMineFace"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="20dp"
+                            android:src="@drawable/test_face"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mTvMineNickName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:gravity="center"
+                            android:text="昵称"
+                            android:textColor="@color/deepTextColor"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintTop_toBottomOf="@id/mIvMineFace" />
+
+                        <TextView
+                            android:id="@+id/mTvMinePhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:gravity="center"
+                            android:textColor="@color/deepTextColor"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintTop_toBottomOf="@id/mTvMineNickName"
+                            tools:text="TEL:138****1574" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:background="@color/lineColor"
+                            app:layout_constraintTop_toBottomOf="@id/mTvMinePhone" />
+
+                        <TextView
+                            android:id="@+id/mTvMineRecharge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="?actionBarSize"
+                            android:drawableLeft="@drawable/icon_mine_chongzhi"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_40"
+                            android:paddingRight="@dimen/dp_40"
+                            android:text="充值"
+                            android:textColor="@color/deepTextColor"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent" />
+
+                        <TextView
+                            android:id="@+id/mTvMineCrash"
+                            android:layout_width="wrap_content"
+                            android:layout_height="?actionBarSize"
+                            android:drawableLeft="@drawable/icon_mine_tixian"
+                            android:drawablePadding="@dimen/dp_10"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/dp_40"
+                            android:paddingRight="@dimen/dp_40"
+                            android:text="提现"
+                            android:textColor="@color/deepTextColor"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="#fff"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/mRlMinePacket"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="?android:selectableItemBackground"
+                            android:padding="@dimen/dp_10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:drawableLeft="@drawable/icon_mine_qb"
+                                android:drawablePadding="@dimen/dp_10"
+                                android:text="我的钱包"
+                                android:textColor="@color/deepTextColor"
+                                android:textSize="@dimen/sp_14" />
+
+                            <TextView
+                                android:id="@+id/mTvMineMoneyCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:drawableRight="@drawable/icon_enter"
+                                android:drawablePadding="@dimen/dp_10"
+                                android:gravity="center"
+                                android:text="￥0.0"
+                                android:textColor="@color/deepTextColor"
+                                android:textSize="@dimen/sp_14" />
+
+                        </RelativeLayout>
+
+                        <View style="@style/style_view_line1" />
+
+                        <TextView
+                            android:id="@+id/mTvMineRecommend"
+                            style="@style/style_tv1"
+                            android:drawableLeft="@drawable/icon_mine_tj"
+                            android:text="我的推荐" />
+
+                        <View style="@style/style_view_line1" />
+
+
+                        <TextView
+                            android:id="@+id/mTvMineShare"
+                            style="@style/style_tv1"
+                            android:drawableLeft="@drawable/icon_mine_fx"
+                            android:text="我要分享" />
+
+                        <View style="@style/style_view_line1" />
+
+                        <TextView
+                            android:id="@+id/mTvBankList"
+                            style="@style/style_tv1"
+                            android:drawableLeft="@drawable/icon_mine_yhk"
+                            android:text="银行卡" />
+
+                        <!-- <View style="@style/style_view_line1" />
+
+                         <TextView
+                             android:id="@+id/mTvMineAli"
+                             style="@style/style_tv1"
+                             android:drawableLeft="@drawable/icon_mine_zfb"
+                             android:text="支付宝" />-->
+
+                        <View style="@style/style_view_line1" />
+
+                        <TextView
+                            android:id="@+id/mTvMineShareCode"
+                            style="@style/style_tv1"
+                            android:drawableLeft="@drawable/icon_mine_ewm"
+                            android:text="分享码" />
+
+                        <View style="@style/style_view_line1" />
+
+                        <TextView
+                            android:id="@+id/mTvMineSetting"
+                            style="@style/style_tv1"
+                            android:drawableLeft="@drawable/icon_mine_sz"
+                            android:text="设置" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@color/lineColor" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</FrameLayout>

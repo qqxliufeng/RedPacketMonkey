@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/shape_ll_bg2"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="红包个数"
+            android:textColor="@color/deepTextColor"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/mTvSendRedPacketCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="0个"
+            android:textColor="@color/deepTextColor"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/mTvSendRedPacketAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="游戏倍数：1.5"
+        android:textColor="@color/normalTextColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/shape_ll_bg2"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="总金额"
+            android:textColor="@color/deepTextColor"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/mTvSendRedPacketYuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="元"
+            android:textColor="@color/deepTextColor"
+            android:textSize="@dimen/sp_14" />
+
+        <EditText
+            android:id="@+id/mEtSendRedPacketMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_toLeftOf="@+id/mTvSendRedPacketYuan"
+            android:background="@null"
+            android:digits="0123456789."
+            android:gravity="right|center_vertical"
+            android:hint="0.00"
+            android:inputType="numberDecimal"
+            android:minWidth="100dp"
+            android:paddingRight="5dp"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/mTvSendRedPacketRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="红包发布范围：30 - 500"
+        android:textColor="@color/normalTextColor" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/shape_ll_bg2"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="雷数"
+            android:textColor="@color/deepTextColor"
+            android:textSize="@dimen/sp_16" />
+
+        <EditText
+            android:id="@+id/mEtSendRedPacketMine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:digits="1234567890"
+            android:gravity="right|center_vertical"
+            android:hint="输入雷数"
+            android:inputType="number"
+            android:maxLength="1"
+            android:minWidth="200dp"
+            android:paddingRight="5dp"
+            android:textColor="@color/deepTextColor"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/mBtSendRedPacketSend"
+        style="@style/style_bt_1"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:enabled="false"
+        android:text="塞钱进红包" />
+
+    <TextView
+        android:id="@+id/mTvSendRedPacketBackTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center"
+        android:text="未领取的红包将于3分钟后发起退款"
+        android:textColor="@color/normalTextColor" />
+
+</LinearLayout>

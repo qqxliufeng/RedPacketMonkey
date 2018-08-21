@@ -1,0 +1,125 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextAppearance">@style/menu_text_appearance</item>
+    </style>
+
+
+    <style name="select_address" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextAppearance">@style/menu_text_appearance</item>
+    </style>
+
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="menu_text_appearance">
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="colorPrimary">#9d4bed</item>
+        <item name="colorPrimaryDark">#9d4bed</item>
+    </style>
+
+    <style name="my_matisse_style" parent="Matisse.Zhihu">
+        <item name="colorPrimary">#9d4bed</item>
+        <item name="colorPrimaryDark">#9d4bed</item>
+    </style>
+
+    <style name="splashTheme" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="style_tv1">
+        <item name="android:padding">@dimen/dp_10</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/deepTextColor</item>
+        <item name="android:drawablePadding">@dimen/dp_10</item>
+        <item name="android:drawableRight">@drawable/icon_enter</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="style_view_line1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginLeft">@dimen/dp_10</item>
+        <item name="android:layout_marginRight">@dimen/dp_10</item>
+        <item name="android:background">@color/lineColor</item>
+    </style>
+
+    <style name="style_ctv_1">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/select_ctv_bg1</item>
+        <item name="android:textColor">@color/select_ctv_color1</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">gravity</item>
+    </style>
+
+    <style name="style_bt_1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginTop">@dimen/dp_40</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:background">@drawable/shape_bt_bg2</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="style_tv_share">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/normalTextColor</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">30dp</item>
+        <item name="android:paddingBottom">30dp</item>
+        <item name="android:drawablePadding">@dimen/dp_10</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="style_tv2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?actionBarSize</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:textColor">@color/deepTextColor</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawableRight">@drawable/icon_enter_2</item>
+        <item name="android:padding">@dimen/dp_10</item>
+    </style>
+
+
+    <style name="CropImageTheme" parent="AppTheme" tools:ingore="NewApi">
+        <item name="cropImageStyle">@style/Widget.CropImageView</item>
+        <item name="colorPrimary">#9d4bed</item>
+        <item name="colorPrimaryDark">#9d4bed</item>
+    </style>
+
+    <style name="Widget.CropImageView" parent="android:Widget">
+        <item name="showThirds">false</item>
+        <item name="showCircle">true</item>
+        <item name="showHandles">always</item>
+    </style>
+
+</resources>

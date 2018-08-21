@@ -24,6 +24,8 @@ class CrashFragment : DialogFragment() {
 
     private var ll_bank_card_container: LinearLayout? = null
 
+    private var tip:String = "暂无所属银行"
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog.setCancelable(true)
         dialog.setCanceledOnTouchOutside(false)
@@ -31,6 +33,7 @@ class CrashFragment : DialogFragment() {
         val et_money = contentView.findViewById<EditText>(R.id.mEtCrashDialogMoney)
         ll_bank_card_container = contentView.findViewById(R.id.mLlCrashDialogBankCardContainer)
         tv_bank_card = contentView.findViewById(R.id.mTvCrashDialogBankCard)
+        tv_bank_card?.text = tip
         et_money.setText("")
         contentView.findViewById<ImageView>(R.id.mIvCrashDialogClose).setOnClickListener {
             dismiss()
@@ -70,9 +73,10 @@ class CrashFragment : DialogFragment() {
     }
 
 
-    fun myShow(manager: FragmentManager?, tag: String?, listener: (String) -> Unit, selectBankCardListener: () -> Unit) {
+    fun myShow(manager: FragmentManager?, tag: String?, tip:String,listener: (String) -> Unit, selectBankCardListener: () -> Unit) {
         this.listener = listener
         this.selectBankCarListener = selectBankCardListener
+        this.tip = tip
         super.show(manager, tag)
     }
 }

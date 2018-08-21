@@ -108,13 +108,18 @@ class MineFragment : BaseNetWorkingFragment() {
             }
         }
         mTvMineCrash.setOnClickListener {
-            crashFragment.myShow(childFragmentManager, "crash_dialog", listener = {
+            val tip = if(TextUtils.isEmpty(bankCardInfoBean?.card_name))"暂无所属银行" else bankCardInfoBean?.card_name!!
+            crashFragment.myShow(childFragmentManager, "crash_dialog", tip,listener = {
                 if (bankCardInfoBean == null) {
                     toast("请先选择银行")
                     return@myShow
                 }
-                mPresent.getDataByPost(0x3, RequestParamsHelper.getCrashParam(bankCardInfoBean!!.card_number!!, it))
-                crashFragment.dismiss()
+                if (bankCardInfoBean!!.card_number != null){
+                    mPresent.getDataByPost(0x3, RequestParamsHelper.getCrashParam(bankCardInfoBean!!.card_number!!, it))
+                    crashFragment.dismiss()
+                }else{
+                    toast("请先选择银行")
+                }
             }, selectBankCardListener = {
                 BankListFragment.startBankCardList(mContext, true)
             })

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <Button
+            android:id="@+id/mBtAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?actionBarSize"
+            android:text="添加" />
+
+        <Button
+            android:id="@+id/mBtUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="更新" />
+
+        <Button
+            android:id="@+id/mBtDeleteOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="删除一个" />
+
+
+        <Button
+            android:id="@+id/mBtDeleteAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="删除所有" />
+
+        <Button
+            android:id="@+id/mBtQueryOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="查询一条" />
+
+        <Button
+            android:id="@+id/mBtQueryAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="查询所有" />
+
+
+        <TextView
+            android:id="@+id/mTvResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="结果：" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

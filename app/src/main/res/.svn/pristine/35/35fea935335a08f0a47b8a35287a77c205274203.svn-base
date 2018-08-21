@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/mTvShareDialogWX"
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_wx"
+            android:text="微信" />
+
+        <TextView
+            android:id="@+id/mTvShareDialogCircle"
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_circle"
+            android:text="朋友圈" />
+
+        <TextView
+            android:id="@+id/mTvShareDialogQQ"
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_qq"
+            android:text="QQ" />
+
+        <TextView
+            android:id="@+id/mTvShareDialogQQZone"
+            style="@style/style_tv_share"
+            android:drawableTop="@drawable/icon_share_qqzone"
+            android:text="QQ空间" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mTvShareDialogCancel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/activity_bg"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/deepTextColor"
+        android:textSize="@dimen/sp_14" />
+
+
+</LinearLayout>

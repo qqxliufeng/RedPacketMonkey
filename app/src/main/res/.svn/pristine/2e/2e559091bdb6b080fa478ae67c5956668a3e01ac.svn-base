@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/img_mine_packet_top_bg">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mTlMinePacket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark"
+            app:title="我的钱包"
+            app:titleTextColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/mTvMinePacketMoneyCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="@dimen/dp_10"
+            android:text="0.00"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:drawableLeft="@drawable/icon_mine_packet_account"
+            android:drawablePadding="@dimen/dp_10"
+            android:text="账户余额"
+            android:textColor="#e0a0fd" />
+    </android.support.design.widget.AppBarLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/activity_bg" />
+
+    <TextView
+        android:id="@+id/mTvMinePacketRedPacketRecord"
+        style="@style/style_tv2"
+        android:text="红包记录" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/lineColor" />
+
+    <TextView
+        android:id="@+id/mTvMinePacketRechargeRecord"
+        style="@style/style_tv2"
+        android:text="充值记录" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/lineColor" />
+
+    <TextView
+        android:id="@+id/mTvMinePacketCrashRecord"
+        style="@style/style_tv2"
+        android:text="提现记录" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/lineColor" />
+
+    <TextView
+        android:id="@+id/mTvMinePacketBalanceRecord"
+        style="@style/style_tv2"
+        android:text="余额明细" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@color/lineColor" />
+
+</LinearLayout>

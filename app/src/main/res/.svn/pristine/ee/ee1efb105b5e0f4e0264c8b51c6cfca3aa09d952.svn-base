@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+
+    <TextView
+        android:id="@+id/mTvRedPacketSendItemTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#999"
+        android:visibility="gone"
+        android:background="@drawable/shape_tv_bg3"
+        android:textSize="10sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/mIvRedPacketSendItemFace"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@drawable/test_face"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketSendItemTime" />
+
+    <TextView
+        android:id="@+id/mTvRedPacketSendItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="@color/normalTextColor"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toLeftOf="@id/mIvRedPacketSendItemFace"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketSendItemTime"
+        tools:text="路人甲" />
+
+    <RelativeLayout
+        android:id="@+id/mRLRedPacketSendItemContainer"
+        android:layout_width="260dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@drawable/img_red_packet_bg_3"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/mIvRedPacketSendItemFace"
+        app:layout_constraintTop_toBottomOf="@id/mTvRedPacketSendItemName">
+
+        <TextView
+            android:id="@+id/mTvRedPacketSendItemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimary"
+            tools:text="50-7" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mTvRedPacketSendItemTitle"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="8dp"
+            android:text="领取红包"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="3dp"
+            android:text="红包"
+            android:textColor="@color/normalTextColor"
+            android:textSize="@dimen/sp_12" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
