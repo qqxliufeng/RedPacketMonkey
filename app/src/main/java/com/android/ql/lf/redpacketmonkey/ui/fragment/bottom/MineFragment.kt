@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.support.v4.widget.NestedScrollView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.android.ql.lf.redpacketmonkey.R
@@ -27,6 +28,7 @@ import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
 import com.android.ql.lf.redpacketmonkey.utils.RxBus
 import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
+import kotlinx.android.synthetic.main.activity_fragment_container_layout.*
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONObject
@@ -165,7 +167,7 @@ class MineFragment : BaseNetWorkingFragment() {
                 "申请提现失败"
             }
             else -> {
-                "未知错误"
+                super.showFailMessage(requestID)
             }
         }
     }
@@ -183,8 +185,13 @@ class MineFragment : BaseNetWorkingFragment() {
                 userPresent.onLoginNoBus(obj as JSONObject)
             }
             0x3 -> {
+                if (obj is Int){
+                    UserInfo.getInstance().setMoney_sum_cou(obj * 1.0)
+                }else if (obj is Double){
+                    UserInfo.getInstance().setMoney_sum_cou(obj)
+                }
+                UserInfoLiveData.postUserInfo()
                 toast("提现成功，请等待后台审核……")
-
             }
         }
     }

@@ -65,11 +65,11 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
             }
             mEtSendRedPacketMoney.clearFocus()
             mEtSendRedPacketMine.clearFocus()
-            if(TextUtils.isEmpty(UserInfo.getInstance().user_z_pass)){
-                alert("提示","当前帐号暂无支付密码，是否要添加，添加之后才能继续发红包","添加","不添加",{_,_->
+            if (TextUtils.isEmpty(UserInfo.getInstance().user_z_pass)) {
+                alert("提示", "当前帐号暂无支付密码，是否要添加，添加之后才能继续发红包", "添加", "不添加", { _, _ ->
                     FragmentContainerActivity.from(mContext).setTitle("添加支付密码").setNeedNetWorking(true).setClazz(PayPasswordFragment::class.java).start()
-                },null)
-            }else {
+                }, null)
+            } else {
                 mContext.showPayPasswordDialog({}, {}) {
                     mPresent.getDataByPost(0x1, RequestParamsHelper.getSendRedPacketParam(groupInfo.group_id!!.toString(), mEtSendRedPacketMoney.getTextString(), mEtSendRedPacketMine.getTextString()))
                 }
@@ -121,7 +121,7 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
                     RxBus.getDefault().post(MineFragment.ReloadUserInfoBean())
                     MyApplication.application.handler.postDelayed({
                         val intent = Intent(MyApplication.application, RedPacketServices::class.java)
-                        intent.putExtra("red_id", redPacketEntity.group_red_id)
+                        intent.putExtra("group_red_id", redPacketEntity.group_red_id)
                         MyApplication.application.startService(intent)
                     }, 1000 * (back_time!! * 60))
                     finish()
@@ -136,7 +136,7 @@ class SendRedPacketFragment : BaseNetWorkingFragment() {
         return when (requestID) {
             0x0 -> "信息加载失败"
             0x1 -> "红包发送失败"
-            else -> "未知错误"
+            else -> super.showFailMessage(requestID)
         }
     }
 

@@ -28,8 +28,13 @@ public class GetDataFromNetPresent {
 
     private Observable<String> observable;
 
+    private RequestQueueManager requestQueueManager;
+
+    private RequestQueueManager.RequestQueueBean currentRequestQueueBean;
+
     public GetDataFromNetPresent(ApiServer apiServer) {
         this.apiServer = apiServer;
+        requestQueueManager = new RequestQueueManager();
     }
 
     public GetDataFromNetPresent(ApiServer apiServer, SoftReference<INetDataPresenter> iNetDataPresenter) {
@@ -49,6 +54,7 @@ public class GetDataFromNetPresent {
      * @param postfix2  请求路径2
      * @param params    请求参数
      */
+    @Deprecated
     public void getDataByPost(final int requestId, String postfix1, String postfix2, ApiParams params) {
         checkObservable();
         observable = apiServer.getDataByPost(postfix1, postfix2, params, Constants.md5Token());
@@ -62,7 +68,7 @@ public class GetDataFromNetPresent {
      * @param requestId 请求ID
      * @param params    请求参数
      */
-    public void getDataByPost(final int requestId,ApiParams params) {
+    public void getDataByPost(final int requestId, ApiParams params) {
         checkObservable();
         observable = apiServer.getDataByPost((String) params.get(ApiParams.MOD_NAME), (String) params.get(ApiParams.ACT_NAME), params, Constants.md5Token());
         parseData(requestId);
@@ -75,6 +81,7 @@ public class GetDataFromNetPresent {
      * @param postfix1  请求路径1
      * @param postfix2  请求路径2
      */
+    @Deprecated
     public void getDataByPost(final int requestId, String postfix1, String postfix2) {
         checkObservable();
         observable = apiServer.getDataByPost(postfix1, postfix2, Constants.md5Token());
@@ -100,12 +107,37 @@ public class GetDataFromNetPresent {
         }
     }
 
+
+    public void newGetDataByPost(final int requestId, ApiParams params) {
+        requestQueueManager.startRequest(new RequestQueueManager.RequestQueueBean(requestId, params));
+        if (requestQueueManager.canRequest()) {
+            RequestQueueManager.RequestQueueBean requestBean = requestQueueManager.getRequestBean();
+            requestQueue(requestBean);
+        }
+    }
+
+
+    void requestQueue(RequestQueueManager.RequestQueueBean requestQueueBean) {
+        requestQueueManager.setRequesting(true);
+        currentRequestQueueBean = requestQueueBean;
+        observable = apiServer.getDataByPost((String) requestQueueBean.getParams().get(ApiParams.MOD_NAME), (String) requestQueueBean.getParams().get(ApiParams.ACT_NAME), requestQueueBean.getParams(), Constants.md5Token());
+        parseData(requestQueueBean.getRequestId());
+    }
+
     private void parseData(final int requestId) {
         if (observable != null) {
             observable.subscribeOn(Schedulers.io())
                     .doOnSubscribe(new StartAction(requestId))
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .observeOn(AndroidSchedulers.mainThread())
+//                    .doOnTerminate(new Action0() {
+//                        @Override
+//                        public void call() {
+//                            requestQueueManager.setRequesting(false);
+//                            requestQueueManager.endRequest(GetDataFromNetPresent.this, currentRequestQueueBean);
+//                            checkObservable();
+//                        }
+//                    })
                     .subscribe(new Observer<String>() {
 
                         @Override

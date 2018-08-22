@@ -47,9 +47,9 @@ class LoginFragment : BaseNetWorkingFragment() {
         mTvLoginForgetPassword.setOnClickListener {
             FragmentContainerActivity.from(mContext).setClazz(ForgetPasswordFragment::class.java).setHiddenToolBar(true).setNeedNetWorking(true).start()
         }
-        mTvLoginRegister.setOnClickListener {
-            FragmentContainerActivity.from(mContext).setClazz(RegisterFragment::class.java).setHiddenToolBar(true).setNeedNetWorking(true).start()
-        }
+//        mTvLoginRegister.setOnClickListener {
+//            FragmentContainerActivity.from(mContext).setClazz(RegisterFragment::class.java).setHiddenToolBar(true).setNeedNetWorking(true).start()
+//        }
 
         mBtLogin.setOnClickListener {
             if (mEtLoginPhone.isEmpty()) {
@@ -68,9 +68,7 @@ class LoginFragment : BaseNetWorkingFragment() {
                 toast("密码长度至少6位")
                 return@setOnClickListener
             }
-            (0 .. 3).forEach {
-                mPresent.getDataByPost(0x0, RequestParamsHelper.getLoginParams(mEtLoginPhone.getTextString(), mEtLoginPassword.getTextString()))
-            }
+            mPresent.getDataByPost(0x0, RequestParamsHelper.getLoginParams(mEtLoginPhone.getTextString(), mEtLoginPassword.getTextString()))
         }
     }
 
