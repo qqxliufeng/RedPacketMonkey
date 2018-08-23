@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.text.DecimalFormat
 
 
 fun String.hiddenPhone(): String {
@@ -85,4 +86,9 @@ fun String.md5(): String {
         e.printStackTrace()
     }
     return ""
+}
+
+fun Double.format():String{
+    val df = DecimalFormat("#.00")
+    return df.format(this)
 }

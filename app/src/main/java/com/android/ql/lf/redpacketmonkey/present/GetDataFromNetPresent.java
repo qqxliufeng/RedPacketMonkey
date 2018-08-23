@@ -28,13 +28,11 @@ public class GetDataFromNetPresent {
 
     private Observable<String> observable;
 
-    private RequestQueueManager requestQueueManager;
-
-    private RequestQueueManager.RequestQueueBean currentRequestQueueBean;
+//    private RequestQueueManager requestQueueManager;
 
     public GetDataFromNetPresent(ApiServer apiServer) {
         this.apiServer = apiServer;
-        requestQueueManager = new RequestQueueManager();
+//        requestQueueManager = new RequestQueueManager();
     }
 
     public GetDataFromNetPresent(ApiServer apiServer, SoftReference<INetDataPresenter> iNetDataPresenter) {
@@ -108,21 +106,20 @@ public class GetDataFromNetPresent {
     }
 
 
-    public void newGetDataByPost(final int requestId, ApiParams params) {
-        requestQueueManager.startRequest(new RequestQueueManager.RequestQueueBean(requestId, params));
-        if (requestQueueManager.canRequest()) {
-            RequestQueueManager.RequestQueueBean requestBean = requestQueueManager.getRequestBean();
-            requestQueue(requestBean);
-        }
-    }
-
-
-    void requestQueue(RequestQueueManager.RequestQueueBean requestQueueBean) {
-        requestQueueManager.setRequesting(true);
-        currentRequestQueueBean = requestQueueBean;
-        observable = apiServer.getDataByPost((String) requestQueueBean.getParams().get(ApiParams.MOD_NAME), (String) requestQueueBean.getParams().get(ApiParams.ACT_NAME), requestQueueBean.getParams(), Constants.md5Token());
-        parseData(requestQueueBean.getRequestId());
-    }
+//    public void newGetDataByPost(final int requestId, ApiParams params) {
+//        requestQueueManager.startRequest(new RequestQueueManager.RequestQueueBean(requestId, params));
+//        if (requestQueueManager.canRequest()) {
+//            RequestQueueManager.RequestQueueBean requestBean = requestQueueManager.getRequestBean();
+//            requestQueue(requestBean);
+//        }
+//    }
+//
+//
+//    void requestQueue(RequestQueueManager.RequestQueueBean requestQueueBean) {
+//        requestQueueManager.setRequesting(true);
+//        observable = apiServer.getDataByPost((String) requestQueueBean.getParams().get(ApiParams.MOD_NAME), (String) requestQueueBean.getParams().get(ApiParams.ACT_NAME), requestQueueBean.getParams(), Constants.md5Token());
+//        parseData(requestQueueBean.getRequestId());
+//    }
 
     private void parseData(final int requestId) {
         if (observable != null) {

@@ -109,6 +109,7 @@ class RedPacketListFragment : BaseRecyclerViewFragment<RedPacketEntity>() {
 
     override fun onRefresh() {
         //第一次取得所有记录
+        currentPage = 0
         val tempList = MyApplication.getRedPacketDao().queryByLimit(groupInfo.group_id!!, currentPage, 10)
         if (tempList != null && !tempList.isEmpty()) {
             tempList.reverse()

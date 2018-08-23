@@ -11,6 +11,9 @@ public class RequestQueueManager {
 
     private LinkedList<RequestQueueBean> requestQueueList;
 
+    private RequestQueueBean currentRequestQueueBean;
+
+
     public RequestQueueManager() {
         requestQueueList = new LinkedList<>();
     }
@@ -21,10 +24,11 @@ public class RequestQueueManager {
         requestQueueList.offer(requestQueueBean);
     }
 
-    public void endRequest(GetDataFromNetPresent present, RequestQueueBean requestQueueBean) {
-        requestQueueList.remove(requestQueueBean);
+    public void endRequest(GetDataFromNetPresent present) {
+        requestQueueList.remove(currentRequestQueueBean);
         if (!requestQueueList.isEmpty()) {
-            present.requestQueue(requestQueueList.getFirst());
+            currentRequestQueueBean = requestQueueList.getFirst();
+//            present.requestQueue(currentRequestQueueBean);
         } else {
             setRequesting(false);
         }

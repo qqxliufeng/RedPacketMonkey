@@ -15,6 +15,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.base.BaseRecyclerViewFragme
 import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.RedPacketRecordFragment
 import com.android.ql.lf.redpacketmonkey.utils.GlideManager
 import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
+import com.android.ql.lf.redpacketmonkey.utils.format
 import com.android.ql.lf.redpacketmonkey.utils.formatTime
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -34,12 +35,12 @@ class RedPacketInfoFragment : BaseRecyclerViewFragment<RedPacketInfoBean>() {
             GlideManager.loadFaceCircleImage(mContext, item!!.red_re_pic, helper!!.getView(R.id.mIvRedPacketInfoItemFace))
             helper.setText(R.id.mTvRedPacketInfoItemNickName, item.red_re_nickname)
             helper.setText(R.id.mTvRedPacketInfoItemTime, item.red_times?.toString()?.formatTime())
-            helper.setText(R.id.mTvRedPacketInfoItemMoney, item.red_sum.toString())
+            helper.setText(R.id.mTvRedPacketInfoItemMoney, item.red_sum?.format())
             helper.setVisible(R.id.mTvRedPacketInfoItemLuck, item.red_luck == 1)
-            if (item.red_mine == null){
-                helper.setGone(R.id.mTvRedPacketInfoItemMine,false)
-            }else{
-                helper.setGone(R.id.mTvRedPacketInfoItemMine,item.red_mine == 1)
+            if (item.red_mine == null) {
+                helper.setGone(R.id.mTvRedPacketInfoItemMine, false)
+            } else {
+                helper.setGone(R.id.mTvRedPacketInfoItemMine, item.red_mine == 1)
             }
         }
     }
