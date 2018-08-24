@@ -13,7 +13,7 @@ def rxJava = "1.2.9"
 def appcompatV7 = "27.1.7"
 def design = "27.1.1"
 
-def baseRecyclerViewAdapterHelper = "2.9.40"
+def baseRecyclerViewAdapterHelper = "2.9.41"
 
 def butterKnife = "8.8.1"
 def butterKnifeCompiler = "8.8.1"

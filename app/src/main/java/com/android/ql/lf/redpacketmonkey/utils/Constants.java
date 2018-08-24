@@ -7,7 +7,9 @@ import android.os.Environment;
  */
 
 public class Constants {
-    public static final String BASE_IP = "http://wanpihou.581vv.com/";
+//    public static final String BASE_IP = "http://wanpihou.581vv.com/";
+
+    public static final String BASE_IP = "http://onk60.cn";
 
     public static final String BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String APP_PATH = BASE_PATH + "/zwlogistics/";
