@@ -66,7 +66,7 @@ fun Context.getScreenSize(): BaseFragment.ScreenSize {
 
 
 fun Context.startWebAliPay(url: String): Boolean {
-    if (url.contains("platformapi/startapp")) {
+    if (url.contains("platformapi/startapp",true)) {
         return try {
             Log.e("TAG", url)
             val intent: Intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME)

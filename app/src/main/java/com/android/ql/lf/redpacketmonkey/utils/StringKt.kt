@@ -89,6 +89,6 @@ fun String.md5(): String {
 }
 
 fun Double.format():String{
-    val df = DecimalFormat("#.00")
+    val df = DecimalFormat("0.00")
     return df.format(this)
 }

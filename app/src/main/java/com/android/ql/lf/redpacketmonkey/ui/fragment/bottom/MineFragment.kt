@@ -24,10 +24,7 @@ import com.android.ql.lf.redpacketmonkey.ui.fragment.packet.MinePacketFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.setting.SettingFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareCodeFragment
 import com.android.ql.lf.redpacketmonkey.ui.fragment.share.ShareFragment
-import com.android.ql.lf.redpacketmonkey.utils.GlideManager
-import com.android.ql.lf.redpacketmonkey.utils.RequestParamsHelper
-import com.android.ql.lf.redpacketmonkey.utils.RxBus
-import com.android.ql.lf.redpacketmonkey.utils.hiddenPhone
+import com.android.ql.lf.redpacketmonkey.utils.*
 import kotlinx.android.synthetic.main.activity_fragment_container_layout.*
 import kotlinx.android.synthetic.main.fragment_mine_layout.*
 import org.jetbrains.anko.support.v4.toast

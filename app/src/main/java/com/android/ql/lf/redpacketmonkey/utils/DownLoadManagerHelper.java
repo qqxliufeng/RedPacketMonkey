@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 
@@ -44,4 +45,22 @@ public class DownLoadManagerHelper {
         };
         context.registerReceiver(broadcastReceiver,intentFilter);
     }
+
+
+    private static boolean canDownloadState(Context ctx) {
+        try {
+            int state = ctx.getPackageManager().getApplicationEnabledSetting("com.android.providers.downloads");
+
+            if (state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                    || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
+                    || state == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED) {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 }
